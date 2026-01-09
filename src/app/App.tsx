@@ -1,0 +1,292 @@
+import { useState } from "react";
+import { Hero } from "./components/Hero";
+import { PlanCard } from "./components/PlanCard";
+import { PlanModal } from "./components/PlanModal";
+import { Testimonials } from "./components/Testimonials";
+import { Safety } from "./components/Safety";
+import { BookingFlow } from "./components/BookingFlow";
+import { FAQ } from "./components/FAQ";
+import { Access } from "./components/Access";
+import { BookingForm } from "./components/BookingForm";
+import { FixedCTA } from "./components/FixedCTA";
+import { Button } from "./components/ui/button";
+import { Calendar, MessageCircle } from "lucide-react";
+
+// プランデータ
+const plans = [
+  {
+    id: "snorkeling",
+    name: "シュノーケリングコース",
+    image: "https://images.unsplash.com/photo-1764499920647-78b5fedf92c6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzbm9ya2VsaW5nJTIwdHJvcGljYWwlMjBmaXNoJTIwdW5kZXJ3YXRlcnxlbnwxfHx8fDE3Njc3Njc5Nzl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    price: "6,800",
+    duration: "3時間",
+    capacity: "2名〜",
+    highlight: "人気No.1",
+    description: "透明度抜群のはての浜で、色とりどりの熱帯魚と泳ぐシュノーケリング体験。初心者でも安心して楽しめます。",
+    included: [
+      "シュノーケルセット一式",
+      "ライフジャケット",
+      "往復船代",
+      "保険料",
+      "温水シャワー利用"
+    ],
+    schedule: [
+      { time: "09:00", activity: "泊港集合・受付" },
+      { time: "09:15", activity: "船で出発（約15分）" },
+      { time: "09:30", activity: "はての浜到着・準備" },
+      { time: "10:00", activity: "シュノーケリングタイム" },
+      { time: "11:30", activity: "自由時間・写真撮影" },
+      { time: "12:00", activity: "帰港・解散" }
+    ],
+    items: "水着（事前着用推奨）\nタオル\n日焼け止め\n飲み物\n\n※ウェットスーツは無料レンタル可能です",
+    cancellation: "7日前まで：無料\n3日前まで：30%\n前日：50%\n当日：100%\n\n※悪天候による中止の場合はキャンセル料無料",
+    notes: "・3歳以上から参加可能です\n・妊娠中の方はご参加いただけません\n・持病のある方は事前にご相談ください\n・天候により開催できない場合があります"
+  },
+  {
+    id: "kayak",
+    name: "カヤック＆SUPコース",
+    image: "https://images.unsplash.com/photo-1749220738529-ec67261b90af?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxrYXlha2luZyUyMG9jZWFuJTIwdHVycXVvaXNlJTIwd2F0ZXJ8ZW58MXx8fHwxNzY3NzY3OTc5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    price: "7,500",
+    duration: "3.5時間",
+    capacity: "2名〜",
+    highlight: "",
+    description: "カヤックまたはSUPで海上散歩を楽しめるコース。エメラルドグリーンの海を自分のペースで満喫できます。",
+    included: [
+      "カヤックまたはSUP",
+      "パドル",
+      "ライフジャケット",
+      "往復船代",
+      "保険料",
+      "温水シャワー利用"
+    ],
+    schedule: [
+      { time: "09:00", activity: "泊港集合・受付" },
+      { time: "09:15", activity: "船で出発" },
+      { time: "09:30", activity: "基本レクチャー" },
+      { time: "10:00", activity: "カヤック・SUP体験" },
+      { time: "11:45", activity: "自由時間" },
+      { time: "12:30", activity: "帰港・解散" }
+    ],
+    items: "水着（事前着用推奨）\nタオル\n日焼け止め\n飲み物\n帽子・サングラス\n\n※濡れても良い服装でお越しください",
+    cancellation: "7日前まで：無料\n3日前まで：30%\n前日：50%\n当日：100%\n\n※悪天候による中止の場合はキャンセル料無料",
+    notes: "・小学生以上から参加可能です\n・���げない方でもライフジャケット着用で安全です\n・体重制限：100kg以下\n・風が強い日は中止になる場合があります"
+  },
+  {
+    id: "premium",
+    name: "プレミアムコース",
+    image: "https://images.unsplash.com/photo-1588001400947-6385aef4ab0e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cm9waWNhbCUyMGlzbGFuZCUyMGFlcmlhbCUyMHZpZXd8ZW58MXx8fHwxNzY3Njk3OTMzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+    price: "12,800",
+    duration: "6時間",
+    capacity: "2名〜",
+    highlight: "特別体験",
+    description: "シュノーケリング、カヤック、SUPをすべて楽しめる贅沢なプラン。BBQランチ付きで1日満喫できます。",
+    included: [
+      "全アクティビティ器材",
+      "ライフジャケット",
+      "往復船代",
+      "BBQランチ",
+      "ソフトドリンク飲み放題",
+      "記念写真撮影",
+      "保険料",
+      "温水シャワー利用"
+    ],
+    schedule: [
+      { time: "09:00", activity: "泊港集合・受付" },
+      { time: "09:15", activity: "船で出発" },
+      { time: "09:30", activity: "シュノーケリング" },
+      { time: "11:00", activity: "カヤック・SUP体験" },
+      { time: "12:30", activity: "BBQランチタイム" },
+      { time: "14:00", activity: "自由時間・写真撮影" },
+      { time: "15:00", activity: "帰港・解散" }
+    ],
+    items: "水着（事前着用推奨）\nタオル\n日焼け止め\n帽子・サングラス\n着替え\n\n※ランチ時の飲み物は含まれます",
+    cancellation: "7日前まで：無料\n3日前まで：30%\n前日：50%\n当日：100%\n\n※悪天候による中止の場合はキャンセル料無料",
+    notes: "・小学生以上から参加可能です\n・食物アレルギーがある方は事前にお知らせください\n・日差しが強いため日焼け対策必須です\n・天候により開催できない場合があります"
+  }
+];
+
+export default function App() {
+  const [selectedPlan, setSelectedPlan] = useState<typeof plans[0] | null>(null);
+  const [isBookingFormOpen, setIsBookingFormOpen] = useState(false);
+  const [preselectedPlan, setPreselectedPlan] = useState<string>("");
+
+  const handleBookingClick = (planId?: string) => {
+    setPreselectedPlan(planId || "");
+    setIsBookingFormOpen(true);
+  };
+
+  const handleLineClick = () => {
+    window.open("https://line.me/R/ti/p/@example", "_blank");
+  };
+
+  return (
+    <div className="min-h-screen bg-white">
+      {/* ヒーローセクション */}
+      <Hero 
+        onBookingClick={() => handleBookingClick()}
+        onLineClick={handleLineClick}
+      />
+
+      {/* 体験の予告 */}
+      <section className="py-16 px-4 bg-gradient-to-b from-gray-900 to-gray-800 text-white">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-3xl mb-4">360度、透明な世界</h2>
+          <p className="text-lg text-gray-300 mb-8">
+            沖縄本島から船で15分。<br className="md:hidden" />
+            真っ白な砂浜と透き通る海だけの楽園へ。
+          </p>
+          
+          <div className="grid md:grid-cols-3 gap-4">
+            <div className="h-64 rounded-lg overflow-hidden">
+              <img 
+                src="https://images.unsplash.com/photo-1588001400947-6385aef4ab0e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cm9waWNhbCUyMGlzbGFuZCUyMGFlcmlhbCUyMHZpZXd8ZW58MXx8fHwxNzY3Njk3OTMzfDA&ixlib=rb-4.1.0&q=80&w=1080"
+                alt="はての浜"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="h-64 rounded-lg overflow-hidden">
+              <img 
+                src="https://images.unsplash.com/photo-1696230405703-43f14ed4ab0a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdGFuZCUyMHVwJTIwcGFkZGxlJTIwYm9hcmRpbmclMjBzdW5zZXR8ZW58MXx8fHwxNzY3NzY3OTc5fDA&ixlib=rb-4.1.0&q=80&w=1080"
+                alt="SUP体験"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="h-64 rounded-lg overflow-hidden">
+              <img 
+                src="https://images.unsplash.com/photo-1764816665665-3cfac7172439?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoYXBweSUyMGZhbWlseSUyMGJlYWNoJTIwdmFjYXRpb258ZW58MXx8fHwxNzY3NzY3OTgwfDA&ixlib=rb-4.1.0&q=80&w=1080"
+                alt="楽しい思い出"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* プラン選択 */}
+      <section className="py-16 px-4 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl mb-3">プランを選ぶ</h2>
+            <p className="text-gray-600">あなたに合った体験を</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6 mb-12">
+            {plans.map((plan) => (
+              <PlanCard
+                key={plan.id}
+                plan={plan}
+                onDetailsClick={() => setSelectedPlan(plan)}
+              />
+            ))}
+          </div>
+
+          {/* CTA */}
+          <div className="text-center space-y-4">
+            <p className="text-gray-600">まだ迷っている？</p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto">
+              <Button 
+                onClick={() => handleBookingClick()}
+                size="lg"
+                className="flex-1 h-12 bg-[#F97316] hover:bg-[#EA580C] rounded-full"
+              >
+                <Calendar className="mr-2 h-5 w-5" />
+                予約する
+              </Button>
+              <Button 
+                onClick={handleLineClick}
+                size="lg"
+                variant="outline"
+                className="flex-1 h-12 rounded-full"
+              >
+                <MessageCircle className="mr-2 h-5 w-5" />
+                LINEで相談
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* お客様の声 */}
+      <Testimonials />
+
+      {/* 安全への取り組み */}
+      <Safety />
+
+      {/* 予約の流れ */}
+      <BookingFlow />
+
+      {/* よくある質問 */}
+      <FAQ />
+
+      {/* アクセス */}
+      <Access />
+
+      {/* 最終CTA */}
+      <section className="py-20 px-4 bg-gradient-to-b from-[#0EA5E9] to-[#0284C7] text-white">
+        <div className="max-w-3xl mx-auto text-center space-y-8">
+          <h2 className="text-3xl">さあ、天国の海へ</h2>
+          <p className="text-xl text-white/90">
+            一生忘れられない、最高の体験を。
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+            <Button 
+              onClick={() => handleBookingClick()}
+              size="lg"
+              className="flex-1 h-14 text-lg bg-[#F97316] hover:bg-[#EA580C] rounded-full"
+            >
+              <Calendar className="mr-2 h-5 w-5" />
+              今すぐ予約
+            </Button>
+            <Button 
+              onClick={handleLineClick}
+              size="lg"
+              variant="outline"
+              className="flex-1 h-14 text-lg bg-white hover:bg-gray-50 text-gray-900 rounded-full border-0"
+            >
+              <MessageCircle className="mr-2 h-5 w-5" />
+              LINEで相談
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* フッター */}
+      <footer className="py-12 px-4 bg-gray-900 text-white">
+        <div className="max-w-6xl mx-auto text-center space-y-4">
+          <h3 className="text-2xl mb-4">はての浜マリンサービス</h3>
+          <p className="text-gray-400 text-sm">
+            〒900-0001 沖縄県那覇市泊3-14-2<br />
+            TEL: 098-XXX-XXXX / MAIL: info@hateno-hama.com
+          </p>
+          <div className="pt-8 border-t border-gray-800 text-gray-500 text-sm">
+            © 2026 Hateno Hama Marine Service. All rights reserved.
+          </div>
+        </div>
+      </footer>
+
+      {/* モーダル */}
+      <PlanModal
+        plan={selectedPlan}
+        open={!!selectedPlan}
+        onClose={() => setSelectedPlan(null)}
+        onBooking={() => {
+          handleBookingClick(selectedPlan?.id);
+          setSelectedPlan(null);
+        }}
+        onLineClick={handleLineClick}
+      />
+
+      <BookingForm
+        open={isBookingFormOpen}
+        onClose={() => setIsBookingFormOpen(false)}
+        preselectedPlan={preselectedPlan}
+      />
+
+      {/* 固定CTA */}
+      <FixedCTA
+        onBookingClick={() => handleBookingClick()}
+        onLineClick={handleLineClick}
+      />
+    </div>
+  );
+}
