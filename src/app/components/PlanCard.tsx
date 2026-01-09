@@ -7,6 +7,7 @@ interface Plan {
   name: string;
   image: string;
   price: string;
+  childPrice?: string;
   duration: string;
   capacity: string;
   highlight: string;
@@ -38,9 +39,18 @@ export function PlanCard({ plan, onDetailsClick }: PlanCardProps) {
       <div className="p-5 space-y-4">
         <div>
           <h3 className="text-xl mb-2">{plan.name}</h3>
-          <div className="flex items-baseline gap-1">
-            <span className="text-3xl text-[#0EA5E9]">{plan.price}</span>
-            <span className="text-sm text-gray-500">円 / 人</span>
+          <div className="space-y-1">
+            <div className="flex items-baseline gap-1">
+              <span className="text-3xl text-[#0EA5E9]">{plan.price}</span>
+              <span className="text-sm text-gray-500">円 / 人</span>
+            </div>
+            {plan.childPrice && (
+              <div className="flex items-baseline gap-1 text-sm">
+                <span className="text-gray-600">4-15歳</span>
+                <span className="text-xl text-[#0EA5E9]">{plan.childPrice}</span>
+                <span className="text-xs text-gray-500">円</span>
+              </div>
+            )}
           </div>
         </div>
 

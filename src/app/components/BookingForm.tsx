@@ -60,9 +60,12 @@ export function BookingForm({ open, onClose, preselectedPlan }: BookingFormProps
                 <SelectValue placeholder="プランを選択してください" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="snorkeling">シュノーケリングコース</SelectItem>
-                <SelectItem value="kayak">カヤック＆SUPコース</SelectItem>
-                <SelectItem value="premium">プレミアムコース</SelectItem>
+                <SelectItem value="wakuwaku">わくわくプラン（8,000円）</SelectItem>
+                <SelectItem value="manzoku">まんぞくプラン（10,000円）</SelectItem>
+                <SelectItem value="asobihoudai">遊び放題プラン（13,500円）</SelectItem>
+                <SelectItem value="ikudake">行くだけプラン（5,500円）</SelectItem>
+                <SelectItem value="ticket">遊び放題チケット（10,000円）</SelectItem>
+                <SelectItem value="turtle-tour">うみがめ探しツアー（8,000円）</SelectItem>
               </SelectContent>
             </Select>
           </div>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { PlanCard } from "./components/PlanCard";
 import { PlanModal } from "./components/PlanModal";
@@ -7,120 +8,163 @@ import { Safety } from "./components/Safety";
 import { BookingFlow } from "./components/BookingFlow";
 import { FAQ } from "./components/FAQ";
 import { Access } from "./components/Access";
-import { BookingForm } from "./components/BookingForm";
 import { FixedCTA } from "./components/FixedCTA";
+import { AdditionalOptions } from "./components/AdditionalOptions";
+import { SingleMenus } from "./components/SingleMenus";
+import { FreeRentals } from "./components/FreeRentals";
 import { Button } from "./components/ui/button";
 import { Calendar, MessageCircle } from "lucide-react";
 
 // プランデータ
 const plans = [
   {
-    id: "snorkeling",
-    name: "シュノーケリングコース",
+    id: "wakuwaku",
+    name: "わくわくプラン",
     image: "https://images.unsplash.com/photo-1764499920647-78b5fedf92c6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzbm9ya2VsaW5nJTIwdHJvcGljYWwlMjBmaXNoJTIwdW5kZXJ3YXRlcnxlbnwxfHx8fDE3Njc3Njc5Nzl8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    price: "6,800",
+    price: "8,000",
+    childPrice: "6,500",
     duration: "3時間",
     capacity: "2名〜",
-    highlight: "人気No.1",
-    description: "透明度抜群のはての浜で、色とりどりの熱帯魚と泳ぐシュノーケリング体験。初心者でも安心して楽しめます。",
+    highlight: "人��No.1",
+    description: "はての浜上陸、シュノーケリング、マリンスポーツを楽しめる基本プラン。初めての方におすすめです。",
     included: [
-      "シュノーケルセット一式",
+      "はての浜上陸",
+      "沖合ポイントシュノーケル",
+      "マリンスポーツ1種",
+      "パラソル、チェアレンタル",
       "ライフジャケット",
       "往復船代",
-      "保険料",
-      "温水シャワー利用"
+      "保険料"
     ],
     schedule: [
       { time: "09:00", activity: "泊港集合・受付" },
       { time: "09:15", activity: "船で出発（約15分）" },
-      { time: "09:30", activity: "はての浜到着・準備" },
-      { time: "10:00", activity: "シュノーケリングタイム" },
-      { time: "11:30", activity: "自由時間・写真撮影" },
+      { time: "09:30", activity: "はての浜到着" },
+      { time: "10:00", activity: "シュノーケリング体験" },
+      { time: "11:00", activity: "マリンスポーツ体験" },
+      { time: "11:45", activity: "自由時間" },
       { time: "12:00", activity: "帰港・解散" }
     ],
     items: "水着（事前着用推奨）\nタオル\n日焼け止め\n飲み物\n\n※ウェットスーツは無料レンタル可能です",
     cancellation: "7日前まで：無料\n3日前まで：30%\n前日：50%\n当日：100%\n\n※悪天候による中止の場合はキャンセル料無料",
-    notes: "・3歳以上から参加可能です\n・妊娠中の方はご参加いただけません\n・持病のある方は事前にご相談ください\n・天候により開催できない場合があります"
+    notes: "・4歳以上から参加可能です\n・妊娠中の方はご参加いただけません\n・持病のある方は事前にご相談ください\n・天候により開催できない場合があります"
   },
   {
-    id: "kayak",
-    name: "カヤック＆SUPコース",
+    id: "manzoku",
+    name: "まんぞくプラン",
     image: "https://images.unsplash.com/photo-1749220738529-ec67261b90af?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxrYXlha2luZyUyMG9jZWFuJTIwdHVycXVvaXNlJTIwd2F0ZXJ8ZW58MXx8fHwxNzY3NzY3OTc5fDA&ixlib=rb-4.1.0&q=80&w=1080",
-    price: "7,500",
-    duration: "3.5時間",
+    price: "10,000",
+    childPrice: "7,000",
+    duration: "4時間",
     capacity: "2名〜",
-    highlight: "",
-    description: "カヤックまたはSUPで海上散歩を楽しめるコース。エメラルドグリーンの海を自分のペースで満喫できます。",
+    highlight: "おすすめ",
+    description: "うみがめ探索が追加された充実プラン。海の生き物との出会いを楽しみたい方に。",
     included: [
-      "カヤックまたはSUP",
-      "パドル",
+      "はての浜上陸",
+      "沖合ポイントシュノーケル",
+      "マリンスポーツ1種",
+      "うみがめ探索",
+      "パラソル、チェアレンタル",
       "ライフジャケット",
       "往復船代",
-      "保険料",
-      "温水シャワー利用"
+      "保険料"
     ],
     schedule: [
       { time: "09:00", activity: "泊港集合・受付" },
       { time: "09:15", activity: "船で出発" },
-      { time: "09:30", activity: "基本レクチャー" },
-      { time: "10:00", activity: "カヤック・SUP体験" },
-      { time: "11:45", activity: "自由時間" },
-      { time: "12:30", activity: "帰港・解散" }
+      { time: "09:30", activity: "はての浜到着" },
+      { time: "10:00", activity: "シュノーケリング体験" },
+      { time: "11:00", activity: "うみがめ探索" },
+      { time: "11:30", activity: "マリンスポツ体験" },
+      { time: "12:30", activity: "自由時間" },
+      { time: "13:00", activity: "帰港・解散" }
     ],
-    items: "水着（事前着用推奨）\nタオル\n日焼け止め\n飲み物\n帽子・サングラス\n\n※濡れても良い服装でお越しください",
+    items: "水着（事前着用推奨）\nタオル\n日焼け止め\n飲み物\n防水カメラ（推奨）\n\n※ウェットスーツは無料レンタル可能です",
     cancellation: "7日前まで：無料\n3日前まで：30%\n前日：50%\n当日：100%\n\n※悪天候による中止の場合はキャンセル料無料",
-    notes: "・小学生以上から参加可能です\n・���げない方でもライフジャケット着用で安全です\n・体重制限：100kg以下\n・風が強い日は中止になる場合があります"
+    notes: "・4歳以上から参加可能です\n・野生のうみがめを探すため、必ず会えるとは限りません\n・妊娠中の方はご参加いただけません\n・天候により開催できない場合があります"
   },
   {
-    id: "premium",
-    name: "プレミアムコース",
+    id: "asobihoudai",
+    name: "遊び放題プラン",
     image: "https://images.unsplash.com/photo-1588001400947-6385aef4ab0e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cm9waWNhbCUyMGlzbGFuZCUyMGFlcmlhbCUyMHZpZXd8ZW58MXx8fHwxNzY3Njk3OTMzfDA&ixlib=rb-4.1.0&q=80&w=1080",
-    price: "12,800",
+    price: "13,500",
+    childPrice: "12,000",
     duration: "6時間",
     capacity: "2名〜",
     highlight: "特別体験",
-    description: "シュノーケリング、カヤック、SUPをすべて楽しめる贅沢なプラン。BBQランチ付きで1日満喫できます。",
+    description: "マリンスポーツが遊び放題！1日中海を満喫したい方向けの贅沢プランです。",
     included: [
-      "全アクティビティ器材",
+      "はての浜上陸",
+      "沖合ポイン���シュノーケル",
+      "マリンスポーツ遊び放題",
+      "うみがめ探索",
+      "パラソル、チェアレンタル",
       "ライフジャケット",
       "往復船代",
-      "BBQランチ",
-      "ソフトドリンク飲み放題",
-      "記念写真撮影",
-      "保険料",
-      "温水シャワー利用"
+      "保険料"
     ],
     schedule: [
       { time: "09:00", activity: "泊港集合・受付" },
       { time: "09:15", activity: "船で出発" },
-      { time: "09:30", activity: "シュノーケリング" },
-      { time: "11:00", activity: "カヤック・SUP体験" },
-      { time: "12:30", activity: "BBQランチタイム" },
+      { time: "09:30", activity: "はての浜到着" },
+      { time: "10:00", activity: "シュノーケリング" },
+      { time: "11:00", activity: "うみがめ探索" },
+      { time: "11:30", activity: "マリンスポーツ遊び放題" },
       { time: "14:00", activity: "自由時間・写真撮影" },
       { time: "15:00", activity: "帰港・解散" }
     ],
-    items: "水着（事前着用推奨）\nタオル\n日焼け止め\n帽子・サングラス\n着替え\n\n※ランチ時の飲み物は含まれます",
+    items: "水着（事前着用推奨）\nタオル\n日焼け止め\n帽子・サングラス\n着替え\n飲み物・軽食\n\n※長時間の滞在となるため水分補給をこまめに",
     cancellation: "7日前まで：無料\n3日前まで：30%\n前日：50%\n当日：100%\n\n※悪天候による中止の場合はキャンセル料無料",
-    notes: "・小学生以上から参加可能です\n・食物アレルギーがある方は事前にお知らせください\n・日差しが強いため日焼け対策必須です\n・天候により開催できない場合があります"
+    notes: "・4歳以上から参加可能です\n・日差しが強いため日焼け対策必須です\n・体力に自信のある方向けのプランです\n・天候により開催できない場合があます"
+  },
+  {
+    id: "ikudake",
+    name: "行くだけプラン",
+    image: "https://images.unsplash.com/photo-1696230405703-43f14ed4ab0a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdGFuZCUyMHVwJTIwcGFkZGxlJTIwYm9hcmRpbmclMjBzdW5zZXR8ZW58MXx8fHwxNzY3NzY3OTc5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    price: "5,500",
+    childPrice: "4,500",
+    duration: "3時間",
+    capacity: "2名〜",
+    highlight: "",
+    description: "はての浜へ上陸して、のんびり過ごしたい方向けのシンプルプラン。",
+    included: [
+      "はての浜上陸",
+      "パラソル、チェアレンタル",
+      "往復船代",
+      "保険料"
+    ],
+    schedule: [
+      { time: "09:00", activity: "泊港集合・受付" },
+      { time: "09:15", activity: "船で出発" },
+      { time: "09:30", activity: "はての浜到着" },
+      { time: "09:30", activity: "自由時間" },
+      { time: "12:00", activity: "帰港・解散" }
+    ],
+    items: "水着（事前着用推奨）\nタオル\n日焼け止め\n飲み物\n読書など好きなもの\n\n※アクティビティは含まれません",
+    cancellation: "7日前まで：無料\n3日前まで：30%\n前日：50%\n当日：100%\n\n※悪天候による中止の場合はキャンセル料無料",
+    notes: "・年齢制限はありません\n・写真撮影やのんびり過ごしたい方向けです\n・追加でアクティビティをご希望の場合は、遊び放題チケットや単品メニューをご利用ください\n・天候により開催できない場合があります"
   }
 ];
 
 export default function App() {
   const [selectedPlan, setSelectedPlan] = useState<typeof plans[0] | null>(null);
-  const [isBookingFormOpen, setIsBookingFormOpen] = useState(false);
-  const [preselectedPlan, setPreselectedPlan] = useState<string>("");
 
   const handleBookingClick = (planId?: string) => {
-    setPreselectedPlan(planId || "");
-    setIsBookingFormOpen(true);
+    window.open("https://www.jalan.net/kankou/spt_guide000000184970/activity_plan/?screenId=OUW3701&rootCd=3", "_blank");
   };
 
   const handleLineClick = () => {
-    window.open("https://line.me/R/ti/p/@example", "_blank");
+    window.open("https://page.line.me/ltr9609x?oat_content=url&openQrModal=true", "_blank");
   };
 
   return (
     <div className="min-h-screen bg-white">
+      {/* ヘッダーセクション */}
+      <Header 
+        onBookingClick={() => handleBookingClick()}
+        onLineClick={handleLineClick}
+      />
+
       {/* ヒーローセクション */}
       <Hero 
         onBookingClick={() => handleBookingClick()}
@@ -163,14 +207,14 @@ export default function App() {
       </section>
 
       {/* プラン選択 */}
-      <section className="py-16 px-4 bg-white">
+      <section id="plans" className="py-16 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl mb-3">プランを選ぶ</h2>
             <p className="text-gray-600">あなたに合った体験を</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 mb-12">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
             {plans.map((plan) => (
               <PlanCard
                 key={plan.id}
@@ -205,6 +249,15 @@ export default function App() {
           </div>
         </div>
       </section>
+
+      {/* 追加オプション */}
+      <AdditionalOptions onBookingClick={handleBookingClick} />
+
+      {/* 単品メニュー */}
+      <SingleMenus />
+
+      {/* 無料レンタル品 */}
+      <FreeRentals />
 
       {/* お客様の声 */}
       <Testimonials />
@@ -255,8 +308,9 @@ export default function App() {
         <div className="max-w-6xl mx-auto text-center space-y-4">
           <h3 className="text-2xl mb-4">はての浜マリンサービス</h3>
           <p className="text-gray-400 text-sm">
-            〒900-0001 沖縄県那覇市泊3-14-2<br />
-            TEL: 098-XXX-XXXX / MAIL: info@hateno-hama.com
+            泊フィッシャアリーナ<br />
+            〒901-3105 沖縄県島尻郡久米島町宇根1724-13<br />
+            TEL: <a href="tel:098-987-1318" className="hover:text-white transition-colors">098-987-1318</a> / MAIL: <a href="mailto:yukocrest.mobile@gmail.com" className="hover:text-white transition-colors">yukocrest.mobile@gmail.com</a>
           </p>
           <div className="pt-8 border-t border-gray-800 text-gray-500 text-sm">
             © 2026 Hateno Hama Marine Service. All rights reserved.
@@ -274,12 +328,6 @@ export default function App() {
           setSelectedPlan(null);
         }}
         onLineClick={handleLineClick}
-      />
-
-      <BookingForm
-        open={isBookingFormOpen}
-        onClose={() => setIsBookingFormOpen(false)}
-        preselectedPlan={preselectedPlan}
       />
 
       {/* 固定CTA */}

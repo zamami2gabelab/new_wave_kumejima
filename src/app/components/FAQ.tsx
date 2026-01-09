@@ -25,7 +25,7 @@ const faqs = [
 
 export function FAQ() {
   return (
-    <section className="py-16 px-4 bg-white">
+    <section id="faq" className="py-16 px-4 bg-white">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl mb-3">よくある質問</h2>
