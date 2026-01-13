@@ -176,7 +176,7 @@ export default function App() {
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-3xl mb-4">360度、透明な世界</h2>
           <p className="text-lg text-gray-300 mb-8">
-            沖縄本島から船で15分。<br className="md:hidden" />
+            久米島から船で15分。<br className="md:hidden" />
             真っ白な砂浜と透き通る海だけの楽園へ。
           </p>
           

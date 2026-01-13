@@ -13,7 +13,7 @@ export function Hero({ onBookingClick, onLineClick }: HeroProps) {
       <div 
         className="absolute inset-0 bg-cover bg-center"
         style={{ 
-          backgroundImage: 'url(https://images.unsplash.com/photo-1664888883426-702dd22cb8a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxva2luYXdhJTIwYmVhY2glMjBjcnlzdGFsJTIwY2xlYXIlMjB3YXRlcnxlbnwxfHx8fDE3Njc3Njc5Nzh8MA&ixlib=rb-4.1.0&q=80&w=1080)' 
+          backgroundImage: 'url(/image/top.png)' 
         }}
       >
         {/* オーバーレイ */}
@@ -31,7 +31,7 @@ export function Hero({ onBookingClick, onLineClick }: HeroProps) {
           </h1>
           
           <p className="text-lg text-white/90">
-            沖縄本島から15分。天国のような無人島へ
+            久米島から15分。天国のような無人島へ
           </p>
 
           {/* CTAボタン */}
