@@ -337,7 +337,7 @@ export default function App() {
       {/* フッター */}
       <footer className="py-12 px-4 bg-gray-900 text-white">
         <div className="max-w-6xl mx-auto text-center space-y-4">
-          <h3 className="text-2xl mb-4">はての浜マリンサービス</h3>
+          <h3 className="text-2xl mb-4">New Wave 久米島</h3>
           <p className="text-gray-400 text-sm">
             泊フィッシャアリーナ<br />
             〒901-3105 沖縄県島尻郡久米島町宇根1724-13<br />

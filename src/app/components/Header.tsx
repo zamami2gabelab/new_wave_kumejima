@@ -25,9 +25,13 @@ export function Header({ onBookingClick, onLineClick }: HeaderProps) {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             {/* ロゴ */}
-            <div className="text-xl">
-              <span className="text-[#0EA5E9]">はての浜</span>
-              <span className="text-gray-700">マリンサービス</span>
+            <div className="flex items-center gap-2 text-xl">
+              <img 
+                src="/image/log.png" 
+                alt="New Wave 久米島 ロゴ" 
+                className="h-8 w-auto"
+              />
+              <span className="text-gray-700">New Wave 久米島</span>
             </div>
 
             {/* デスクトップメニュー */}
