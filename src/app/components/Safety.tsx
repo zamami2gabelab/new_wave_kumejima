@@ -16,7 +16,7 @@ export function Safety() {
             </div>
             <h3 className="text-lg mb-2">安全装備完備</h3>
             <p className="text-sm text-gray-600">
-              ライフジャケット・浮き輪など安全装備を全員に配布
+              渡船時、ライフジャケットなど安全装備を全員に配布
             </p>
           </div>
 

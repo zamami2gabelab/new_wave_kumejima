@@ -69,7 +69,7 @@ export function AdditionalOptions({ onBookingClick }: AdditionalOptionsProps) {
                 </div>
                 <div>
                   <h3 className="text-xl">うみがめ探しツアー</h3>
-                  <p className="text-sm text-gray-600">遭遇率約95%！</p>
+                  <p className="text-sm text-gray-600">泊フィッシャアリーナ発着。ジェットスキーに乗ってうみがめを探しに行くツアーです。</p>
                 </div>
               </div>
 
@@ -88,7 +88,7 @@ export function AdditionalOptions({ onBookingClick }: AdditionalOptionsProps) {
                   <span>所要時間：約30分</span>
                 </div>
                 <p className="text-xs text-gray-500 pt-2">
-                  ※港発着。ジェットスキーに乗ってうみがめを探しに行くツアーです。
+                  うみがめ遭遇率約95%！
                 </p>
               </div>
 
