@@ -1,4 +1,9 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
+import { ContactCTA } from "./ContactCTA";
+
+interface FAQProps {
+  onLineClick: () => void;
+}
 
 const faqs = [
   {
@@ -11,7 +16,7 @@ const faqs = [
   },
   {
     question: "泳げなくても大丈夫ですか？",
-    answer: "ライフジャケットを着用しますので、泳げない方でも安全にお楽しみいただけます。浮き輪のご用意もあります。"
+    answer: "ライフジャケットを着用しますので、泳げない方でも安全にお楽しみいただけます。"
   },
   {
     question: "何歳から参加できますか？",
@@ -23,7 +28,7 @@ const faqs = [
   }
 ];
 
-export function FAQ() {
+export function FAQ({ onLineClick }: FAQProps) {
   return (
     <section id="faq" className="py-16 px-4 bg-white">
       <div className="max-w-3xl mx-auto">
@@ -45,11 +50,8 @@ export function FAQ() {
           ))}
         </Accordion>
 
-        <div className="mt-8 text-center">
-          <p className="text-gray-600 mb-4">その他のご質問は</p>
-          <button className="text-[#0EA5E9] underline hover:text-[#0284C7]">
-            LINEでお気軽にお問い合わせください
-          </button>
+        <div className="mt-8">
+          <ContactCTA onLineClick={onLineClick} />
         </div>
       </div>
     </section>

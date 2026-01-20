@@ -12,22 +12,23 @@ import { FixedCTA } from "./components/FixedCTA";
 import { AdditionalOptions } from "./components/AdditionalOptions";
 import { SingleMenus } from "./components/SingleMenus";
 import { FreeRentals } from "./components/FreeRentals";
+import { ContactCTA } from "./components/ContactCTA";
+import { WizardLayout } from "./components/WizardLayout";
 import { Button } from "./components/ui/button";
 import { Calendar, MessageCircle } from "lucide-react";
-import { WizardLayout } from "./components/WizardLayout";
 
 // プランデータ
 const plans = [
   {
     id: "wakuwaku",
     name: "わくわくプラン",
-    image: "https://images.unsplash.com/photo-1764499920647-78b5fedf92c6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzbm9ya2VsaW5nJTIwdHJvcGljYWwlMjBmaXNoJTIwdW5kZXJ3YXRlcnxlbnwxfHx8fDE3Njc3Njc5Nzl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    image: "image/wakuwaku.png",
     price: "12,000",
     childPrice: "8,000",
     duration: "3時間",
     capacity: "2名〜",
     highlight: "人気No.1",
-    description: "はての浜上陸、シュノーケリング、マリンスポーツを楽しめる基本プラン。初めての方におすすめです。",
+    description: "はての浜上陸、シュノーケリング、マリンスポーツを1つ楽しめる基本プラン。初めての方におすすめです。",
     included: [
       "はての浜上陸",
       "沖合ポイントシュノーケル",
@@ -53,13 +54,13 @@ const plans = [
   {
     id: "manzoku",
     name: "まんぞくプラン",
-    image: "https://images.unsplash.com/photo-1749220738529-ec67261b90af?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxrYXlha2luZyUyMG9jZWFuJTIwdHVycXVvaXNlJTIwd2F0ZXJ8ZW58MXx8fHwxNzY3NzY3OTc5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    image: "image/manzoku.png",
     price: "15,000",
     childPrice: "11,000",
     duration: "4時間",
     capacity: "2名〜",
-    highlight: "おすすめ",
-    description: "うみがめ探索が追加された充実プラン。海の生き物との出会いを楽しみたい方に。",
+    highlight: "スタッフおすすめ",
+    description: "わくわくプランにうみがめ探索が追加された充実プラン。マリンスポーツを楽しみつつ、うみがめとの出会いを楽しみたい方に。",
     included: [
       "はての浜上陸",
       "沖合ポイントシュノーケル",
@@ -87,13 +88,13 @@ const plans = [
   {
     id: "asobihoudai",
     name: "遊び放題プラン",
-    image: "https://images.unsplash.com/photo-1588001400947-6385aef4ab0e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cm9waWNhbCUyMGlzbGFuZCUyMGFlcmlhbCUyMHZpZXd8ZW58MXx8fHwxNzY3Njk3OTMzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+    image: "image/asobihoudai.png",
     price: "18,000",
     childPrice: "15,000",
     duration: "6時間",
     capacity: "2名〜",
-    highlight: "特別体験",
-    description: "マリンスポーツが遊び放題！1日中海を満喫したい方向けの贅沢プランです。",
+    highlight: "たくさん遊びたい！",
+    description: "まんぞくプランにマリンスポーツが遊び放題になったプラン。1日中海を満喫したい方向けの贅沢プランです。",
     included: [
       "はての浜上陸",
       "沖合ポイントシュノーケル",
@@ -121,12 +122,12 @@ const plans = [
   {
     id: "ikudake",
     name: "行くだけプラン",
-    image: "https://images.unsplash.com/photo-1696230405703-43f14ed4ab0a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdGFuZCUyMHVwJTIwcGFkZGxlJTIwYm9hcmRpbmclMjBzdW5zZXR8ZW58MXx8fHwxNzY3NzY3OTc5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    image: "image/ikudake.png",
     price: "8,000",
     childPrice: "6,000",
     duration: "3時間",
     capacity: "2名〜",
-    highlight: "",
+    highlight: "のんびり",
     description: "はての浜へ上陸して、のんびり過ごしたい方向けのシンプルプラン。",
     included: [
       "はての浜上陸",
@@ -214,21 +215,21 @@ export default function App() {
           <div className="grid md:grid-cols-3 gap-4">
             <div className="h-64 rounded-lg overflow-hidden">
               <img 
-                src="https://images.unsplash.com/photo-1588001400947-6385aef4ab0e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0cm9waWNhbCUyMGlzbGFuZCUyMGFlcmlhbCUyMHZpZXd8ZW58MXx8fHwxNzY3Njk3OTMzfDA&ixlib=rb-4.1.0&q=80&w=1080"
+                src="/image/service1.png"
                 alt="はての浜"
                 className="w-full h-full object-cover"
               />
             </div>
             <div className="h-64 rounded-lg overflow-hidden">
               <img 
-                src="https://images.unsplash.com/photo-1696230405703-43f14ed4ab0a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdGFuZCUyMHVwJTIwcGFkZGxlJTIwYm9hcmRpbmclMjBzdW5zZXR8ZW58MXx8fHwxNzY3NzY3OTc5fDA&ixlib=rb-4.1.0&q=80&w=1080"
+                src="/image/service2.png"
                 alt="SUP体験"
                 className="w-full h-full object-cover"
               />
             </div>
             <div className="h-64 rounded-lg overflow-hidden">
               <img 
-                src="https://images.unsplash.com/photo-1764816665665-3cfac7172439?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoYXBweSUyMGZhbWlseSUyMGJlYWNoJTIwdmFjYXRpb258ZW58MXx8fHwxNzY3NzY3OTgwfDA&ixlib=rb-4.1.0&q=80&w=1080"
+                src="/image/service3.png"
                 alt="楽しい思い出"
                 className="w-full h-full object-cover"
               />
@@ -256,28 +257,7 @@ export default function App() {
           </div>
 
           {/* CTA */}
-          <div className="text-center space-y-4">
-            <p className="text-gray-600">まだ迷っている？</p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto">
-              <Button 
-                onClick={() => handleBookingClick()}
-                size="lg"
-                className="flex-1 h-12 bg-[#F97316] hover:bg-[#EA580C] rounded-full"
-              >
-                <Calendar className="mr-2 h-5 w-5" />
-                予約する
-              </Button>
-              <Button 
-                onClick={handleLineClick}
-                size="lg"
-                variant="outline"
-                className="flex-1 h-12 rounded-full"
-              >
-                <MessageCircle className="mr-2 h-5 w-5" />
-                LINEで相談
-              </Button>
-            </div>
-          </div>
+          <ContactCTA onLineClick={handleLineClick} />
         </div>
       </section>
 
@@ -288,7 +268,7 @@ export default function App() {
       <SingleMenus />
 
       {/* 無料レンタル品 */}
-      <FreeRentals />
+      {/* <FreeRentals /> */}
 
       {/* お客様の声 */}
       <Testimonials />
@@ -300,14 +280,15 @@ export default function App() {
       <BookingFlow />
 
       {/* よくある質問 */}
-      <FAQ />
+      <FAQ onLineClick={handleLineClick} />
 
       {/* アクセス */}
       <Access />
 
       {/* 最終CTA */}
-      <section className="py-20 px-4 bg-gradient-to-b from-[#0EA5E9] to-[#0284C7] text-white">
-        <div className="max-w-3xl mx-auto text-center space-y-8">
+      <section className="py-20 px-4 relative bg-cover bg-center bg-no-repeat text-white" style={{ backgroundImage: 'url(/image/top.png)' }}>
+        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="max-w-3xl mx-auto text-center space-y-8 relative z-10">
           <h2 className="text-3xl">さあ、天国の海へ</h2>
           <p className="text-xl text-white/90">
             一生忘れられない、最高の体験を。

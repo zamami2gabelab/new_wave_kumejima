@@ -41,11 +41,12 @@ export function BookingFlow() {
               <h3 className="text-lg mb-1">{step.title}</h3>
               <p className="text-sm text-gray-600">{step.description}</p>
               
-              {index < steps.length - 1 && (
+              {/* 矢印を非表示 */}
+              {/* {index < steps.length - 1 && (
                 <div className="hidden md:block absolute top-8 left-[60%] w-[80%]">
                   <ArrowRight className="h-6 w-6 text-gray-300" />
                 </div>
-              )}
+              )} */}
             </div>
           ))}
         </div>
@@ -57,8 +58,8 @@ export function BookingFlow() {
             <p className="text-sm text-gray-600">空きがあれば当日朝でも予約可能</p>
           </div>
           <div className="bg-white p-6 rounded-lg shadow-sm">
-            <div className="text-2xl text-[#0EA5E9] mb-2">雨天キャンセル無料</div>
-            <p className="text-sm text-gray-600">悪天候時のキャンセル料は一切なし</p>
+            <div className="text-2xl text-[#0EA5E9] mb-2">キャンセル無料</div>
+            <p className="text-sm text-gray-600">悪天候や渡船が困難な場合は無料キャンセル致します。</p>
           </div>
         </div>
       </div>

@@ -25,7 +25,8 @@ export function AdditionalOptions({ onBookingClick }: AdditionalOptionsProps) {
                 </div>
                 <div>
                   <h3 className="text-xl">遊び放題チケット</h3>
-                  <p className="text-sm text-gray-600">行くだけプランと組み合わせ可</p>
+                  <p className="text-sm text-gray-600">他の業者様ご利用で、はての浜へ向かう方向けのチケットです。</p>
+                  <p className="text-sm text-gray-600">行くだけプランと組み合わせ可能！</p>
                 </div>
               </div>
 
@@ -68,7 +69,7 @@ export function AdditionalOptions({ onBookingClick }: AdditionalOptionsProps) {
                 </div>
                 <div>
                   <h3 className="text-xl">うみがめ探しツアー</h3>
-                  <p className="text-sm text-gray-600">単独でも参加可能</p>
+                  <p className="text-sm text-gray-600">遭遇率約95%！</p>
                 </div>
               </div>
 
@@ -87,7 +88,7 @@ export function AdditionalOptions({ onBookingClick }: AdditionalOptionsProps) {
                   <span>所要時間：約30分</span>
                 </div>
                 <p className="text-xs text-gray-500 pt-2">
-                  ※野生のうみがめを探すツアーです。必ず会えるとは限りませんのでご了承ください。
+                  ※港発着。ジェットスキーに乗ってうみがめを探しに行くツアーです。
                 </p>
               </div>
 

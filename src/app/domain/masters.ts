@@ -106,8 +106,8 @@ export const OPTION_PRODUCTS: OptionProduct[] = [
     unitPrice: 7000,
   },
   {
-    id: "OPT_FLOAT_RING",
-    name: "フロートリング",
+    id: "OPT_FLOAT",
+    name: "浮き輪",
     unitPrice: 1000,
   },
 ];
