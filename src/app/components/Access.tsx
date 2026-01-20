@@ -5,7 +5,7 @@ export function Access() {
     <section id="access" className="py-16 px-4 bg-white">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-3xl mb-3">アクセス</h2>
+          <h2 className="text-3xl mb-3">集合場所</h2>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
@@ -27,7 +27,7 @@ export function Access() {
             <div className="flex gap-4">
               <MapPin className="h-6 w-6 text-[#0EA5E9] shrink-0 mt-1" />
               <div>
-                <h3 className="text-lg mb-2">集合場所</h3>
+                <h3 className="text-lg mb-2">住所</h3>
                 <p className="text-gray-700">
                   泊フィッシャアリーナ<br />
                   〒901-3105<br />
@@ -41,7 +41,7 @@ export function Access() {
               <div>
                 <h3 className="text-lg mb-2">お電話でのお問い合わせ</h3>
                 <a href="tel:098-987-1318" className="text-gray-700 hover:text-[#0EA5E9] transition-colors">
-                  098-987-1318<br />
+                  098-987-1318（New Wave 久米島）<br />
                   <span className="text-sm text-gray-500">受付時間：8:00〜20:00</span>
                 </a>
               </div>
@@ -52,7 +52,7 @@ export function Access() {
               <div>
                 <h3 className="text-lg mb-2">メールでのお問い合わせ</h3>
                 <a href="mailto:yukocrest.mobile@gmail.com" className="text-gray-700 hover:text-[#0EA5E9] transition-colors break-all">
-                  contact@yukocrest.co.jp
+                yukocrest.mobile@gmail.com
                 </a>
               </div>
             </div>

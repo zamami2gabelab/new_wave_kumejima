@@ -58,7 +58,7 @@ export function BookingFlow() {
             <p className="text-sm text-gray-600">空きがあれば当日朝でも予約可能</p>
           </div>
           <div className="bg-white p-6 rounded-lg shadow-sm">
-            <div className="text-2xl text-[#0EA5E9] mb-2">キャンセル無料</div>
+            <div className="text-2xl text-[#0EA5E9] mb-2">悪天候キャンセル無料</div>
             <p className="text-sm text-gray-600">悪天候や渡船が困難な場合は無料キャンセル致します。</p>
           </div>
         </div>

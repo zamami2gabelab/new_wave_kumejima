@@ -25,7 +25,7 @@ export function AdditionalOptions({ onBookingClick }: AdditionalOptionsProps) {
                 </div>
                 <div>
                   <h3 className="text-xl">遊び放題チケット</h3>
-                  <p className="text-sm text-gray-600">他の業者様ご利用で、はての浜へ向かう方向けのチケットです。</p>
+                  <p className="text-sm text-gray-600">他の渡船業者様ご利用の方向けのチケットです。</p>
                   <p className="text-sm text-gray-600">行くだけプランと組み合わせ可能！</p>
                 </div>
               </div>

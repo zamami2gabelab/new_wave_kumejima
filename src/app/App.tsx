@@ -324,9 +324,8 @@ export default function App() {
         <div className="max-w-6xl mx-auto text-center space-y-4">
           <h3 className="text-2xl mb-4">New Wave 久米島</h3>
           <p className="text-gray-400 text-sm">
-            泊フィッシャアリーナ<br />
-            〒901-3105 沖縄県島尻郡久米島町宇根1724-13<br />
-            TEL: <a href="tel:098-987-1318" className="hover:text-white transition-colors">098-987-1318</a> / MAIL: <a href="mailto:yukocrest.mobile@gmail.com" className="hover:text-white transition-colors">yukocrest.mobile@gmail.com</a>
+            TEL: <a href="tel:098-987-1318" className="hover:text-white transition-colors">098-987-1318</a> <br>
+            </br> MAIL: <a href="mailto:yukocrest.mobile@gmail.com" className="hover:text-white transition-colors">yukocrest.mobile@gmail.com</a>
           </p>
           <div className="pt-8 border-t border-gray-800 text-gray-500 text-sm">
             © 2026 Hateno Hama Marine Service. All rights reserved.
