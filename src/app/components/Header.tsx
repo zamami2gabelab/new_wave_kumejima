@@ -5,16 +5,42 @@ import { Button } from "./ui/button";
 interface HeaderProps {
   onBookingClick: () => void;
   onLineClick: () => void;
+  onBackToHome?: () => void;
+  isBookingForm?: boolean;
 }
 
-export function Header({ onBookingClick, onLineClick }: HeaderProps) {
+export function Header({ onBookingClick, onLineClick, onBackToHome, isBookingForm = false }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-      setIsMenuOpen(false);
+    // フォーム表示中の場合は、まずHPに戻る
+    if (isBookingForm && onBackToHome) {
+      onBackToHome();
+      // HPに戻った後、少し待ってからスクロール
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    } else {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+        setIsMenuOpen(false);
+      }
+    }
+  };
+
+  const handleLogoClick = () => {
+    if (isBookingForm && onBackToHome) {
+      onBackToHome();
+      // トップにスクロール
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 100);
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -25,14 +51,17 @@ export function Header({ onBookingClick, onLineClick }: HeaderProps) {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             {/* ロゴ */}
-            <div className="flex items-center gap-2 text-xl">
+            <button 
+              onClick={handleLogoClick}
+              className="flex items-center gap-2 text-xl hover:opacity-80 transition-opacity"
+            >
               <img 
                 src="/image/log.png" 
                 alt="New Wave 久米島 ロゴ" 
                 className="h-8 w-auto"
               />
               <span className="text-gray-700">New Wave 久米島</span>
-            </div>
+            </button>
 
             {/* デスクトップメニュー */}
             <nav className="hidden md:flex items-center gap-6">

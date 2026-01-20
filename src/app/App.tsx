@@ -181,6 +181,8 @@ export default function App() {
         <Header 
           onBookingClick={handleBookingClick}
           onLineClick={handleLineClick}
+          onBackToHome={handleBackToHome}
+          isBookingForm={true}
         />
         <div className="pt-16">
           <WizardLayout />
@@ -195,6 +197,8 @@ export default function App() {
       <Header 
         onBookingClick={() => handleBookingClick()}
         onLineClick={handleLineClick}
+        onBackToHome={handleBackToHome}
+        isBookingForm={false}
       />
 
       {/* ヒーローセクション */}
