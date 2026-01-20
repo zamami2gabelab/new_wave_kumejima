@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { PlanCard } from "./components/PlanCard";
@@ -14,6 +14,7 @@ import { SingleMenus } from "./components/SingleMenus";
 import { FreeRentals } from "./components/FreeRentals";
 import { Button } from "./components/ui/button";
 import { Calendar, MessageCircle } from "lucide-react";
+import { WizardLayout } from "./components/WizardLayout";
 
 // プランデータ
 const plans = [
@@ -148,14 +149,44 @@ const plans = [
 
 export default function App() {
   const [selectedPlan, setSelectedPlan] = useState<typeof plans[0] | null>(null);
+  const [showBookingForm, setShowBookingForm] = useState(false);
+
+  // URLハッシュで予約フォームを表示するかチェック
+  useEffect(() => {
+    if (window.location.hash === "#booking") {
+      setShowBookingForm(true);
+    }
+  }, []);
 
   const handleBookingClick = (planId?: string) => {
-    window.open("https://www.jalan.net/kankou/spt_guide000000184970/activity_plan/?screenId=OUW3701&rootCd=3", "_blank");
+    // 予約フォームを表示
+    setShowBookingForm(true);
+    window.history.pushState(null, "", "#booking");
   };
 
   const handleLineClick = () => {
     window.open("https://page.line.me/ltr9609x?oat_content=url&openQrModal=true", "_blank");
   };
+
+  const handleBackToHome = () => {
+    setShowBookingForm(false);
+    window.history.pushState(null, "", "#");
+  };
+
+  // 予約フォームページを表示
+  if (showBookingForm) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Header 
+          onBookingClick={handleBookingClick}
+          onLineClick={handleLineClick}
+        />
+        <div className="pt-16">
+          <WizardLayout />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">
