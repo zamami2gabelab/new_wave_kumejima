@@ -19,7 +19,7 @@ import { OPTION_PRODUCTS } from "../domain/masters";
 
 const STEPS = [
   { title: "基本情報", description: "代表者情報と予約日" },
-  { title: "商品選択", description: "交通手段とプラン" },
+  { title: "商品選択", description: "渡船手段とプラン" },
   { title: "詳細情報", description: "人数・オプション" },
 ];
 

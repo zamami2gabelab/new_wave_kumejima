@@ -62,16 +62,14 @@ export function ConfirmModal({
               <DialogTitle className="text-2xl">予約が完了しました</DialogTitle>
             </div>
             <DialogDescription className="sr-only">
-              予約が正常に完了しました。予約IDを確認してください。
+              予約が正常に完了しました。確認メールをご確認ください。
             </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-4">
             <div className="bg-green-50 p-4 rounded-lg">
-              <p className="font-medium text-green-800 mb-2">予約ID</p>
-              <p className="text-lg font-mono">{reservationId}</p>
-              <p className="text-sm text-green-700 mt-2">
-                この予約IDを控えておいてください。確認メールも送信されます。
+              <p className="text-sm text-green-700">
+                確認メールをご確認ください。
               </p>
             </div>
 

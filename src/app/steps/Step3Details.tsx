@@ -3,6 +3,7 @@
 import { useFormContext, useWatch } from "react-hook-form";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "../components/ui/form";
 import { Input } from "../components/ui/input";
+import { Textarea } from "../components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
 import { Checkbox } from "../components/ui/checkbox";
 import { QuantityStepper } from "../components/QuantityStepper";
@@ -37,7 +38,7 @@ export function Step3Details() {
           ...currentParticipants,
           ...Array(totalPeople - currentParticipants.length).fill(null).map(() => ({
             name: "",
-            age: 0,
+            age: undefined as any,
           })),
         ];
         form.setValue("participants", newParticipants);
@@ -198,6 +199,34 @@ export function Step3Details() {
         </CardContent>
       </Card>
 
+      {/* ご質問・ご要望 */}
+      <Card>
+        <CardHeader>
+          <CardTitle>ご質問・ご要望</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <FormField
+            control={form.control}
+            name="message"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Textarea
+                    placeholder="特別なリクエストなどございましたらご記入ください"
+                    className="min-h-24"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+                <p className="text-xs text-gray-500 mt-1">
+                  ピックアップ場所で「その他」を選択した場合は必須です
+                </p>
+              </FormItem>
+            )}
+          />
+        </CardContent>
+      </Card>
+
       {/* オプション */}
       <Card>
         <CardHeader>
@@ -328,15 +357,28 @@ export function Step3Details() {
                     name={`participants.${index}.age`}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>年齢</FormLabel>
+                        <FormLabel>
+                          年齢 <span className="text-red-500">*</span>
+                        </FormLabel>
                         <FormControl>
                           <Input
                             type="number"
                             placeholder="25"
+                            min={1}
+                            max={120}
                             {...field}
                             onChange={(e) => {
-                              const value = parseInt(e.target.value, 10);
-                              field.onChange(isNaN(value) ? 0 : value);
+                              const value = e.target.value;
+                              if (value === "") {
+                                field.onChange(undefined);
+                              } else {
+                                const numValue = parseInt(value, 10);
+                                if (!isNaN(numValue)) {
+                                  field.onChange(numValue);
+                                } else {
+                                  field.onChange(undefined);
+                                }
+                              }
                             }}
                             value={field.value || ""}
                           />

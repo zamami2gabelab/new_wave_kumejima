@@ -16,10 +16,27 @@ export const leaderSchema = z.object({
 // 参加者のバリデーション
 export const participantSchema = z.object({
   name: z.string().min(1, "名前を入力してください"),
-  age: z
-    .number()
-    .int("年齢は整数で入力してください")
-    .min(0, "年齢は0以上で入力してください"),
+  age: z.preprocess(
+    (val) => {
+      if (val === undefined || val === null || val === "") {
+        return -1; // undefinedを-1に変換（無効な値として扱う）
+      }
+      const num = typeof val === "string" ? parseInt(val, 10) : Number(val);
+      return isNaN(num) ? -1 : num;
+    },
+    z
+      .number()
+      .refine((val) => val !== -1, {
+        message: "年齢を入力してください",
+      })
+      .int("年齢は整数で入力してください")
+      .refine((val) => val >= 1, {
+        message: "年齢は1以上で入力してください",
+      })
+      .refine((val) => val <= 120, {
+        message: "年齢は120以下で入力してください",
+      })
+  ) as z.ZodType<number>,
 });
 
 // 人数のバリデーション
@@ -47,8 +64,8 @@ export const reservationFormSchema = z
       .string()
       .min(1, "予約日を選択してください")
       .refine(isNotPastDate, "過去の日付は選択できません"),
-    transportType: z.enum(["PLAN_WITH_BOAT", "TICKET_ACTIVITY_ONLY"], {
-      required_error: "交通手段を選択してください",
+    transportType: z.enum(["PLAN_WITH_BOAT", "TICKET_ACTIVITY_ONLY"]).refine((val) => val !== undefined, {
+      message: "交通手段を選択してください",
     }),
     productId: z.string().min(1, "商品を選択してください"),
     arrivalSlot: z.enum(["AM", "PM"]).nullable(),

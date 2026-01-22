@@ -4,7 +4,6 @@ import React from "react";
 import { useFormContext } from "react-hook-form";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "../components/ui/form";
 import { Input } from "../components/ui/input";
-import { Textarea } from "../components/ui/textarea";
 import { Calendar } from "../components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "../components/ui/popover";
 import { Button } from "../components/ui/button";
@@ -181,27 +180,6 @@ export function Step1Leader() {
         }}
       />
 
-      {/* メッセージ */}
-      <FormField
-        control={form.control}
-        name="message"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>ご質問・ご要望</FormLabel>
-            <FormControl>
-              <Textarea
-                placeholder="アレルギー、特別なリクエストなどございましたらご記入ください"
-                className="min-h-24"
-                {...field}
-              />
-            </FormControl>
-            <FormMessage />
-            <p className="text-xs text-gray-500 mt-1">
-              ピックアップ場所で「その他」を選択した場合は必須です
-            </p>
-          </FormItem>
-        )}
-      />
     </div>
   );
 }

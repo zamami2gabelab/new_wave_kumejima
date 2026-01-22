@@ -27,7 +27,7 @@ export function Step2Product() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold mb-2">交通手段と商品選択</h2>
+        <h2 className="text-2xl font-bold mb-2">渡船手段と商品選択</h2>
         <p className="text-gray-600">船の手配が必要かどうかを選択してください</p>
       </div>
 
@@ -46,24 +46,54 @@ export function Step2Product() {
                 onValueChange={handleTransportTypeChange}
                 className="grid grid-cols-1 md:grid-cols-2 gap-4"
               >
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="PLAN_WITH_BOAT" id="plan" />
-                  <Label htmlFor="plan" className="cursor-pointer flex-1">
-                    <div className="font-medium">プラン（船込み）</div>
-                    <div className="text-sm text-gray-500">
-                      当社が船を手配します。参加者名簿が必要です。
+                <Card
+                  className={`cursor-pointer transition-all ${
+                    field.value === "PLAN_WITH_BOAT"
+                      ? "border-[#0EA5E9] border-2 bg-blue-50"
+                      : "hover:border-gray-300"
+                  }`}
+                  onClick={() => handleTransportTypeChange("PLAN_WITH_BOAT")}
+                >
+                  <CardContent className="p-4">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="font-medium mb-1">プラン（船込み）</div>
+                        <div className="text-sm text-gray-500">
+                          当社が船を手配します。参加者名簿が必要です。
+                        </div>
+                      </div>
+                      <RadioGroupItem
+                        value="PLAN_WITH_BOAT"
+                        onClick={(e) => e.stopPropagation()}
+                        className="mt-1"
+                      />
                     </div>
-                  </Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="TICKET_ACTIVITY_ONLY" id="ticket" />
-                  <Label htmlFor="ticket" className="cursor-pointer flex-1">
-                    <div className="font-medium">チケット（アクティビティのみ）</div>
-                    <div className="text-sm text-gray-500">
-                      他社の船をご利用の場合。到着時間帯を選択してください。
+                  </CardContent>
+                </Card>
+                <Card
+                  className={`cursor-pointer transition-all ${
+                    field.value === "TICKET_ACTIVITY_ONLY"
+                      ? "border-[#0EA5E9] border-2 bg-blue-50"
+                      : "hover:border-gray-300"
+                  }`}
+                  onClick={() => handleTransportTypeChange("TICKET_ACTIVITY_ONLY")}
+                >
+                  <CardContent className="p-4">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="font-medium mb-1">チケット（アクティビティのみ）</div>
+                        <div className="text-sm text-gray-500">
+                          他社の船をご利用の場合。到着時間帯を選択してください。
+                        </div>
+                      </div>
+                      <RadioGroupItem
+                        value="TICKET_ACTIVITY_ONLY"
+                        onClick={(e) => e.stopPropagation()}
+                        className="mt-1"
+                      />
                     </div>
-                  </Label>
-                </div>
+                  </CardContent>
+                </Card>
               </RadioGroup>
             </FormControl>
             <FormMessage />
@@ -191,18 +221,48 @@ export function Step2Product() {
                     onValueChange={(value) => field.onChange(value || null)}
                     className="grid grid-cols-2 gap-4"
                   >
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="AM" id="am" />
-                      <Label htmlFor="am" className="cursor-pointer flex-1">
-                        <div className="font-medium">午前（AM）</div>
-                      </Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="PM" id="pm" />
-                      <Label htmlFor="pm" className="cursor-pointer flex-1">
-                        <div className="font-medium">午後（PM）</div>
-                      </Label>
-                    </div>
+                    <Card
+                      className={`cursor-pointer transition-all ${
+                        field.value === "AM"
+                          ? "border-[#0EA5E9] border-2 bg-blue-50"
+                          : "hover:border-gray-300"
+                      }`}
+                      onClick={() => field.onChange("AM")}
+                    >
+                      <CardContent className="p-4">
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="font-medium">午前（AM）</div>
+                          </div>
+                          <RadioGroupItem
+                            value="AM"
+                            onClick={(e) => e.stopPropagation()}
+                            className="mt-1"
+                          />
+                        </div>
+                      </CardContent>
+                    </Card>
+                    <Card
+                      className={`cursor-pointer transition-all ${
+                        field.value === "PM"
+                          ? "border-[#0EA5E9] border-2 bg-blue-50"
+                          : "hover:border-gray-300"
+                      }`}
+                      onClick={() => field.onChange("PM")}
+                    >
+                      <CardContent className="p-4">
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="font-medium">午後（PM）</div>
+                          </div>
+                          <RadioGroupItem
+                            value="PM"
+                            onClick={(e) => e.stopPropagation()}
+                            className="mt-1"
+                          />
+                        </div>
+                      </CardContent>
+                    </Card>
                   </RadioGroup>
                 </FormControl>
                 <FormMessage />
