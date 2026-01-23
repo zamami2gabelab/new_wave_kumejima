@@ -9,3 +9,11 @@
 
   Run `npm run dev` to start the development server.
   
+
+  GAS
+デプロイID
+AKfycbwOV0oHn5KrQKWNHWrJ2dX0fPtggNXE-AfYkiVQECrp8apYE44gm7G9ZvZzCr6LpI8v8Q
+
+ウェブアプリ
+URL
+https://script.google.com/macros/s/AKfycbz7ufx95CENlFYhE5uGBDym2XkKYrwqEdANyrMAzrxLWvj4F1Cq9vT2JwAThDJSKNr3IQ/exec
