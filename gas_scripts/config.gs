@@ -11,8 +11,10 @@ const SYSTEM_LOG_SHEET_NAME = 'システムログ';
 
 const TIMEZONE = 'Asia/Tokyo';
 
-// ===== 運用列（※先頭に置く） =====
-// すでに「メール状態」が先頭にある前提
+// ===== 送信対象（チェックボックス）列（A列）=====
+const CHECKBOX_HEADER = '送信対象';
+
+// ===== 運用列（※チェック列の次に書く） =====
 const OPERATION_HEADERS = [
   'メール状態',
   'メール送信日時',
@@ -63,8 +65,12 @@ const RESERVATION_BASE_HEADERS = [
 ];
 
 // ===== 最終的な予約一覧ヘッダー =====
-const RESERVATION_HEADERS = OPERATION_HEADERS.concat(RESERVATION_BASE_HEADERS);
+const RESERVATION_HEADERS = [CHECKBOX_HEADER].concat(OPERATION_HEADERS, RESERVATION_BASE_HEADERS);
 
 // ===== 初期ステータス =====
 const INITIAL_MAIL_STATUS = 'PENDING';
 const INITIAL_CALENDAR_STATUS = 'PENDING';
+
+// function debug_countReservationHeaders(){
+//   Logger.log(`RESERVATION_HEADERS length=` + RESERVATION_HEADERS.length);
+// }
