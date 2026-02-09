@@ -14,6 +14,10 @@ import { SingleMenus } from "./components/SingleMenus";
 import { FreeRentals } from "./components/FreeRentals";
 import { ContactCTA } from "./components/ContactCTA";
 import { WizardLayout } from "./components/WizardLayout";
+import { PlanCategoryLinks } from "./components/PlanCategoryLinks";
+import { FamilyPlans } from "./components/FamilyPlans";
+import { CouplePlans } from "./components/CouplePlans";
+import { GroupPlans } from "./components/GroupPlans";
 import { Button } from "./components/ui/button";
 import { Calendar, MessageCircle } from "lucide-react";
 
@@ -161,11 +165,21 @@ const plans = [
 export default function App() {
   const [selectedPlan, setSelectedPlan] = useState<typeof plans[0] | null>(null);
   const [showBookingForm, setShowBookingForm] = useState(false);
+  const [currentPage, setCurrentPage] = useState<"home" | "family" | "couple" | "group">("home");
 
   // URLハッシュで予約フォームを表示するかチェック
   useEffect(() => {
-    if (window.location.hash === "#booking") {
+    const hash = window.location.hash;
+    if (hash === "#booking") {
       setShowBookingForm(true);
+    } else if (hash === "#family") {
+      setCurrentPage("family");
+    } else if (hash === "#couple") {
+      setCurrentPage("couple");
+    } else if (hash === "#group") {
+      setCurrentPage("group");
+    } else {
+      setCurrentPage("home");
     }
   }, []);
 
@@ -181,8 +195,72 @@ export default function App() {
 
   const handleBackToHome = () => {
     setShowBookingForm(false);
+    setCurrentPage("home");
     window.history.pushState(null, "", "#");
   };
+
+  const handleNavigateToPage = (page: "family" | "couple" | "group") => {
+    setCurrentPage(page);
+    window.history.pushState(null, "", `#${page}`);
+  };
+
+  // 各ページの表示処理
+  if (currentPage === "family") {
+    return (
+      <div className="min-h-screen bg-white">
+        <Header 
+          onBookingClick={handleBookingClick}
+          onLineClick={handleLineClick}
+          onBackToHome={handleBackToHome}
+          isBookingForm={false}
+        />
+        <div className="pt-16">
+          <FamilyPlans
+            onBooking={(planId) => handleBookingClick(planId)}
+            onBack={handleBackToHome}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  if (currentPage === "couple") {
+    return (
+      <div className="min-h-screen bg-white">
+        <Header 
+          onBookingClick={handleBookingClick}
+          onLineClick={handleLineClick}
+          onBackToHome={handleBackToHome}
+          isBookingForm={false}
+        />
+        <div className="pt-16">
+          <CouplePlans
+            onBooking={(planId) => handleBookingClick(planId)}
+            onBack={handleBackToHome}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  if (currentPage === "group") {
+    return (
+      <div className="min-h-screen bg-white">
+        <Header 
+          onBookingClick={handleBookingClick}
+          onLineClick={handleLineClick}
+          onBackToHome={handleBackToHome}
+          isBookingForm={false}
+        />
+        <div className="pt-16">
+          <GroupPlans
+            onBooking={() => handleBookingClick()}
+            onBack={handleBackToHome}
+          />
+        </div>
+      </div>
+    );
+  }
 
   // 予約フォームページを表示
   if (showBookingForm) {
@@ -257,23 +335,68 @@ export default function App() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl mb-3">プランを選ぶ</h2>
-            <p className="text-gray-600">すべてのプラン、シュノーケル、フィン無料レンタルできます</p>
+            <p className="text-gray-600">すべてのプランでシュノーケル、フィン無料レンタルできます</p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            {plans.map((plan) => (
-              <PlanCard
-                key={plan.id}
-                plan={plan}
-                onDetailsClick={() => setSelectedPlan(plan)}
+          {/* 通常プラン */}
+          <div>
+            <h3 className="text-xl font-semibold text-gray-800 mb-6 text-center">
+              定番プラン
+            </h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+              {plans.map((plan) => (
+                <PlanCard
+                  key={plan.id}
+                  plan={plan}
+                  onDetailsClick={() => setSelectedPlan(plan)}
+                />
+              ))}
+            </div>
+          </div>
+
+          
+          {/* カテゴリーリンク */}
+          <div className="mt-12">
+            <h3 className="text-xl font-semibold text-gray-800 mb-6 text-center">
+              目的別プラン
+            </h3>
+            <div className="max-w-6xl mx-auto">
+              <PlanCategoryLinks
+              links={[
+                {
+                id: "family",
+                title: "家族におすすめ！",
+                subtitle: "波の向こうに、忘れられない1日を…",
+                icon: "",
+                backgroundImage: "/image/family.png",
+                onClick: () => handleNavigateToPage("family")
+                },
+                {
+                id: "couple",
+                title: "カップルにおすすめ！",
+                subtitle: "今日という日を特別に…",
+                icon: "",
+                backgroundImage: "/image/couple.png",
+                onClick: () => handleNavigateToPage("couple")
+                },
+                {
+                id: "group",
+                title: "団体様おすすめ！",
+                subtitle: "グループ専用の貸切プラン",
+                icon: "",
+                backgroundImage: "/image/group.png",
+                onClick: () => handleNavigateToPage("group")
+                }
+              ]}
               />
-            ))}
+            </div>
           </div>
-
-          {/* CTA */}
-          <ContactCTA onLineClick={handleLineClick} />
         </div>
       </section>
+
+      
+      {/* CTA */}
+      <ContactCTA onLineClick={handleLineClick} />
 
       {/* 追加オプション */}
       <AdditionalOptions onBookingClick={handleBookingClick} />

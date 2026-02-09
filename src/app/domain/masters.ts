@@ -6,7 +6,7 @@ export interface PlanProduct {
   id: ProductId;
   name: string;
   adultPrice: number;
-  childPrice: number;
+  childPrice: number | null;
 }
 
 export interface TicketProduct {
@@ -52,6 +52,44 @@ export const PLAN_PRODUCTS: PlanProduct[] = [
     name: "ジェットクルージングプラン",
     adultPrice: 10000,
     childPrice: 7000,
+  },
+  // 家族向けプラン
+  {
+    id: "PLAN_FAMILY_FULL",
+    name: "ファミリーアクティビティープラン（1日）",
+    adultPrice: 15000,
+    childPrice: 10000,
+  },
+  {
+    id: "PLAN_FAMILY_HALF",
+    name: "ファミリーアクティビティープラン（半日）",
+    adultPrice: 10000,
+    childPrice: 8000,
+  },
+  {
+    id: "PLAN_FAMILY_RELAX",
+    name: "ファミリーゆったりプラン（半日）",
+    adultPrice: 7000,
+    childPrice: 5000,
+  },
+  // カップル向けプラン
+  {
+    id: "PLAN_COUPLE_SPECIAL",
+    name: "はての浜スペシャルペアプラン（1日）",
+    adultPrice: 16000,
+    childPrice: null,
+  },
+  {
+    id: "PLAN_COUPLE_MARINE",
+    name: "はての浜ペアマリン体験プラン（半日）",
+    adultPrice: 12000,
+    childPrice: null,
+  },
+  {
+    id: "PLAN_COUPLE_BASIC",
+    name: "はての浜ペアプラン（半日）",
+    adultPrice: 8000,
+    childPrice: null,
   }
 ];
 
