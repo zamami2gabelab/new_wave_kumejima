@@ -20,21 +20,17 @@ import { Calendar, MessageCircle } from "lucide-react";
 // プランデータ
 const plans = [
   {
-    id: "wakuwaku",
-    name: "わくわくプラン",
-    image: "image/wakuwaku.png",
-    price: "12,000",
-    childPrice: "8,000",
+    id: "nonbiri",
+    name: "のんびりはての浜プラン",
+    image: "image/plan_nonbiri.png",
+    price: "6,000",
+    childPrice: "4,500",
     duration: "3時間",
     capacity: "2名〜",
-    highlight: "人気No.1",
-    description: "はての浜上陸、シュノーケリング、マリンスポーツを1つ楽しめる基本プラン。初めての方におすすめです。",
+    highlight: "のんびり",
+    description: "はての浜上陸のみのプランです。のんびりと砂浜で過ごしたい方向け。",
     included: [
       "はての浜上陸",
-      "沖合ポイントシュノーケル",
-      "マリンスポーツ1種",
-      "パラソル、チェアレンタル",
-      "ライフジャケット",
       "往復船代",
       "保険料"
     ],
@@ -42,32 +38,27 @@ const plans = [
       { time: "09:00", activity: "泊港集合・受付" },
       { time: "09:15", activity: "船で出発（約15分）" },
       { time: "09:30", activity: "はての浜到着" },
-      { time: "10:00", activity: "シュノーケリング体験" },
-      { time: "11:00", activity: "マリンスポーツ体験" },
-      { time: "11:45", activity: "自由時間" },
-      { time: "12:00", activity: "帰港・解散" }
+      { time: "09:45", activity: "自由時間" },
+      { time: "16:00", activity: "帰港・解散" }
     ],
-    items: "水着（事前着用推奨）\nタオル\n日焼け止め\n飲み物\n\n※ウェットスーツは無料レンタル可能です",
+    items: "日焼け止め\n飲み物",
     cancellation: "7日前まで：無料\n3日前まで：30%\n前日：50%\n当日：100%\n\n※悪天候による中止の場合はキャンセル料無料",
-    notes: "・4歳以上から参加可能です\n・妊娠中の方はご参加いただけません\n・持病のある方は事前にご相談ください\n・天候により開催できない場合があります"
+    notes: "・4歳以上から参加可能です\n・妊娠中の方はご参加いただけません\n・潮の状況によりスケジュールが変更になる場合があります\n・天候により開催できない場合があります"
   },
   {
-    id: "manzoku",
-    name: "まんぞくプラン",
-    image: "image/manzoku.png",
-    price: "15,000",
-    childPrice: "11,000",
+    id: "bananaboat",
+    name: "はての浜バナナボートプラン",
+    image: "image/bananaboat.png",
+    price: "8,000",
+    childPrice: "6,000",
     duration: "4時間",
     capacity: "2名〜",
-    highlight: "スタッフおすすめ",
-    description: "わくわくプランにうみがめ探索が追加された充実プラン。マリンスポーツを楽しみつつ、うみがめとの出会いを楽しみたい方に。",
+    highlight: "定番",
+    description: "沖合シュノーケルとバナナボートがセットになったプラン",
     included: [
       "はての浜上陸",
       "沖合ポイントシュノーケル",
-      "マリンスポーツ1種",
-      "うみがめ探索",
-      "パラソル、チェアレンタル",
-      "ライフジャケット",
+      "バナナボート",
       "往復船代",
       "保険料"
     ],
@@ -76,32 +67,28 @@ const plans = [
       { time: "09:15", activity: "船で出発" },
       { time: "09:30", activity: "はての浜到着" },
       { time: "10:00", activity: "シュノーケリング体験" },
-      { time: "11:00", activity: "うみがめ探索" },
-      { time: "11:30", activity: "マリンスポツ体験" },
-      { time: "12:30", activity: "自由時間" },
+      { time: "11:00", activity: "バナナボート体験" },
+      { time: "11:30", activity: "自由時間" },
       { time: "13:00", activity: "帰港・解散" }
     ],
-    items: "水着（事前着用推奨）\nタオル\n日焼け止め\n飲み物\n防水カメラ（推奨）\n\n※ウェットスーツは無料レンタル可能です",
+    items: "水着（事前着用推奨）\nタオル\n日焼け止め\n飲み物\n防水カメラ（推奨）\n",
     cancellation: "7日前まで：無料\n3日前まで：30%\n前日：50%\n当日：100%\n\n※悪天候による中止の場合はキャンセル料無料",
-    notes: "・4歳以上から参加可能です\n・野生のうみがめを探すため、必ず会えるとは限りません\n・妊娠中の方はご参加いただけません\n・天候により開催できない場合があります"
+    notes: "・4歳以上から参加可能です\n・妊娠中の方はご参加いただけません\n・潮の状況によりスケジュールが変更になる場合があります\n・天候により開催できない場合があります"
   },
   {
-    id: "asobihoudai",
-    name: "遊び放題プラン",
-    image: "image/asobihoudai.png",
-    price: "18,000",
-    childPrice: "15,000",
+    id: "suinbou",
+    name: "はての浜スインボーで遊ぼープラン",
+    image: "image/suinbou.png",
+    price: "10,000",
+    childPrice: "8,000",
     duration: "6時間",
     capacity: "2名〜",
-    highlight: "たくさん遊びたい！",
-    description: "まんぞくプランにマリンスポーツが遊び放題になったプラン。1日中海を満喫したい方向けの贅沢プランです。",
+    highlight: "新体験",
+    description: "沖合シュノーケルとスインボーがセットになったプラ",
     included: [
       "はての浜上陸",
       "沖合ポイントシュノーケル",
-      "マリンスポーツ遊び放題",
-      "うみがめ探索",
-      "パラソル、チェアレンタル",
-      "ライフジャケット",
+      "スインボー",
       "往復船代",
       "保険料"
     ],
@@ -110,28 +97,27 @@ const plans = [
       { time: "09:15", activity: "船で出発" },
       { time: "09:30", activity: "はての浜到着" },
       { time: "10:00", activity: "シュノーケリング" },
-      { time: "11:00", activity: "うみがめ探索" },
-      { time: "11:30", activity: "マリンスポーツ遊び放題" },
-      { time: "14:00", activity: "自由時間・写真撮影" },
+      { time: "11:00", activity: "スインボー体験" },
+      { time: "14:00", activity: "自由時間" },
       { time: "15:00", activity: "帰港・解散" }
     ],
     items: "水着（事前着用推奨）\nタオル\n日焼け止め\n帽子・サングラス\n着替え\n飲み物・軽食\n\n※長時間の滞在となるため水分補給をこまめに",
     cancellation: "7日前まで：無料\n3日前まで：30%\n前日：50%\n当日：100%\n\n※悪天候による中止の場合はキャンセル料無料",
-    notes: "・4歳以上から参加可能です\n・日差しが強いため日焼け対策必須です\n・体力に自信のある方向けのプランです\n・天候により開催できない場合があます"
+    notes: "・4歳以上から参加可能です\n・日差しが強いため日焼け対策必須です\n・潮の状況によりスケジュールが変更になる場合があります\n・天候により開催できない場合があます"
   },
   {
-    id: "ikudake",
-    name: "行くだけプラン",
-    image: "image/ikudake.png",
-    price: "8,000",
-    childPrice: "6,000",
+    id: "asobitsukushi",
+    name: "はての浜遊びつくしプラン",
+    image: "image/asobitsukushi.png",
+    price: "20,000",
+    childPrice: "18,000",
     duration: "3時間",
     capacity: "2名〜",
-    highlight: "のんびり",
-    description: "はての浜へ上陸して、のんびり過ごしたい方向けのシンプルプラン。",
+    highlight: "たくさん遊びたい",
+    description: "沖合シュノーケルとトーイングチューブ全種類各1回ずつ遊べる贅沢プラン",
     included: [
       "はての浜上陸",
-      "パラソル、チェアレンタル",
+      "沖合ポイントシュノーケル",
       "往復船代",
       "保険料"
     ],
@@ -139,13 +125,37 @@ const plans = [
       { time: "09:00", activity: "泊港集合・受付" },
       { time: "09:15", activity: "船で出発" },
       { time: "09:30", activity: "はての浜到着" },
-      { time: "09:30", activity: "自由時間" },
-      { time: "12:00", activity: "帰港・解散" }
+      { time: "09:30", activity: "シュノーケリング" },
+      { time: "10:00", activity: "トーイングチューブ体験" },
+      { time: "15:00", activity: "帰港・解散" }
     ],
     items: "水着（事前着用推奨）\nタオル\n日焼け止め\n飲み物\n読書など好きなもの\n\n※アクティビティは含まれません",
     cancellation: "7日前まで：無料\n3日前まで：30%\n前日：50%\n当日：100%\n\n※悪天候による中止の場合はキャンセル料無料",
-    notes: "・年齢制限はありません\n・写真撮影やのんびり過ごしたい方向けです\n・追加でアクティビティをご希望の場合は、遊び放題チケットや単品メニューをご利用ください\n・天候により開催できない場合があります"
-  }
+    notes: "・4歳以上から参加可能です\n・日差しが強いため日焼け対策必須です\n・潮の状況によりスケジュールが変更になる場合があります\n・天候により開催できない場合があます" 
+  },
+  {
+    id: "jetcruising",
+    name: "はての浜ジェットクルージングプラン",
+    image: "image/jetcruising.png",
+    price: "10,000",
+    childPrice: "7,000",
+    duration: "3時間",
+    capacity: "2名〜",
+    highlight: "爽快",
+    description: "港から海をドライブするプランです。はての浜上陸は含まれません。",
+    included: [
+      "沖合ジェットクルージング",
+    ],
+    schedule: [
+      { time: "09:00", activity: "泊港集合・受付" },
+      { time: "09:15", activity: "ジェットクルージングで出発" },
+      { time: "10:15", activity: "泊港到着" }
+    ],
+    items: "水着（事前着用推奨）\n日焼け止め\n",
+    cancellation: "7日前まで：無料\n3日前まで：30%\n前日：50%\n当日：100%\n\n※悪天候による中止の場合はキャンセル料無料",
+    notes: "・4歳以上から参加可能です\n・日差しが強いため日焼け対策必須です\n・潮の状況によりスケジュールが変更になる場合があります\n・天候により開催できない場合があます" 
+  },
+
 ];
 
 export default function App() {
@@ -247,7 +257,7 @@ export default function App() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl mb-3">プランを選ぶ</h2>
-            <p className="text-gray-600">あなたに合った体験を</p>
+            <p className="text-gray-600">すべてのプラン、シュノーケル、フィン無料レンタルできます</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">

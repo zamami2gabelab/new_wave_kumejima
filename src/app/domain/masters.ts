@@ -24,29 +24,35 @@ export interface OptionProduct {
 // プラン商品マスター
 export const PLAN_PRODUCTS: PlanProduct[] = [
   {
-    id: "PLAN_WAKUWAKU",
-    name: "わくわくプラン",
-    adultPrice: 12000,
-    childPrice: 8000,
+    id: "PLAN_NONBIRI",
+    name: "のんびりはての浜プラン",
+    adultPrice: 6000,
+    childPrice: 4500,
   },
   {
-    id: "PLAN_MANZOKU",
-    name: "まんぞくプラン",
-    adultPrice: 15000,
-    childPrice: 11000,
-  },
-  {
-    id: "PLAN_ASOBIHOUDAI",
-    name: "遊び放題プラン",
-    adultPrice: 18000,
-    childPrice: 15000,
-  },
-  {
-    id: "PLAN_IKUDAKE",
-    name: "行くだけプラン",
+    id: "PLAN_BANANABOAT",
+    name: "はての浜バナナボートプラン",
     adultPrice: 8000,
     childPrice: 6000,
   },
+  {
+    id: "PLAN_SUINBOU",
+    name: "はての浜スインボーで遊ぼープラン",
+    adultPrice: 10000,
+    childPrice: 8000,
+  },
+  {
+    id: "PLAN_ASOBITSUKUSHI",
+    name: "はての浜遊びつくしプラン",
+    adultPrice: 20000,
+    childPrice: 18000,
+  },
+  {
+    id: "PLAN_JETCRUISING",
+    name: "ジェットクルージングプラン",
+    adultPrice: 10000,
+    childPrice: 7000,
+  }
 ];
 
 // チケット商品マスター
