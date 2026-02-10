@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
 import { PlanCard } from "./components/PlanCard";
@@ -19,7 +19,7 @@ import { FamilyPlans } from "./components/FamilyPlans";
 import { CouplePlans } from "./components/CouplePlans";
 import { GroupPlans } from "./components/GroupPlans";
 import { Button } from "./components/ui/button";
-import { Calendar, MessageCircle } from "lucide-react";
+import { Calendar, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
 
 // プランデータ
 const plans = [
@@ -166,6 +166,8 @@ export default function App() {
   const [selectedPlan, setSelectedPlan] = useState<typeof plans[0] | null>(null);
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [currentPage, setCurrentPage] = useState<"home" | "family" | "couple" | "group">("home");
+  const planCarouselRef = useRef<HTMLDivElement>(null);
+  const categoryCarouselRef = useRef<HTMLDivElement>(null);
 
   // URLハッシュで予約フォームを表示するかチェック
   useEffect(() => {
@@ -202,6 +204,29 @@ export default function App() {
   const handleNavigateToPage = (page: "family" | "couple" | "group") => {
     setCurrentPage(page);
     window.history.pushState(null, "", `#${page}`);
+    window.scrollTo(0, 0);
+  };
+
+  const scrollPlanCarousel = (direction: "left" | "right") => {
+    if (planCarouselRef.current) {
+      const scrollAmount = 400;
+      if (direction === "left") {
+        planCarouselRef.current.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+      } else {
+        planCarouselRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+      }
+    }
+  };
+
+  const scrollCategoryCarousel = (direction: "left" | "right") => {
+    if (categoryCarouselRef.current) {
+      const scrollAmount = 400;
+      if (direction === "left") {
+        categoryCarouselRef.current.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+      } else {
+        categoryCarouselRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+      }
+    }
   };
 
   // 各ページの表示処理
@@ -343,14 +368,39 @@ export default function App() {
             <h3 className="text-xl font-semibold text-gray-800 mb-6 text-center">
               定番プラン
             </h3>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-              {plans.map((plan) => (
-                <PlanCard
-                  key={plan.id}
-                  plan={plan}
-                  onDetailsClick={() => setSelectedPlan(plan)}
-                />
-              ))}
+            
+            <div className="relative">
+              {/* スクロール可能なコンテナ */}
+              <div
+                ref={planCarouselRef}
+                className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide"
+                style={{ scrollBehavior: "smooth" }}
+              >
+                {plans.map((plan) => (
+                  <div key={plan.id} className="flex-shrink-0 w-96">
+                    <PlanCard
+                      plan={plan}
+                      onDetailsClick={() => setSelectedPlan(plan)}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {/* 左右のナビゲーションボタン */}
+              <button
+                onClick={() => scrollPlanCarousel("left")}
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white/80 hover:bg-white rounded-full p-2 shadow-md transition-all hover:shadow-lg z-10"
+                aria-label="前へスクロール"
+              >
+                <ChevronLeft className="h-5 w-5 text-gray-700" />
+              </button>
+              <button
+                onClick={() => scrollPlanCarousel("right")}
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white/80 hover:bg-white rounded-full p-2 shadow-md transition-all hover:shadow-lg z-10"
+                aria-label="次へスクロール"
+              >
+                <ChevronRight className="h-5 w-5 text-gray-700" />
+              </button>
             </div>
           </div>
 
@@ -360,35 +410,59 @@ export default function App() {
             <h3 className="text-xl font-semibold text-gray-800 mb-6 text-center">
               目的別プラン
             </h3>
-            <div className="max-w-6xl mx-auto">
-              <PlanCategoryLinks
-              links={[
-                {
-                id: "family",
-                title: "家族におすすめ！",
-                subtitle: "波の向こうに、忘れられない1日を…",
-                icon: "",
-                backgroundImage: "/image/family.png",
-                onClick: () => handleNavigateToPage("family")
-                },
-                {
-                id: "couple",
-                title: "カップルにおすすめ！",
-                subtitle: "今日という日を特別に…",
-                icon: "",
-                backgroundImage: "/image/couple.png",
-                onClick: () => handleNavigateToPage("couple")
-                },
-                {
-                id: "group",
-                title: "団体様おすすめ！",
-                subtitle: "グループ専用の貸切プラン",
-                icon: "",
-                backgroundImage: "/image/group.png",
-                onClick: () => handleNavigateToPage("group")
-                }
-              ]}
-              />
+            <div className="relative">
+              <div
+                ref={categoryCarouselRef}
+                className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide"
+                style={{ scrollBehavior: "smooth" }}
+              >
+                {[
+                  {
+                    id: "family",
+                    title: "家族におすすめ！",
+                    subtitle: "波の向こうに、忘れられない1日を…",
+                    icon: "",
+                    backgroundImage: "/image/family.png",
+                    onClick: () => handleNavigateToPage("family")
+                  },
+                  {
+                    id: "couple",
+                    title: "カップルにおすすめ！",
+                    subtitle: "今日という日を特別に…",
+                    icon: "",
+                    backgroundImage: "/image/couple.png",
+                    onClick: () => handleNavigateToPage("couple")
+                  },
+                  {
+                    id: "group",
+                    title: "団体様おすすめ！",
+                    subtitle: "グループ専用の貸切プラン",
+                    icon: "",
+                    backgroundImage: "/image/group.png",
+                    onClick: () => handleNavigateToPage("group")
+                  }
+                ].map((link) => (
+                  <div key={link.id} className="flex-shrink-0 w-96">
+                    <PlanCategoryLinks links={[link]} />
+                  </div>
+                ))}
+              </div>
+
+              {/* 左右のナビゲーションボタン */}
+              <button
+                onClick={() => scrollCategoryCarousel("left")}
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white/80 hover:bg-white rounded-full p-2 shadow-md transition-all hover:shadow-lg z-10"
+                aria-label="前へスクロール"
+              >
+                <ChevronLeft className="h-5 w-5 text-gray-700" />
+              </button>
+              <button
+                onClick={() => scrollCategoryCarousel("right")}
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white/80 hover:bg-white rounded-full p-2 shadow-md transition-all hover:shadow-lg z-10"
+                aria-label="次へスクロール"
+              >
+                <ChevronRight className="h-5 w-5 text-gray-700" />
+              </button>
             </div>
           </div>
         </div>

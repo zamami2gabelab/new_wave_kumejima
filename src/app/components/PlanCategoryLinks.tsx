@@ -17,7 +17,7 @@ interface PlanCategoryLinksProps {
 
 export function PlanCategoryLinks({ links }: PlanCategoryLinksProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className={links.length === 1 ? "w-full" : "grid grid-cols-1 md:grid-cols-3 gap-6"}>
       {links.map((link) => (
         <Card
           key={link.id}
