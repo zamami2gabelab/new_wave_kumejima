@@ -162,6 +162,28 @@ const plans = [
 
 ];
 
+const limitedPlans = [
+  {
+    id: "PLAN_SUNSET",
+    name: "サンセットプラン",
+    image: "/image/sunset.png",
+    price: "5,000",
+    childPrice: "4,000",
+    duration: "夕方",
+    capacity: "1日20名限定",
+    highlight: "20名限定",
+    description: "はての浜上陸とソフトドリンクサービスが付いた夕方限定プラン。",
+    included: ["はての浜上陸", "ソフトドリンクサービス"],
+    schedule: [
+      { time: "夕方", activity: "はての浜上陸" },
+      { time: "終了後", activity: "現地解散" }
+    ],
+    items: "水着（事前着用推奨）\nタオル\n日焼け止め\n",
+    cancellation: "7日前まで：無料\n3日前まで：30%\n前日：50%\n当日：100%\n\n※悪天候による中止の場合はキャンセル料無料",
+    notes: "・4歳以上から参加可能です\n・日差しが強いため日焼け対策必須です\n・潮の状況によりスケジュールが変更になる場合があります\n・天候により開催できない場合があます" 
+  }
+];
+
 export default function App() {
   const [selectedPlan, setSelectedPlan] = useState<typeof plans[0] | null>(null);
   const [showBookingForm, setShowBookingForm] = useState(false);
@@ -459,10 +481,26 @@ export default function App() {
               </button>
             </div>
           </div>
+          <div className="mt-16">
+            <h3 className="text-xl font-semibold text-gray-800 mb-6 text-center">
+              1日20名限定プラン
+            </h3>
+            <div className="relative">
+              <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide justify-center">
+                {limitedPlans.map((plan) => (
+                  <div key={plan.id} className="flex-shrink-0 w-96">
+                    <PlanCard
+                      plan={plan}
+                      onDetailsClick={() => setSelectedPlan(plan)}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      
       {/* CTA */}
       <ContactCTA onLineClick={handleLineClick} />
 

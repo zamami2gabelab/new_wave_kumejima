@@ -1,4 +1,4 @@
-// 価格マスターデータ
+﻿// 価格マスターデータ
 
 import type { ProductId, OptionId } from "./types";
 
@@ -109,6 +109,13 @@ export const PLAN_PRODUCTS: PlanProduct[] = [
       maxBaseCount: 5,
       perPersonFee: 15000,
     },
+  },
+  // 人数限定プラン
+  {
+    id: "PLAN_SUNSET",
+    name: "サンセットプラン",
+    adultPrice: 5000,
+    childPrice: 4000,
   }
 ];
 
