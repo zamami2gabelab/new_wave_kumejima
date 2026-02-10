@@ -142,9 +142,9 @@ export function CouplePlans({ onBooking, onBack }: CouplePlansProps) {
 
         {/* プランカード */}
         <div className="relative">
-          <div ref={carouselRef} className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
+          <div ref={carouselRef} className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory">
             {couplePlans.map((plan) => (
-              <div key={plan.id} className="flex-shrink-0 w-full md:w-[calc(100vw-2rem)]">
+              <div key={plan.id} className="flex-shrink-0 w-full md:w-[min(100vw-4rem,1100px)] snap-start">
                 <Card className="overflow-hidden border-0 shadow-lg hover:shadow-xl transition-shadow h-full">
                   <CardContent className="p-0">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-0">

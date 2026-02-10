@@ -39,12 +39,6 @@ export function PlanModal({ plan, open, onClose, onBooking, onLineClick }: PlanM
             alt={plan.name}
             className="w-full h-full object-cover"
           />
-          <button 
-            onClick={onClose}
-            className="absolute top-4 right-4 bg-white/90 rounded-full p-2 hover:bg-white"
-          >
-            <X className="h-5 w-5" />
-          </button>
         </div>
 
         {/* コンテンツ */}
