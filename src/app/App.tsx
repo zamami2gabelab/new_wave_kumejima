@@ -239,12 +239,10 @@ export default function App() {
           onBackToHome={handleBackToHome}
           isBookingForm={false}
         />
-        <div className="pt-16">
-          <FamilyPlans
-            onBooking={(planId) => handleBookingClick(planId)}
-            onBack={handleBackToHome}
-          />
-        </div>
+        <FamilyPlans
+          onBooking={(planId) => handleBookingClick(planId)}
+          onBack={handleBackToHome}
+        />
       </div>
     );
   }
@@ -258,12 +256,10 @@ export default function App() {
           onBackToHome={handleBackToHome}
           isBookingForm={false}
         />
-        <div className="pt-16">
-          <CouplePlans
-            onBooking={(planId) => handleBookingClick(planId)}
-            onBack={handleBackToHome}
-          />
-        </div>
+        <CouplePlans
+          onBooking={(planId) => handleBookingClick(planId)}
+          onBack={handleBackToHome}
+        />
       </div>
     );
   }
@@ -277,12 +273,10 @@ export default function App() {
           onBackToHome={handleBackToHome}
           isBookingForm={false}
         />
-        <div className="pt-16">
-          <GroupPlans
-            onBooking={() => handleBookingClick()}
-            onBack={handleBackToHome}
-          />
-        </div>
+        <GroupPlans
+          onBooking={() => handleBookingClick()}
+          onBack={handleBackToHome}
+        />
       </div>
     );
   }

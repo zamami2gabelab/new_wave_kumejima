@@ -1,4 +1,5 @@
-import { Clock, Users, CheckCircle2 } from "lucide-react";
+import { Clock, Users, CheckCircle2, ChevronLeft, ChevronRight } from "lucide-react";
+import { useRef } from "react";
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 
@@ -95,6 +96,21 @@ const couplePlans = [
 ];
 
 export function CouplePlans({ onBooking, onBack }: CouplePlansProps) {
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  const scrollCarousel = (direction: "left" | "right") => {
+    if (carouselRef.current) {
+      const firstChild = carouselRef.current.children[0] as HTMLElement;
+      const cardWidth = firstChild?.getBoundingClientRect().width || 400;
+      // gap-6 = 1.5rem = 24px
+      const scrollAmount = cardWidth + 24;
+      carouselRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth"
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-pink-50 to-white">
       {/* ヘッダー */}
@@ -125,96 +141,114 @@ export function CouplePlans({ onBooking, onBack }: CouplePlansProps) {
         </div>
 
         {/* プランカード */}
-        <div className="space-y-8">
-          {couplePlans.map((plan) => (
-            <Card key={plan.id} className="overflow-hidden border-0 shadow-lg hover:shadow-xl transition-shadow">
-              <CardContent className="p-0">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
-                  {/* 左側：プラン情報 */}
-                  <div className="md:col-span-2 p-8 bg-white">
-                    {/* プラン番号とタイトル */}
-                    <div className="mb-4">
-                      <div className="inline-block bg-rose-400 text-white px-3 py-1 rounded-full text-sm font-semibold mb-2">
-                        プラン {plan.rank}
-                      </div>
-                      <h3 className="text-2xl font-bold text-gray-800 mb-2">
-                        {plan.name}
-                      </h3>
-                      <p className="text-rose-400 font-semibold text-lg">
-                        {plan.catchphrase}
-                      </p>
-                    </div>
-
-                    {/* 説明 */}
-                    <p className="text-gray-700 mb-6">{plan.description}</p>
-
-                    {/* メタ情報 */}
-                    <div className="flex flex-wrap gap-4 mb-6 text-sm text-gray-600">
-                      <div className="flex items-center gap-2">
-                        <Clock className="h-4 w-4 text-rose-400" />
-                        <span>{plan.duration}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Users className="h-4 w-4 text-rose-400" />
-                        <span>{plan.capacity}</span>
-                      </div>
-                    </div>
-
-                    {/* 含まれるもの */}
-                    <div className="mb-6">
-                      <h4 className="font-semibold text-gray-800 mb-3">
-                        含まれるもの
-                      </h4>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                        {plan.included.map((item, idx) => (
-                          <div key={idx} className="flex items-start gap-2">
-                            <CheckCircle2 className="h-5 w-5 text-rose-400 flex-shrink-0 mt-0.5" />
-                            <span className="text-sm text-gray-700">{item}</span>
+        <div className="relative">
+          <div ref={carouselRef} className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
+            {couplePlans.map((plan) => (
+              <div key={plan.id} className="flex-shrink-0 w-full md:w-[calc(100vw-2rem)]">
+                <Card className="overflow-hidden border-0 shadow-lg hover:shadow-xl transition-shadow h-full">
+                  <CardContent className="p-0">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
+                      {/* 左側：プラン情報 */}
+                      <div className="md:col-span-2 p-8 bg-white">
+                        {/* プラン番号とタイトル */}
+                        <div className="mb-4">
+                          <div className="inline-block bg-rose-400 text-white px-3 py-1 rounded-full text-sm font-semibold mb-2">
+                            プラン {plan.rank}
                           </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* おすすめポイント */}
-                    <div className="bg-pink-50 p-4 rounded-lg">
-                      <h4 className="font-semibold text-gray-800 mb-2">
-                        このプランのおすすめ
-                      </h4>
-                      <ul className="space-y-1">
-                        {plan.highlights.map((highlight, idx) => (
-                          <li key={idx} className="text-sm text-gray-700">
-                            ✓ {highlight}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-
-                  {/* 右側：価格と予約 */}
-                  <div className="bg-gradient-to-b from-rose-400 to-pink-400 text-white p-8 flex flex-col justify-between">
-                    <div>
-                      <div className="text-center mb-8">
-                        <p className="text-sm font-semibold mb-2">1名様</p>
-                        <div className="text-4xl font-bold">
-                          ¥{plan.price}
+                          <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                            {plan.name}
+                          </h3>
+                          <p className="text-rose-400 font-semibold text-lg">
+                            {plan.catchphrase}
+                          </p>
                         </div>
-                        <p className="text-xs text-rose-100 mt-4 font-semibold">
-                          ❤️ 二人で¥{(parseInt(plan.price.replace(/,/g, '')) * 2).toLocaleString()}
-                        </p>
+
+                        {/* 説明 */}
+                        <p className="text-gray-700 mb-6">{plan.description}</p>
+
+                        {/* メタ情報 */}
+                        <div className="flex flex-wrap gap-4 mb-6 text-sm text-gray-600">
+                          <div className="flex items-center gap-2">
+                            <Clock className="h-4 w-4 text-rose-400" />
+                            <span>{plan.duration}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Users className="h-4 w-4 text-rose-400" />
+                            <span>{plan.capacity}</span>
+                          </div>
+                        </div>
+
+                        {/* 含まれるもの */}
+                        <div className="mb-6">
+                          <h4 className="font-semibold text-gray-800 mb-3">
+                            含まれるもの
+                          </h4>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            {plan.included.map((item, idx) => (
+                              <div key={idx} className="flex items-start gap-2">
+                                <CheckCircle2 className="h-5 w-5 text-rose-400 flex-shrink-0 mt-0.5" />
+                                <span className="text-sm text-gray-700">{item}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* おすすめポイント */}
+                        <div className="bg-pink-50 p-4 rounded-lg">
+                          <h4 className="font-semibold text-gray-800 mb-2">
+                            このプランのおすすめ
+                          </h4>
+                          <ul className="space-y-1">
+                            {plan.highlights.map((highlight, idx) => (
+                              <li key={idx} className="text-sm text-gray-700">
+                                ✓ {highlight}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+
+                      {/* 右側：価格と予約 */}
+                      <div className="bg-gradient-to-b from-rose-400 to-pink-400 text-white p-8 flex flex-col justify-between">
+                        <div>
+                          <div className="text-center mb-8">
+                            <p className="text-sm font-semibold mb-2">1名様</p>
+                            <div className="text-4xl font-bold">
+                              ¥{plan.price}
+                            </div>
+                            <p className="text-xs text-rose-100 mt-4 font-semibold">
+                              ❤️ 二人で¥{(parseInt(plan.price.replace(/,/g, '')) * 2).toLocaleString()}
+                            </p>
+                          </div>
+                        </div>
+
+                        <Button
+                          onClick={() => onBooking(plan.id)}
+                          className="w-full bg-white text-rose-400 hover:bg-gray-100 font-semibold rounded-full py-3"
+                        >
+                          このプランで予約
+                        </Button>
                       </div>
                     </div>
+                  </CardContent>
+                </Card>
+              </div>
+            ))}
+          </div>
 
-                    <Button
-                      onClick={() => onBooking(plan.id)}
-                      className="w-full bg-white text-rose-400 hover:bg-gray-100 font-semibold rounded-full py-3"
-                    >
-                      このプランで予約
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+          {/* ナビゲーションボタン */}
+          <button
+            onClick={() => scrollCarousel("left")}
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white/80 hover:bg-white rounded-full p-2 shadow-lg transition-colors"
+          >
+            <ChevronLeft className="h-5 w-5 text-gray-700" />
+          </button>
+          <button
+            onClick={() => scrollCarousel("right")}
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white/80 hover:bg-white rounded-full p-2 shadow-lg transition-colors"
+          >
+            <ChevronRight className="h-5 w-5 text-gray-700" />
+          </button>
         </div>
 
         {/* 特別な瞬間 */}
