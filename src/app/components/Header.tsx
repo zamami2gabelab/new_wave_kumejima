@@ -13,35 +13,46 @@ export function Header({ onBookingClick, onLineClick, onBackToHome, isBookingFor
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const scrollToSection = (sectionId: string) => {
-    // フォーム表示中の場合は、まずHPに戻る
-    if (isBookingForm && onBackToHome) {
-      onBackToHome();
-      // HPに戻った後、少し待ってからスクロール
-      setTimeout(() => {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
-        }
-      }, 100);
-    } else {
+    const attemptScroll = () => {
       const element = document.getElementById(sectionId);
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
         setIsMenuOpen(false);
+        return true;
       }
+      return false;
+    };
+
+    // フォーム表示中 or サブページ表示中は、まずHPに戻ってからスクロール
+    if (onBackToHome) {
+      if (isBookingForm) {
+        onBackToHome();
+        setTimeout(attemptScroll, 100);
+        return;
+      }
+
+      if (attemptScroll()) {
+        return;
+      }
+
+      onBackToHome();
+      setTimeout(attemptScroll, 100);
+      return;
     }
+
+    attemptScroll();
   };
 
   const handleLogoClick = () => {
-    if (isBookingForm && onBackToHome) {
+    if (onBackToHome) {
       onBackToHome();
-      // トップにスクロール
       setTimeout(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
       }, 100);
-    } else {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
     }
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (

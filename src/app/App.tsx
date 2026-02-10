@@ -229,6 +229,23 @@ export default function App() {
     }
   };
 
+  // 予約フォームページを表示
+  if (showBookingForm) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Header 
+          onBookingClick={handleBookingClick}
+          onLineClick={handleLineClick}
+          onBackToHome={handleBackToHome}
+          isBookingForm={true}
+        />
+        <div className="pt-16">
+          <WizardLayout />
+        </div>
+      </div>
+    );
+  }
+
   // 各ページの表示処理
   if (currentPage === "family") {
     return (
@@ -277,23 +294,6 @@ export default function App() {
           onBooking={() => handleBookingClick()}
           onBack={handleBackToHome}
         />
-      </div>
-    );
-  }
-
-  // 予約フォームページを表示
-  if (showBookingForm) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <Header 
-          onBookingClick={handleBookingClick}
-          onLineClick={handleLineClick}
-          onBackToHome={handleBackToHome}
-          isBookingForm={true}
-        />
-        <div className="pt-16">
-          <WizardLayout />
-        </div>
       </div>
     );
   }
