@@ -99,15 +99,29 @@ export function CouplePlans({ onBooking, onBack }: CouplePlansProps) {
   const carouselRef = useRef<HTMLDivElement>(null);
 
   const scrollCarousel = (direction: "left" | "right") => {
-    if (carouselRef.current) {
-      const firstChild = carouselRef.current.children[0] as HTMLElement;
-      const cardWidth = firstChild?.getBoundingClientRect().width || 400;
-      // gap-6 = 1.5rem = 24px
-      const scrollAmount = cardWidth + 24;
-      carouselRef.current.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth"
-      });
+    const el = carouselRef.current;
+    if (!el) return;
+    const firstChild = el.children[0] as HTMLElement;
+    const cardWidth = firstChild?.getBoundingClientRect().width || 400;
+    // gap-6 = 1.5rem = 24px
+    const scrollAmount = cardWidth + 24;
+    const maxScrollLeft = el.scrollWidth - el.clientWidth;
+    const isAtStart = el.scrollLeft <= 0;
+    const isAtEnd = el.scrollLeft >= maxScrollLeft - 1;
+
+    if (direction === "left") {
+      if (isAtStart) {
+        el.scrollTo({ left: maxScrollLeft, behavior: "smooth" });
+      } else {
+        el.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+      }
+      return;
+    }
+
+    if (isAtEnd) {
+      el.scrollTo({ left: 0, behavior: "smooth" });
+    } else {
+      el.scrollBy({ left: scrollAmount, behavior: "smooth" });
     }
   };
 

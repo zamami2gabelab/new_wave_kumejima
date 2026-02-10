@@ -1,5 +1,4 @@
-import { Clock, Users, CheckCircle2, Phone, ChevronLeft, ChevronRight } from "lucide-react";
-import { useRef } from "react";
+import { Clock, Users, CheckCircle2, Phone } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 

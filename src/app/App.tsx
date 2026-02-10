@@ -230,24 +230,50 @@ export default function App() {
   };
 
   const scrollPlanCarousel = (direction: "left" | "right") => {
-    if (planCarouselRef.current) {
-      const scrollAmount = 400;
-      if (direction === "left") {
-        planCarouselRef.current.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+    const el = planCarouselRef.current;
+    if (!el) return;
+    const scrollAmount = 400;
+    const maxScrollLeft = el.scrollWidth - el.clientWidth;
+    const isAtStart = el.scrollLeft <= 0;
+    const isAtEnd = el.scrollLeft >= maxScrollLeft - 1;
+
+    if (direction === "left") {
+      if (isAtStart) {
+        el.scrollTo({ left: maxScrollLeft, behavior: "smooth" });
       } else {
-        planCarouselRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+        el.scrollBy({ left: -scrollAmount, behavior: "smooth" });
       }
+      return;
+    }
+
+    if (isAtEnd) {
+      el.scrollTo({ left: 0, behavior: "smooth" });
+    } else {
+      el.scrollBy({ left: scrollAmount, behavior: "smooth" });
     }
   };
 
   const scrollCategoryCarousel = (direction: "left" | "right") => {
-    if (categoryCarouselRef.current) {
-      const scrollAmount = 400;
-      if (direction === "left") {
-        categoryCarouselRef.current.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+    const el = categoryCarouselRef.current;
+    if (!el) return;
+    const scrollAmount = 400;
+    const maxScrollLeft = el.scrollWidth - el.clientWidth;
+    const isAtStart = el.scrollLeft <= 0;
+    const isAtEnd = el.scrollLeft >= maxScrollLeft - 1;
+
+    if (direction === "left") {
+      if (isAtStart) {
+        el.scrollTo({ left: maxScrollLeft, behavior: "smooth" });
       } else {
-        categoryCarouselRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+        el.scrollBy({ left: -scrollAmount, behavior: "smooth" });
       }
+      return;
+    }
+
+    if (isAtEnd) {
+      el.scrollTo({ left: 0, behavior: "smooth" });
+    } else {
+      el.scrollBy({ left: scrollAmount, behavior: "smooth" });
     }
   };
 
