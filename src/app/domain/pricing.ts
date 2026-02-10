@@ -17,9 +17,25 @@ export function calculateTotals(data: ReservationFormData): number {
   if (data.transportType === "PLAN_WITH_BOAT" && data.productId) {
     const plan = getPlanProduct(data.productId as any);
     if (plan) {
-      total += plan.adultPrice * data.people.adults;
-      total += plan.childPrice * data.people.children;
-      // 乳幼児（0-3）は無料
+      // 団体プランの特殊な価格計算
+      if (plan.isGroupPlan && plan.groupPricingRules) {
+        const totalPeople = data.people.adults + data.people.children + data.people.infants;
+        const { baseFee, maxBaseCount, perPersonFee } = plan.groupPricingRules;
+        
+        if (totalPeople <= maxBaseCount) {
+          total = baseFee;
+        } else {
+          const additionalPeople = totalPeople - maxBaseCount;
+          total = baseFee + (additionalPeople * perPersonFee);
+        }
+      } else {
+        // 通常のプラン価格計算
+        total += plan.adultPrice * data.people.adults;
+        if (plan.childPrice !== null) {
+          total += plan.childPrice * data.people.children;
+        }
+        // 乳幼児（0-3）は無料
+      }
     }
   } else if (data.transportType === "TICKET_ACTIVITY_ONLY" && data.productId) {
     const ticket = getTicketProduct(data.productId as any);

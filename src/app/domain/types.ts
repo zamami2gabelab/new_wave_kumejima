@@ -35,7 +35,7 @@ export type OptionId =
   | "OPT_JET_SKI"
   | "OPT_JET_SNORKELING"
   | "OPT_WAKEBOARD"
-  | "OPT_FLOAT_RING";
+  | "OPT_FLOAT";
 
 export interface Leader {
   name: string;

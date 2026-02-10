@@ -24,43 +24,47 @@ const STEPS = [
 ];
 
 // フォームの初期値
-const getDefaultValues = (): ReservationFormInput => ({
-  leader: {
-    name: "",
-    phone: "",
-    email: "",
-  },
-  reservationDate: "",
-  transportType: undefined as any,
-  productId: "",
-  arrivalSlot: null,
-  people: {
-    adults: 0,
-    children: 0,
-    infants: 0,
-    totalPeople: 0,
-  },
-  pickup: {
-    required: false,
-    placeId: null,
-    fee: 0,
-  },
-  message: "",
-  options: OPTION_PRODUCTS.map((opt) => ({
-    optionId: opt.id,
+const getDefaultValues = (): ReservationFormInput => {
+  const defaultOptions = OPTION_PRODUCTS.map((opt) => ({
+    optionId: opt.id as any,
     qty: 0,
     unitPrice: opt.unitPrice,
-  })),
-  bento: {
-    enabled: false,
-    qty: 0,
-    unitPrice: 1500,
-  },
-  participants: [],
-  totals: {
-    totalClientCalc: 0,
-  },
-});
+  }));
+
+  return {
+    leader: {
+      name: "",
+      phone: "",
+      email: "",
+    },
+    reservationDate: "",
+    transportType: undefined as any,
+    productId: "",
+    arrivalSlot: null,
+    people: {
+      adults: 0,
+      children: 0,
+      infants: 0,
+      totalPeople: 0,
+    },
+    pickup: {
+      required: false,
+      placeId: null,
+      fee: 0,
+    },
+    message: "",
+    options: defaultOptions,
+    bento: {
+      enabled: false,
+      qty: 0,
+      unitPrice: 1500,
+    },
+    participants: [],
+    totals: {
+      totalClientCalc: 0,
+    },
+  };
+};
 
 export function WizardLayout() {
   const [currentStep, setCurrentStep] = useState(1);

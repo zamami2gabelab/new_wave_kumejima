@@ -7,6 +7,12 @@ export interface PlanProduct {
   name: string;
   adultPrice: number;
   childPrice: number | null;
+  isGroupPlan?: boolean; // 団体プランフラグ
+  groupPricingRules?: {
+    baseFee: number; // 基本料金
+    maxBaseCount: number; // 基本料金の対象人数
+    perPersonFee: number; // 1名追加ごとの追加料金
+  };
 }
 
 export interface TicketProduct {
@@ -49,7 +55,7 @@ export const PLAN_PRODUCTS: PlanProduct[] = [
   },
   {
     id: "PLAN_JETCRUISING",
-    name: "ジェットクルージングプラン",
+    name: "はての浜ジェットクルージングプラン",
     adultPrice: 10000,
     childPrice: 7000,
   },
@@ -90,6 +96,19 @@ export const PLAN_PRODUCTS: PlanProduct[] = [
     name: "はての浜ペアプラン（半日）",
     adultPrice: 8000,
     childPrice: null,
+  },
+  // 団体向けプラン
+  {
+    id: "PLAN_GROUP_CHARTER",
+    name: "はての浜渡船チャータープラン",
+    adultPrice: 100000, // 基本料金（5名まで）
+    childPrice: 100000, // 基本料金（5名まで）
+    isGroupPlan: true,
+    groupPricingRules: {
+      baseFee: 100000,
+      maxBaseCount: 5,
+      perPersonFee: 15000,
+    },
   }
 ];
 
