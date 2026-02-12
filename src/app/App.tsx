@@ -397,6 +397,20 @@ export default function App() {
         </div>
       </section>
 
+      {/* 送迎・紫外線対策のご案内 */}
+      <section className="py-12 px-4 bg-sky-50">
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-white border border-sky-100 rounded-2xl p-6 md:p-8 shadow-sm">
+            <h3 className="text-2xl text-sky-900 mb-4 text-center">ご案内</h3>
+            <div className="space-y-3 text-gray-700 leading-relaxed">
+              <p>送迎が必要な方は宿泊先から泊フィッシャリーナ（往復）無料送迎します！</p>
+              <p>はての浜の紫外線は本土の約10倍と言われています！</p>
+              <p>でも安心😊全てのプラン、ベッドorチェアとパラソルorテント付き！</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* プラン選択 */}
       <section id="plans" className="py-16 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
