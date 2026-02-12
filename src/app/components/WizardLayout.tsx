@@ -15,7 +15,7 @@ import { Step3Details } from "../steps/Step3Details";
 import { ConfirmModal } from "./ConfirmModal";
 import { submitReservation } from "../lib/api";
 import { getTodayString } from "../lib/date";
-import { OPTION_PRODUCTS } from "../domain/masters";
+// import { OPTION_PRODUCTS } from "../domain/masters";
 
 const STEPS = [
   { title: "基本情報", description: "代表者情報と予約日" },
@@ -25,11 +25,12 @@ const STEPS = [
 
 // フォームの初期値
 const getDefaultValues = (): ReservationFormInput => {
-  const defaultOptions = OPTION_PRODUCTS.map((opt) => ({
-    optionId: opt.id as any,
-    qty: 0,
-    unitPrice: opt.unitPrice,
-  }));
+  // const defaultOptions = OPTION_PRODUCTS.map((opt) => ({
+  //   optionId: opt.id as any,
+  //   qty: 0,
+  //   unitPrice: opt.unitPrice,
+  // }));
+  const defaultOptions: ReservationFormInput["options"] = [];
 
   return {
     leader: {

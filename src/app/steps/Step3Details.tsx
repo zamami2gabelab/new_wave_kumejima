@@ -8,7 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { Checkbox } from "../components/ui/checkbox";
 import { QuantityStepper } from "../components/QuantityStepper";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
-import { OPTION_PRODUCTS, PICKUP_PLACES } from "../domain/masters";
+// import { OPTION_PRODUCTS, PICKUP_PLACES } from "../domain/masters";
+import { PICKUP_PLACES } from "../domain/masters";
 import type { ReservationFormInput } from "../domain/validators";
 import { useEffect } from "react";
 
@@ -228,7 +229,7 @@ export function Step3Details() {
       </Card>
 
       {/* オプション */}
-      <Card>
+      {/* <Card>
         <CardHeader>
           <CardTitle>オプション</CardTitle>
         </CardHeader>
@@ -266,7 +267,7 @@ export function Step3Details() {
             );
           })}
         </CardContent>
-      </Card>
+      </Card> */}
 
       {/* 弁当 */}
       <Card>

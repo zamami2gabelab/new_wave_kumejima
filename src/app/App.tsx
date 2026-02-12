@@ -9,8 +9,8 @@ import { BookingFlow } from "./components/BookingFlow";
 import { FAQ } from "./components/FAQ";
 import { Access } from "./components/Access";
 import { FixedCTA } from "./components/FixedCTA";
-import { AdditionalOptions } from "./components/AdditionalOptions";
-import { SingleMenus } from "./components/SingleMenus";
+// import { AdditionalOptions } from "./components/AdditionalOptions";
+// import { SingleMenus } from "./components/SingleMenus";
 import { FreeRentals } from "./components/FreeRentals";
 import { ContactCTA } from "./components/ContactCTA";
 import { WizardLayout } from "./components/WizardLayout";
@@ -531,10 +531,10 @@ export default function App() {
       <ContactCTA onLineClick={handleLineClick} />
 
       {/* 追加オプション */}
-      <AdditionalOptions onBookingClick={handleBookingClick} />
+      {/* <AdditionalOptions onBookingClick={handleBookingClick} /> */}
 
       {/* 単品メニュー */}
-      <SingleMenus />
+      {/* <SingleMenus /> */}
 
       {/* 無料レンタル品 */}
       {/* <FreeRentals /> */}
