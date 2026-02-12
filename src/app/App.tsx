@@ -30,7 +30,7 @@ const plans = [
     price: "6,000",
     childPrice: "4,500",
     duration: "3時間",
-    capacity: "2名〜",
+    capacity: "1名〜",
     highlight: "のんびり",
     description: "はての浜上陸のみのプランです。のんびりと砂浜で過ごしたい方向け。",
     included: [
@@ -39,11 +39,11 @@ const plans = [
       "保険料"
     ],
     schedule: [
-      { time: "09:00", activity: "泊港集合・受付" },
-      { time: "09:15", activity: "船で出発（約15分）" },
-      { time: "09:30", activity: "はての浜到着" },
-      { time: "09:45", activity: "自由時間" },
-      { time: "16:00", activity: "帰港・解散" }
+      { time: "08:45", activity: "泊港集合・受付" },
+      { time: "09:00", activity: "出港（約15分）" },
+      { time: "09:15", activity: "はての浜到着" },
+      { time: "12:15", activity: "自由時間" },
+      { time: "12:30", activity: "帰港・解散" }
     ],
     items: "日焼け止め\n飲み物",
     cancellation: "7日前まで：無料\n3日前まで：30%\n前日：50%\n当日：100%\n\n※悪天候による中止の場合はキャンセル料無料",
@@ -55,8 +55,8 @@ const plans = [
     image: "image/bananaboat.png",
     price: "8,000",
     childPrice: "6,000",
-    duration: "4時間",
-    capacity: "2名〜",
+    duration: "3時間",
+    capacity: "1名〜",
     highlight: "定番",
     description: "沖合シュノーケルとバナナボートがセットになったプラン",
     included: [
@@ -67,13 +67,13 @@ const plans = [
       "保険料"
     ],
     schedule: [
-      { time: "09:00", activity: "泊港集合・受付" },
-      { time: "09:15", activity: "船で出発" },
-      { time: "09:30", activity: "はての浜到着" },
+      { time: "08:45", activity: "泊港集合・受付" },
+      { time: "09:00", activity: "出港（約15分）" },
+      { time: "09:15", activity: "はての浜到着" },
       { time: "10:00", activity: "シュノーケリング体験" },
       { time: "11:00", activity: "バナナボート体験" },
       { time: "11:30", activity: "自由時間" },
-      { time: "13:00", activity: "帰港・解散" }
+      { time: "12:30", activity: "帰港・解散" }
     ],
     items: "水着（事前着用推奨）\nタオル\n日焼け止め\n飲み物\n防水カメラ（推奨）\n",
     cancellation: "7日前まで：無料\n3日前まで：30%\n前日：50%\n当日：100%\n\n※悪天候による中止の場合はキャンセル料無料",
@@ -85,8 +85,8 @@ const plans = [
     image: "image/suinbou.png",
     price: "10,000",
     childPrice: "8,000",
-    duration: "6時間",
-    capacity: "2名〜",
+    duration: "3時間",
+    capacity: "1名〜",
     highlight: "新体験",
     description: "沖合シュノーケルとスインボーがセットになったプラ",
     included: [
@@ -97,13 +97,13 @@ const plans = [
       "保険料"
     ],
     schedule: [
-      { time: "09:00", activity: "泊港集合・受付" },
-      { time: "09:15", activity: "船で出発" },
-      { time: "09:30", activity: "はての浜到着" },
+      { time: "08:45", activity: "泊港集合・受付" },
+      { time: "09:00", activity: "出港（約15分）" },
+      { time: "09:15", activity: "はての浜到着" },
       { time: "10:00", activity: "シュノーケリング" },
       { time: "11:00", activity: "スインボー体験" },
-      { time: "14:00", activity: "自由時間" },
-      { time: "15:00", activity: "帰港・解散" }
+      { time: "12:15", activity: "自由時間" },
+      { time: "12:30", activity: "帰港・解散" }
     ],
     items: "水着（事前着用推奨）\nタオル\n日焼け止め\n帽子・サングラス\n着替え\n飲み物・軽食\n\n※長時間の滞在となるため水分補給をこまめに",
     cancellation: "7日前まで：無料\n3日前まで：30%\n前日：50%\n当日：100%\n\n※悪天候による中止の場合はキャンセル料無料",
@@ -115,7 +115,7 @@ const plans = [
     image: "image/asobitsukushi.png",
     price: "20,000",
     childPrice: "18,000",
-    duration: "3時間",
+    duration: "7時間",
     capacity: "2名〜",
     highlight: "たくさん遊びたい",
     description: "沖合シュノーケルとトーイングチューブ全種類各1回ずつ遊べる贅沢プラン",
@@ -126,12 +126,12 @@ const plans = [
       "保険料"
     ],
     schedule: [
-      { time: "09:00", activity: "泊港集合・受付" },
-      { time: "09:15", activity: "船で出発" },
-      { time: "09:30", activity: "はての浜到着" },
+      { time: "08:45", activity: "泊港集合・受付" },
+      { time: "09:00", activity: "出港（約15分）" },
+      { time: "09:15", activity: "はての浜到着" },
       { time: "09:30", activity: "シュノーケリング" },
-      { time: "10:00", activity: "トーイングチューブ体験" },
-      { time: "15:00", activity: "帰港・解散" }
+      { time: "10:30~", activity: "トーイングチューブ体験" },
+      { time: "16:30", activity: "帰港・解散" }
     ],
     items: "水着（事前着用推奨）\nタオル\n日焼け止め\n飲み物\n読書など好きなもの\n\n※アクティビティは含まれません",
     cancellation: "7日前まで：無料\n3日前まで：30%\n前日：50%\n当日：100%\n\n※悪天候による中止の場合はキャンセル料無料",
@@ -143,17 +143,17 @@ const plans = [
     image: "image/jetcruising.png",
     price: "10,000",
     childPrice: "7,000",
-    duration: "3時間",
-    capacity: "2名〜",
+    duration: "1時間",
+    capacity: "1名〜",
     highlight: "爽快",
     description: "港から海をドライブするプランです。はての浜上陸は含まれません。",
     included: [
       "沖合ジェットクルージング",
     ],
     schedule: [
-      { time: "09:00", activity: "泊港集合・受付" },
-      { time: "09:15", activity: "ジェットクルージングで出発" },
-      { time: "10:15", activity: "泊港到着" }
+      { time: "08:45", activity: "泊港集合・受付" },
+      { time: "09:00", activity: "ジェットクルージングで出発"},
+      { time: "10:00", activity: "泊港到着" }
     ],
     items: "水着（事前着用推奨）\n日焼け止め\n",
     cancellation: "7日前まで：無料\n3日前まで：30%\n前日：50%\n当日：100%\n\n※悪天候による中止の場合はキャンセル料無料",
@@ -367,7 +367,7 @@ export default function App() {
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-3xl mb-4">360度、透明な世界</h2>
           <p className="text-lg text-gray-300 mb-8">
-            久米島から船で15分。<br className="md:hidden" />
+            港から船で15分。<br className="md:hidden" />
             真っ白な砂浜と透き通る海だけの楽園へ。
           </p>
           

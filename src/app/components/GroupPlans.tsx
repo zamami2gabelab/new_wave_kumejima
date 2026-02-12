@@ -113,7 +113,7 @@ export function GroupPlans({ onBooking, onBack }: GroupPlansProps) {
                     <Clock className="h-5 w-5 text-amber-500" />
                     <div>
                       <p className="font-semibold text-gray-800">所要時間</p>
-                      <p>約6時間</p>
+                      <p>約7時間</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
