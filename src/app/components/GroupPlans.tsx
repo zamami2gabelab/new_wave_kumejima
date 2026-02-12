@@ -143,12 +143,17 @@ export function GroupPlans({ onBooking, onBack }: GroupPlansProps) {
                   </div>
                 </div>
 
-                <Button
-                  onClick={onBooking}
-                  className="w-full bg-white text-amber-600 hover:bg-gray-100 font-semibold rounded-full py-3 mb-4"
-                >
-                  このプランで予約
-                </Button>
+                <div className="w-full bg-white text-amber-600 font-semibold rounded-full py-4 mb-4 text-center">
+                  <div className="text-sm text-gray-500 mb-1">
+                    ご予約・お問い合わせ
+                  </div>
+                  <div className="text-lg">
+                    TEL: 098-987-1318
+                  </div>
+                  <div className="text-sm">
+                    MAIL: yukocrest.mobile@gmail.com
+                  </div>
+                </div>
 
                 <p className="text-xs text-amber-100 text-center">
                   ご不明な点はお気軽にお問い合わせください
@@ -316,18 +321,18 @@ export function GroupPlans({ onBooking, onBack }: GroupPlansProps) {
                 団体様向けのプランについて、ご不明な点があればお問い合わせください。
               </p>
               <div className="flex flex-col md:flex-row justify-center gap-4">
-                <Button
-                  className="bg-white text-amber-600 hover:bg-gray-100 font-semibold rounded-full px-8 py-3 flex items-center justify-center gap-2"
-                >
+              <div className="bg-white text-amber-600 font-semibold rounded-full px-8 py-4 text-center shadow-md">
+                <div className="flex items-center justify-center gap-2 text-lg">
                   <Phone className="h-5 w-5" />
-                  お電話でお問い合わせ
-                </Button>
-                <Button
-                  onClick={onBooking}
-                  className="bg-white text-amber-600 hover:bg-gray-100 font-semibold rounded-full px-8 py-3"
-                >
-                  予約フォームへ
-                </Button>
+                  098-987-1318
+                </div>
+              </div>
+
+              <div className="bg-white text-amber-600 font-semibold rounded-full px-8 py-4 text-center shadow-md">
+                <div className="text-lg">
+                  ✉ yukocrest.mobile@gmail.com
+                </div>
+              </div>
               </div>
             </div>
           </CardContent>
