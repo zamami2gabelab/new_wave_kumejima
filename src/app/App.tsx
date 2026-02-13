@@ -184,9 +184,24 @@ const limitedPlans = [
   }
 ];
 
+const PLAN_ID_MAP: Record<string, string> = {
+  nonbiri: "PLAN_NONBIRI",
+  bananaboat: "PLAN_BANANABOAT",
+  suinbou: "PLAN_SUINBOU",
+  asobitsukushi: "PLAN_ASOBITSUKUSHI",
+  jetcruising: "PLAN_JETCRUISING",
+};
+
+const normalizePlanId = (planId?: string): string => {
+  if (!planId) return "";
+  if (planId.startsWith("PLAN_")) return planId;
+  return PLAN_ID_MAP[planId] ?? "";
+};
+
 export default function App() {
   const [selectedPlan, setSelectedPlan] = useState<typeof plans[0] | null>(null);
   const [showBookingForm, setShowBookingForm] = useState(false);
+  const [preselectedProductId, setPreselectedProductId] = useState("");
   const [currentPage, setCurrentPage] = useState<"home" | "family" | "couple" | "group">("home");
   const planCarouselRef = useRef<HTMLDivElement>(null);
   const categoryCarouselRef = useRef<HTMLDivElement>(null);
@@ -195,6 +210,7 @@ export default function App() {
   useEffect(() => {
     const hash = window.location.hash;
     if (hash === "#booking") {
+      setPreselectedProductId("");
       setShowBookingForm(true);
     } else if (hash === "#family") {
       setCurrentPage("family");
@@ -208,6 +224,7 @@ export default function App() {
   }, []);
 
   const handleBookingClick = (planId?: string) => {
+    setPreselectedProductId(normalizePlanId(planId));
     // 予約フォームを表示
     setShowBookingForm(true);
     window.history.pushState(null, "", "#booking");
@@ -288,7 +305,7 @@ export default function App() {
           isBookingForm={true}
         />
         <div className="pt-16">
-          <WizardLayout />
+          <WizardLayout preselectedProductId={preselectedProductId} />
         </div>
       </div>
     );

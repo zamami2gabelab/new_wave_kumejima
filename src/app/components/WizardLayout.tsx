@@ -24,7 +24,7 @@ const STEPS = [
 ];
 
 // フォームの初期値
-const getDefaultValues = (): ReservationFormInput => {
+const getDefaultValues = (preselectedProductId = ""): ReservationFormInput => {
   // const defaultOptions = OPTION_PRODUCTS.map((opt) => ({
   //   optionId: opt.id as any,
   //   qty: 0,
@@ -40,7 +40,7 @@ const getDefaultValues = (): ReservationFormInput => {
     },
     reservationDate: "",
     transportType: undefined as any,
-    productId: "",
+    productId: preselectedProductId as ReservationFormInput["productId"],
     arrivalSlot: null,
     people: {
       adults: 0,
@@ -67,7 +67,11 @@ const getDefaultValues = (): ReservationFormInput => {
   };
 };
 
-export function WizardLayout() {
+interface WizardLayoutProps {
+  preselectedProductId?: string;
+}
+
+export function WizardLayout({ preselectedProductId = "" }: WizardLayoutProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const [showConfirm, setShowConfirm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -78,7 +82,7 @@ export function WizardLayout() {
 
   const form = useForm<ReservationFormInput>({
     resolver: zodResolver(reservationFormSchema),
-    defaultValues: getDefaultValues(),
+    defaultValues: getDefaultValues(preselectedProductId),
     mode: "onChange",
   });
 
@@ -186,7 +190,7 @@ export function WizardLayout() {
   const handleCloseConfirm = () => {
     if (submitSuccess) {
       // 成功時はフォームをリセット
-      form.reset(getDefaultValues());
+      form.reset(getDefaultValues(preselectedProductId));
       setCurrentStep(1);
       setShowConfirm(false);
       setSubmitSuccess(false);
