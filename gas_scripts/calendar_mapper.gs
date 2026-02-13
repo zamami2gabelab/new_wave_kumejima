@@ -19,16 +19,8 @@ function buildCalendarEventResourceFromRow_(row, idx) {
     ? Utilities.formatDate(reservationDateVal, TIMEZONE, 'yyyy-MM-dd')
     : String(reservationDateVal || '').trim();
 
-  const arrivalSlot = String(row[idx['到着時間帯']] || '').trim();
-
   const pickupRequired = String(row[idx['ピックアップ必要']] || '').trim();
-  const pickupPlaceName = String(row[idx['ピックアップ場所名']] || '').trim();
-  const pickupFee = Number(row[idx['ピックアップ料金']] || 0);
-
-  const optionTotal = Number(row[idx['オプション合計金額']] || 0);
-  const bento = String(row[idx['弁当有無']] || '').trim();
-  const bentoQty = Number(row[idx['弁当数量']] || 0);
-  const bentoTotal = Number(row[idx['弁当合計金額']] || 0);
+  const hotelName = String(row[idx['送迎先ホテル名']] || '').trim();
 
   const message = String(row[idx['メッセージ']] || '').trim();
   const totalPrice = Number(row[idx['見積もり合計金額']] || 0);
@@ -38,8 +30,8 @@ function buildCalendarEventResourceFromRow_(row, idx) {
 
   // 場所
   const location =
-    pickupRequired === 'はい' && pickupPlaceName
-      ? `${pickupPlaceName}${pickupFee ? `（¥${pickupFee.toLocaleString()}）` : ''}`
+    pickupRequired === 'はい' && hotelName
+      ? hotelName
       : '';
 
   // 説明（代表者名を必ず入れる）
@@ -49,11 +41,13 @@ function buildCalendarEventResourceFromRow_(row, idx) {
   if (phone) lines.push(`電話: ${phone}`);
   if (email) lines.push(`メール: ${email}`);
   lines.push(`予約日: ${reservationDateStr}`);
-  if (arrivalSlot) lines.push(`到着時間帯: ${arrivalSlot}`);
   lines.push(`合計人数: ${totalPeople}名`);
+  if (pickupRequired === 'はい') {
+    lines.push(`ピックアップ: 必要 / ${hotelName || '未入力'}`);
+  } else {
+    lines.push('ピックアップ: 不要');
+  }
   lines.push('');
-  lines.push(`オプション合計: ¥${optionTotal.toLocaleString()}`);
-  lines.push(`弁当: ${bento}${bento === 'あり' ? `（${bentoQty}個 / ¥${bentoTotal.toLocaleString()}）` : ''}`);
   lines.push(`見積合計: ¥${totalPrice.toLocaleString()}`);
 
   if (message) {
@@ -65,7 +59,7 @@ function buildCalendarEventResourceFromRow_(row, idx) {
   const description = lines.join('\n');
 
   // 時間（Dateを渡すのが安全）
-  const range = resolveEventTimeRange_(reservationDateVal, arrivalSlot);
+  const range = resolveEventTimeRange_(reservationDateVal, '');
 
   // 色（商品名→colorId）
   const colorId = String(PRODUCT_COLOR_ID_MAP[productName] || DEFAULT_EVENT_COLOR_ID);
