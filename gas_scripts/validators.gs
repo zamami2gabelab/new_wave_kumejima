@@ -36,9 +36,6 @@ function validatePayload(payload) {
   }
 
   // ===== 商品情報（必須） =====
-  if (!payload.transportType) {
-    return { valid: false, error: '交通手段が指定されていません' };
-  }
   if (!payload.productId) {
     return { valid: false, error: '商品IDが指定されていません' };
   }
@@ -111,26 +108,13 @@ function validatePayload(payload) {
       return { valid: false, error: 'ピックアップ(pickup)の形式が不正です' };
     }
     if (payload.pickup.required === true) {
+      const hotelName = String(payload.pickup.hotelName || '').trim();
       const fee = Number(payload.pickup.fee);
+      if (!hotelName) {
+        return { valid: false, error: '送迎先ホテル名が不足しています' };
+      }
       if (!Number.isFinite(fee) || fee < 0) {
         return { valid: false, error: 'ピックアップ料金が不正です' };
-      }
-    }
-  }
-
-  // ===== 弁当の整合性（軽め・任意） =====
-  if (payload.bento != null) {
-    if (typeof payload.bento !== 'object') {
-      return { valid: false, error: '弁当(bento)の形式が不正です' };
-    }
-    if (payload.bento.enabled === true) {
-      const qty = Number(payload.bento.qty);
-      const unitPrice = Number(payload.bento.unitPrice);
-      if (!Number.isFinite(qty) || qty < 0) {
-        return { valid: false, error: '弁当数量が不正です' };
-      }
-      if (!Number.isFinite(unitPrice) || unitPrice < 0) {
-        return { valid: false, error: '弁当単価が不正です' };
       }
     }
   }

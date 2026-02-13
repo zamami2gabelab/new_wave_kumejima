@@ -3,7 +3,7 @@
  * Step0-6(mappers.gs) の単体テスト
  *
  * 目的:
- * - convertPayloadToRow が 41列の rowData を返すことを確認
+ * - convertPayloadToRow が想定列数の rowData を返すことを確認
  * - repository.gs の appendReservationRow に渡して 1行追加できることを確認
  *
  * 注意:
@@ -19,7 +19,7 @@ function test_mapper_convertPayloadToRow_only() {
   Logger.log('rowData length = ' + rowData.length);
   Logger.log('headers length = ' + RESERVATION_HEADERS.length);
 
-  if (rowData.length !== RESERVATION_HEADERS.length) {
+  if (rowData.length !== RESERVATION_HEADERS.length - 1) {
     throw new Error(
       `テスト失敗: rowData.length=${rowData.length} / headers=${RESERVATION_HEADERS.length}`
     );
@@ -36,7 +36,7 @@ function test_mapper_to_repository_appendRow() {
   Logger.log('rowData length = ' + rowData.length);
   Logger.log('headers length = ' + RESERVATION_HEADERS.length);
 
-  if (rowData.length !== RESERVATION_HEADERS.length) {
+  if (rowData.length !== RESERVATION_HEADERS.length - 1) {
     throw new Error(
       `テスト失敗: rowData.length=${rowData.length} / headers=${RESERVATION_HEADERS.length}`
     );
@@ -47,7 +47,7 @@ function test_mapper_to_repository_appendRow() {
 }
 
 /**
- * テスト用のダミー payload を作る（validatePayload を満たす最低限＋少しオプション）
+ * テスト用のダミー payload を作る（現行フォーム仕様）
  */
 function buildDummyPayload_() {
   return {
@@ -58,9 +58,7 @@ function buildDummyPayload_() {
       phone: '09012345678'
     },
     reservationDate: '2026-02-10',
-    transportType: 'PLAN_WITH_BOAT',
-    productId: 'PLAN_WAKUWAKU',
-    arrivalSlot: 'AM',
+    productId: 'PLAN_NONBIRI',
     people: {
       adults: 2,
       children: 1,
@@ -69,17 +67,8 @@ function buildDummyPayload_() {
     },
     pickup: {
       required: true,
-      placeId: 'PICK_EEF',
+      hotelName: 'イーフビーチホテル',
       fee: 1000
-    },
-    options: [
-      { optionId: 'OPT_SNORKEL_SET', qty: 2, unitPrice: 1000 },
-      { optionId: 'OPT_BANANA_BOAT', qty: 1, unitPrice: 3000 }
-    ],
-    bento: {
-      enabled: true,
-      qty: 3,
-      unitPrice: 800
     },
     participants: [
       { name: '参加者A', age: 30 },

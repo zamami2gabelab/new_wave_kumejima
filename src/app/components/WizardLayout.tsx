@@ -24,7 +24,6 @@ const STEPS = [
 const getDefaultValues = (preselectedProductId = ""): ReservationFormInput => ({
   leader: { name: "", phone: "", email: "" },
   reservationDate: "",
-  transportType: "PLAN_WITH_BOAT",
   productId: (preselectedProductId || "") as ReservationFormInput["productId"],
   people: { adults: 0, children: 0, infants: 0, totalPeople: 0 },
   pickup: { required: false, hotelName: "", fee: 0 },
@@ -107,7 +106,6 @@ export function WizardLayout({ preselectedProductId = "" }: WizardLayoutProps) {
       const payload: ReservationPayload = {
         leader: data.leader,
         reservationDate: data.reservationDate,
-        transportType: "PLAN_WITH_BOAT",
         productId: data.productId,
         people: data.people,
         pickup: {

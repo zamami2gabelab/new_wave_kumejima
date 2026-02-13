@@ -1,7 +1,5 @@
 // 予約フォームのドメインモデル
 
-export type TransportType = "PLAN_WITH_BOAT";
-
 // フォームでは PLAN_* のみ使用。masters 用に TICKET_* も定義
 export type ProductId =
   | "PLAN_NONBIRI"
@@ -63,7 +61,6 @@ export interface Totals {
 export interface ReservationFormData {
   leader: Leader;
   reservationDate: string; // YYYY-MM-DD
-  transportType: TransportType;
   productId: ProductId | "";
   people: People;
   pickup: Pickup;
@@ -75,7 +72,6 @@ export interface ReservationFormData {
 export interface ReservationPayload {
   leader: Leader;
   reservationDate: string;
-  transportType: TransportType;
   productId: string;
   people: People;
   pickup: Pickup;

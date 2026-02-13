@@ -42,7 +42,6 @@ function sendCheckedReservationEmails() {
       '代表者名',
       'メールアドレス',
       '予約日',
-      '交通手段',
       '商品名',
       '到着時間帯',
       '大人人数',

@@ -64,7 +64,6 @@ export const reservationFormSchema = z
       .string()
       .min(1, "予約日を選択してください")
       .refine(isNotPastDate, "過去の日付は選択できません"),
-    transportType: z.literal("PLAN_WITH_BOAT"),
     productId: z.string().min(1, "プランを選択してください"),
     people: peopleSchema,
     pickup: z.object({

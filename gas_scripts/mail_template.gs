@@ -28,7 +28,6 @@ function buildMailBody_(info) {
   lines.push(`予約ID: ${info.reservationId}`);
   lines.push(`予約日: ${info.reservationDate}`);
   lines.push(`到着: ${info.arrivalSlot || '指定なし'}`);
-  lines.push(`交通手段: ${info.transportType}`);
   lines.push(`商品: ${info.productName}`);
   lines.push(`人数: 合計 ${info.totalPeople} 名（大人${info.adults} / 子供${info.children} / 乳幼児${info.infants}）`);
 
@@ -108,7 +107,6 @@ function buildReservationInfoFromRow_(row, idx) {
     leaderName: String(row[idx['代表者名']] || ''),
     email: String(row[idx['メールアドレス']] || ''),
     reservationDate: String(row[idx['予約日']] || ''),
-    transportType: String(row[idx['交通手段']] || ''),
     productName: String(row[idx['商品名']] || ''),
     arrivalSlot: String(row[idx['到着時間帯']] || ''),
     adults: Number(row[idx['大人人数']] || 0),

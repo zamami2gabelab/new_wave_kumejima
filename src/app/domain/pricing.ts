@@ -12,7 +12,7 @@ const PICKUP_FEE = 1000;
 export function calculateTotals(data: ReservationFormData): number {
   let total = 0;
 
-  if (data.transportType === "PLAN_WITH_BOAT" && data.productId) {
+  if (data.productId) {
     const plan = getPlanProduct(data.productId as any);
     if (plan) {
       total += plan.adultPrice * data.people.adults;
