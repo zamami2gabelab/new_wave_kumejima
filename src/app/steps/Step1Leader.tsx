@@ -1,4 +1,4 @@
-// ステップ1: リーダー情報と予約日
+// ステップ2: 代表者情報と予約日
 
 import React from "react";
 import { useFormContext } from "react-hook-form";
@@ -10,7 +10,6 @@ import { Button } from "../components/ui/button";
 import { CalendarIcon, User, Phone, Mail } from "lucide-react";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale/ja";
-import { getTodayString } from "../lib/date";
 import type { ReservationFormInput } from "../domain/validators";
 import { cn } from "../components/ui/utils";
 
@@ -25,7 +24,6 @@ export function Step1Leader() {
         <p className="text-gray-600">予約に必要な基本情報を入力してください</p>
       </div>
 
-      {/* お名前 */}
       <FormField
         control={form.control}
         name="leader.name"
@@ -37,11 +35,7 @@ export function Step1Leader() {
             <FormControl>
               <div className="relative">
                 <User className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                <Input
-                  placeholder="山田 太郎"
-                  className="pl-10"
-                  {...field}
-                />
+                <Input placeholder="山田 太郎" className="pl-10" {...field} />
               </div>
             </FormControl>
             <FormMessage />
@@ -49,7 +43,6 @@ export function Step1Leader() {
         )}
       />
 
-      {/* 電話番号 */}
       <FormField
         control={form.control}
         name="leader.phone"
@@ -67,7 +60,6 @@ export function Step1Leader() {
                   className="pl-10"
                   {...field}
                   onChange={(e) => {
-                    // ハイフンを除去
                     const value = e.target.value.replace(/-/g, "");
                     field.onChange(value);
                   }}
@@ -82,7 +74,6 @@ export function Step1Leader() {
         )}
       />
 
-      {/* メールアドレス */}
       <FormField
         control={form.control}
         name="leader.email"
@@ -107,32 +98,25 @@ export function Step1Leader() {
         )}
       />
 
-      {/* 予約日 */}
       <FormField
         control={form.control}
         name="reservationDate"
         render={({ field }) => {
           let selectedDate: Date | undefined = undefined;
-          
           if (field.value && typeof field.value === "string" && field.value.trim() !== "") {
             try {
               const parsedDate = new Date(field.value + "T00:00:00");
-              if (!isNaN(parsedDate.getTime())) {
-                selectedDate = parsedDate;
-              }
+              if (!isNaN(parsedDate.getTime())) selectedDate = parsedDate;
             } catch (e) {
               console.error("Date parsing error:", e);
             }
           }
-          
           const handleSelect = (date: Date | undefined) => {
             if (date) {
-              const dateString = format(date, "yyyy-MM-dd");
-              field.onChange(dateString);
+              field.onChange(format(date, "yyyy-MM-dd"));
               setIsCalendarOpen(false);
             }
           };
-          
           return (
             <FormItem className="flex flex-col">
               <FormLabel>
@@ -144,10 +128,7 @@ export function Step1Leader() {
                     <Button
                       type="button"
                       variant="outline"
-                      className={cn(
-                        "w-full pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground"
-                      )}
+                      className={cn("w-full pl-3 text-left font-normal", !field.value && "text-muted-foreground")}
                     >
                       {selectedDate ? (
                         format(selectedDate, "yyyy年MM月dd日", { locale: ja })
@@ -179,7 +160,6 @@ export function Step1Leader() {
           );
         }}
       />
-
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from "./ui/button";
 import { Loader2, CheckCircle2, XCircle } from "lucide-react";
 import type { ReservationFormData } from "../domain/types";
-import { getPlanProduct, getTicketProduct, getOptionProduct, PICKUP_PLACES } from "../domain/masters";
+import { getPlanProduct } from "../domain/masters";
 import { calculateTotals } from "../domain/pricing";
 
 interface ConfirmModalProps {
@@ -32,25 +32,11 @@ export function ConfirmModal({
 }: ConfirmModalProps) {
   const total = calculateTotals(formData);
 
-  // 商品情報を取得
   let productName = "";
-  if (formData.transportType === "PLAN_WITH_BOAT" && formData.productId) {
+  if (formData.productId) {
     const plan = getPlanProduct(formData.productId as any);
-    if (plan) {
-      productName = plan.name;
-    }
-  } else if (formData.transportType === "TICKET_ACTIVITY_ONLY" && formData.productId) {
-    const ticket = getTicketProduct(formData.productId as any);
-    if (ticket) {
-      productName = ticket.name;
-    }
+    if (plan) productName = plan.name;
   }
-
-  const pickupPlaceName =
-    formData.pickup.placeId &&
-    PICKUP_PLACES.find((p) => p.id === formData.pickup.placeId)?.name;
-
-  const activeOptions = formData.options.filter((opt) => opt.qty > 0);
 
   if (isSuccess) {
     return (
@@ -93,8 +79,8 @@ export function ConfirmModal({
                 </div>
                 {formData.pickup.required && (
                   <div className="flex justify-between">
-                    <span className="text-gray-600">ピックアップ</span>
-                    <span className="font-medium">{pickupPlaceName}</span>
+                    <span className="text-gray-600">送迎</span>
+                    <span className="font-medium">{formData.pickup.hotelName}</span>
                   </div>
                 )}
                 <div className="flex justify-between pt-2 border-t">
@@ -193,14 +179,6 @@ export function ConfirmModal({
                   <span className="text-gray-600">商品</span>
                   <span className="font-medium">{productName}</span>
                 </div>
-                {formData.transportType === "TICKET_ACTIVITY_ONLY" && formData.arrivalSlot && (
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">到着時間帯</span>
-                    <span className="font-medium">
-                      {formData.arrivalSlot === "AM" ? "午前" : "午後"}
-                    </span>
-                  </div>
-                )}
                 <div className="flex justify-between">
                   <span className="text-gray-600">人数</span>
                   <span className="font-medium">
@@ -213,45 +191,11 @@ export function ConfirmModal({
 
             {formData.pickup.required && (
               <div className="border-b pb-4">
-                <h3 className="font-semibold mb-3">ピックアップ</h3>
+                <h3 className="font-semibold mb-3">送迎</h3>
                 <div className="text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">場所</span>
-                    <span className="font-medium">{pickupPlaceName}</span>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {activeOptions.length > 0 && (
-              <div className="border-b pb-4">
-                <h3 className="font-semibold mb-3">オプション</h3>
-                <div className="space-y-1 text-sm">
-                  {activeOptions.map((opt) => {
-                    const optionProduct = getOptionProduct(opt.optionId);
-                    return (
-                      <div key={opt.optionId} className="flex justify-between">
-                        <span>
-                          {optionProduct?.name} × {opt.qty}
-                        </span>
-                        <span>{(opt.unitPrice * opt.qty).toLocaleString()}円</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {formData.bento.enabled && formData.bento.qty > 0 && (
-              <div className="border-b pb-4">
-                <h3 className="font-semibold mb-3">弁当</h3>
-                <div className="text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">数量</span>
-                    <span className="font-medium">
-                      {formData.bento.qty}個（
-                      {(formData.bento.unitPrice * formData.bento.qty).toLocaleString()}円）
-                    </span>
+                    <span className="text-gray-600">宿泊先ホテル名</span>
+                    <span className="font-medium">{formData.pickup.hotelName}</span>
                   </div>
                 </div>
               </div>

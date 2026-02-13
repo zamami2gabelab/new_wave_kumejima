@@ -19,7 +19,7 @@ export const participantSchema = z.object({
   age: z.preprocess(
     (val) => {
       if (val === undefined || val === null || val === "") {
-        return -1; // undefinedを-1に変換（無効な値として扱う）
+        return -1;
       }
       const num = typeof val === "string" ? parseInt(val, 10) : Number(val);
       return isNaN(num) ? -1 : num;
@@ -56,7 +56,7 @@ export const peopleSchema = z.object({
   totalPeople: z.number().int().min(1, "合計人数は1人以上で入力してください"),
 });
 
-// 予約フォーム全体のバリデーションスキーマ
+// 予約フォーム全体のバリデーションスキーマ（プランのみ・送迎は宿泊先ホテル名・オプション・弁当なし）
 export const reservationFormSchema = z
   .object({
     leader: leaderSchema,
@@ -64,106 +64,42 @@ export const reservationFormSchema = z
       .string()
       .min(1, "予約日を選択してください")
       .refine(isNotPastDate, "過去の日付は選択できません"),
-    transportType: z.enum(["PLAN_WITH_BOAT", "TICKET_ACTIVITY_ONLY"]).refine((val) => val !== undefined, {
-      message: "交通手段を選択してください",
-    }),
-    productId: z.string().min(1, "商品を選択してください"),
-    arrivalSlot: z.enum(["AM", "PM"]).nullable(),
+    transportType: z.literal("PLAN_WITH_BOAT"),
+    productId: z.string().min(1, "プランを選択してください"),
     people: peopleSchema,
     pickup: z.object({
       required: z.boolean(),
-      placeId: z
-        .enum([
-          "PICK_EEF",
-          "PICK_KUME_ISLAND",
-          "PICK_CYPRESS",
-          "PICK_LATIDA",
-          "PICK_OTHER",
-        ])
-        .nullable(),
+      hotelName: z.string(),
       fee: z.number(),
     }),
     message: z.string(),
-    options: z.array(
-      z.object({
-        optionId: z.string(),
-        qty: z.number().int().min(0),
-        unitPrice: z.number(),
-      })
-    ),
-    bento: z.object({
-      enabled: z.boolean(),
-      qty: z.number().int().min(0),
-      unitPrice: z.literal(1500),
-    }),
     participants: z.array(participantSchema),
     totals: z.object({
       totalClientCalc: z.number(),
     }),
   })
   .superRefine((data, ctx) => {
-    // PLAN_WITH_BOATの場合、productIdがPLANで始まる必要がある
-    if (data.transportType === "PLAN_WITH_BOAT") {
-      if (!data.productId.startsWith("PLAN_")) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "プランを選択してください",
-          path: ["productId"],
-        });
-      }
-      // PLANの場合、参加者名簿が必要
-      const totalPeople = data.people.adults + data.people.children + data.people.infants;
-      if (data.participants.length !== totalPeople) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: `参加者名簿を${totalPeople}人分入力してください`,
-          path: ["participants"],
-        });
-      }
-    }
-
-    // TICKET_ACTIVITY_ONLYの場合、productIdがTICKETで始まり、arrivalSlotが必要
-    if (data.transportType === "TICKET_ACTIVITY_ONLY") {
-      if (!data.productId.startsWith("TICKET_")) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "チケットを選択してください",
-          path: ["productId"],
-        });
-      }
-      if (!data.arrivalSlot) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "到着時間帯を選択してください",
-          path: ["arrivalSlot"],
-        });
-      }
-    }
-
-    // ピックアップが有効な場合、placeIdが必要
-    if (data.pickup.required && !data.pickup.placeId) {
+    if (!data.productId.startsWith("PLAN_")) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "ピックアップ場所を選択してください",
-        path: ["pickup", "placeId"],
+        message: "プランを選択してください",
+        path: ["productId"],
       });
     }
-
-    // ピックアップ場所が「その他」の場合、メッセージが必要
-    if (data.pickup.placeId === "PICK_OTHER" && !data.message.trim()) {
+    const totalPeople = data.people.adults + data.people.children + data.people.infants;
+    if (data.participants.length !== totalPeople) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "メッセージ欄にピックアップ場所の詳細を記入してください",
-        path: ["message"],
+        message: `参加者名簿を${totalPeople}人分入力してください`,
+        path: ["participants"],
       });
     }
-
-    // 弁当が有効な場合、数量は1以上
-    if (data.bento.enabled && data.bento.qty < 1) {
+    // 送迎希望が有効な場合、宿泊先ホテル名を入力
+    if (data.pickup.required && !data.pickup.hotelName.trim()) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "弁当の数量を入力してください",
-        path: ["bento", "qty"],
+        message: "宿泊先ホテル名を入力してください",
+        path: ["pickup", "hotelName"],
       });
     }
   });

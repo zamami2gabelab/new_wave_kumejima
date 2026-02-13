@@ -1,62 +1,50 @@
-// ステップ3: 人数、ピックアップ、オプション、弁当、参加者名簿
+// ステップ3: 人数、送迎希望、参加者名簿
 
-import { useFormContext, useWatch } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "../components/ui/form";
 import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select";
 import { Checkbox } from "../components/ui/checkbox";
 import { QuantityStepper } from "../components/QuantityStepper";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
-// import { OPTION_PRODUCTS, PICKUP_PLACES } from "../domain/masters";
-import { PICKUP_PLACES } from "../domain/masters";
 import type { ReservationFormInput } from "../domain/validators";
 import { useEffect } from "react";
 
 export function Step3Details() {
   const form = useFormContext<ReservationFormInput>();
-  const transportType = form.watch("transportType");
   const adults = form.watch("people.adults") || 0;
   const children = form.watch("people.children") || 0;
   const infants = form.watch("people.infants") || 0;
   const totalPeople = adults + children + infants;
   const pickupRequired = form.watch("pickup.required");
-  const pickupPlaceId = form.watch("pickup.placeId");
   const participants = form.watch("participants") || [];
 
-  // 合計人数を更新
   useEffect(() => {
     form.setValue("people.totalPeople", totalPeople);
   }, [totalPeople, form]);
 
-  // 参加者名簿の数を調整
   useEffect(() => {
-    if (transportType === "PLAN_WITH_BOAT" && totalPeople > 0) {
+    if (totalPeople > 0) {
       const currentParticipants = form.getValues("participants") || [];
       if (currentParticipants.length < totalPeople) {
-        // 不足分を追加
         const newParticipants = [
           ...currentParticipants,
-          ...Array(totalPeople - currentParticipants.length).fill(null).map(() => ({
-            name: "",
-            age: undefined as any,
-          })),
+          ...Array(totalPeople - currentParticipants.length)
+            .fill(null)
+            .map(() => ({ name: "", age: undefined as any })),
         ];
         form.setValue("participants", newParticipants);
       } else if (currentParticipants.length > totalPeople) {
-        // 余分を削除
         form.setValue("participants", currentParticipants.slice(0, totalPeople));
       }
-    } else if (transportType === "TICKET_ACTIVITY_ONLY") {
-      form.setValue("participants", []);
     }
-  }, [totalPeople, transportType, form]);
+  }, [totalPeople, form]);
 
   return (
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold mb-2">詳細情報</h2>
-        <p className="text-gray-600">人数、オプション、その他の情報を入力してください</p>
+        <p className="text-gray-600">人数、送迎希望、参加者名簿を入力してください</p>
       </div>
 
       {/* 人数 */}
@@ -82,7 +70,6 @@ export function Step3Details() {
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
             name="people.children"
@@ -100,7 +87,6 @@ export function Step3Details() {
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
             name="people.infants"
@@ -119,7 +105,6 @@ export function Step3Details() {
               </FormItem>
             )}
           />
-
           <div className="pt-2 border-t">
             <div className="flex justify-between items-center">
               <span className="font-medium">合計人数</span>
@@ -129,10 +114,10 @@ export function Step3Details() {
         </CardContent>
       </Card>
 
-      {/* ピックアップ */}
+      {/* 送迎希望 */}
       <Card>
         <CardHeader>
-          <CardTitle>島内ピックアップ</CardTitle>
+          <CardTitle>送迎希望</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <FormField
@@ -146,52 +131,39 @@ export function Step3Details() {
                     onCheckedChange={(checked) => {
                       field.onChange(checked);
                       if (!checked) {
-                        form.setValue("pickup.placeId", null);
+                        form.setValue("pickup.hotelName", "");
+                      } else {
+                        form.setValue("pickup.fee", 1000);
                       }
                     }}
                   />
                 </FormControl>
                 <div className="space-y-1 leading-none">
                   <FormLabel className="cursor-pointer">
-                    ピックアップを希望する（+1,000円）
+                    送迎を希望する（+1,000円）
                   </FormLabel>
                   <p className="text-sm text-gray-500">
-                    島内の指定場所までお迎えに上がります
+                    島内の宿泊先までお迎えに上がります
                   </p>
                 </div>
               </FormItem>
             )}
           />
-
           {pickupRequired && (
             <FormField
               control={form.control}
-              name="pickup.placeId"
+              name="pickup.hotelName"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    ピックアップ場所 <span className="text-red-500">*</span>
+                    宿泊先ホテル名 <span className="text-red-500">*</span>
                   </FormLabel>
-                  <Select
-                    value={field.value || ""}
-                    onValueChange={(value) => {
-                      field.onChange(value || null);
-                      form.setValue("pickup.fee", value ? 1000 : 0);
-                    }}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="場所を選択してください" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {PICKUP_PLACES.map((place) => (
-                        <SelectItem key={place.id} value={place.id}>
-                          {place.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <FormControl>
+                    <Input
+                      placeholder="例：〇〇リゾート"
+                      {...field}
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -219,126 +191,25 @@ export function Step3Details() {
                   />
                 </FormControl>
                 <FormMessage />
-                <p className="text-xs text-gray-500 mt-1">
-                  ピックアップ場所で「その他」を選択した場合は必須です
-                </p>
               </FormItem>
             )}
           />
         </CardContent>
       </Card>
 
-      {/* オプション */}
-      {/* <Card>
-        <CardHeader>
-          <CardTitle>オプション</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {OPTION_PRODUCTS.map((option) => {
-            const optionField = form.watch(`options`)?.find(
-              (opt: any) => opt.optionId === option.id
-            );
-            const currentQty = optionField?.qty || 0;
-
-            return (
-              <div key={option.id} className="flex items-center justify-between py-2 border-b last:border-0">
-                <div className="flex-1">
-                  <div className="font-medium">{option.name}</div>
-                  <div className="text-sm text-gray-500">
-                    {option.unitPrice.toLocaleString()}円 / 1個
-                  </div>
-                </div>
-                <div className="w-48">
-                  <QuantityStepper
-                    value={currentQty}
-                    onChange={(qty) => {
-                      const currentOptions = form.getValues("options") || [];
-                      const updatedOptions = currentOptions.map((opt: any) =>
-                        opt.optionId === option.id
-                          ? { ...opt, qty }
-                          : opt
-                      );
-                      form.setValue("options", updatedOptions);
-                    }}
-                    min={0}
-                  />
-                </div>
-              </div>
-            );
-          })}
-        </CardContent>
-      </Card> */}
-
-      {/* 弁当 */}
-      <Card>
-        <CardHeader>
-          <CardTitle>弁当</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <FormField
-            control={form.control}
-            name="bento.enabled"
-            render={({ field }) => (
-              <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                <FormControl>
-                  <Checkbox
-                    checked={field.value}
-                    onCheckedChange={(checked) => {
-                      field.onChange(checked);
-                      if (!checked) {
-                        form.setValue("bento.qty", 0);
-                      } else if (form.getValues("bento.qty") === 0) {
-                        form.setValue("bento.qty", 1);
-                      }
-                    }}
-                  />
-                </FormControl>
-                <div className="space-y-1 leading-none">
-                  <FormLabel className="cursor-pointer">弁当を注文する（1,500円/個）</FormLabel>
-                </div>
-              </FormItem>
-            )}
-          />
-
-          {form.watch("bento.enabled") && (
-            <FormField
-              control={form.control}
-              name="bento.qty"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <QuantityStepper
-                      label="数量"
-                      value={field.value || 0}
-                      onChange={(value) => field.onChange(value)}
-                      min={1}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )}
-        </CardContent>
-      </Card>
-
-      {/* 参加者名簿（PLANのみ） */}
-      {transportType === "PLAN_WITH_BOAT" && totalPeople > 0 && (
+      {/* 参加者名簿 */}
+      {totalPeople > 0 && (
         <Card>
           <CardHeader>
             <CardTitle>
               参加者名簿 <span className="text-red-500">*</span>
             </CardTitle>
-            <p className="text-sm text-gray-600">
-              船の保険のため、全員の情報が必要です
-            </p>
+            <p className="text-sm text-gray-600">船の保険のため、全員の情報が必要です</p>
           </CardHeader>
           <CardContent className="space-y-4">
-            {participants.map((participant: any, index: number) => (
+            {participants.map((_: unknown, index: number) => (
               <div key={index} className="p-4 border rounded-lg space-y-3">
-                <div className="font-medium text-sm text-gray-700">
-                  参加者 {index + 1}
-                </div>
+                <div className="font-medium text-sm text-gray-700">参加者 {index + 1}</div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
@@ -381,7 +252,7 @@ export function Step3Details() {
                                 }
                               }
                             }}
-                            value={field.value || ""}
+                            value={field.value ?? ""}
                           />
                         </FormControl>
                         <FormMessage />

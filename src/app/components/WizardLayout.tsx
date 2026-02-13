@@ -14,58 +14,24 @@ import { Step2Product } from "../steps/Step2Product";
 import { Step3Details } from "../steps/Step3Details";
 import { ConfirmModal } from "./ConfirmModal";
 import { submitReservation } from "../lib/api";
-import { getTodayString } from "../lib/date";
-// import { OPTION_PRODUCTS } from "../domain/masters";
 
 const STEPS = [
-  { title: "基本情報", description: "代表者情報と予約日" },
-  { title: "商品選択", description: "渡船手段とプラン" },
-  { title: "詳細情報", description: "人数・オプション" },
+  { title: "プラン選択", description: "プラン選択と人数" },
+  { title: "代表者情報", description: "代表者情報と予約日" },
+  { title: "詳細情報", description: "送迎希望と参加者情報" },
 ];
 
-// フォームの初期値
-const getDefaultValues = (preselectedProductId = ""): ReservationFormInput => {
-  // const defaultOptions = OPTION_PRODUCTS.map((opt) => ({
-  //   optionId: opt.id as any,
-  //   qty: 0,
-  //   unitPrice: opt.unitPrice,
-  // }));
-  const defaultOptions: ReservationFormInput["options"] = [];
-
-  return {
-    leader: {
-      name: "",
-      phone: "",
-      email: "",
-    },
-    reservationDate: "",
-    transportType: undefined as any,
-    productId: preselectedProductId as ReservationFormInput["productId"],
-    arrivalSlot: null,
-    people: {
-      adults: 0,
-      children: 0,
-      infants: 0,
-      totalPeople: 0,
-    },
-    pickup: {
-      required: false,
-      placeId: null,
-      fee: 0,
-    },
-    message: "",
-    options: defaultOptions,
-    bento: {
-      enabled: false,
-      qty: 0,
-      unitPrice: 1500,
-    },
-    participants: [],
-    totals: {
-      totalClientCalc: 0,
-    },
-  };
-};
+const getDefaultValues = (preselectedProductId = ""): ReservationFormInput => ({
+  leader: { name: "", phone: "", email: "" },
+  reservationDate: "",
+  transportType: "PLAN_WITH_BOAT",
+  productId: (preselectedProductId || "") as ReservationFormInput["productId"],
+  people: { adults: 0, children: 0, infants: 0, totalPeople: 0 },
+  pickup: { required: false, hotelName: "", fee: 0 },
+  message: "",
+  participants: [],
+  totals: { totalClientCalc: 0 },
+});
 
 interface WizardLayoutProps {
   preselectedProductId?: string;
@@ -93,29 +59,17 @@ export function WizardLayout({ preselectedProductId = "" }: WizardLayoutProps) {
   }, [formData]);
 
   const handleNext = async () => {
-    // 現在のステップのバリデーション
     let fieldsToValidate: (keyof ReservationFormInput)[] = [];
-    
     if (currentStep === 1) {
-      fieldsToValidate = ["leader", "reservationDate"];
+      fieldsToValidate = ["productId"];
     } else if (currentStep === 2) {
-      fieldsToValidate = ["transportType", "productId"];
-      if (formData.transportType === "TICKET_ACTIVITY_ONLY") {
-        fieldsToValidate.push("arrivalSlot");
-      }
+      fieldsToValidate = ["leader", "reservationDate"];
     } else if (currentStep === 3) {
-      fieldsToValidate = ["people"];
-      if (formData.transportType === "PLAN_WITH_BOAT") {
-        fieldsToValidate.push("participants");
-      }
+      fieldsToValidate = ["people", "participants"];
       if (formData.pickup.required) {
         fieldsToValidate.push("pickup");
       }
-      if (formData.bento.enabled) {
-        fieldsToValidate.push("bento");
-      }
     }
-
     const isValid = await form.trigger(fieldsToValidate as any);
     
     if (isValid) {
@@ -153,21 +107,17 @@ export function WizardLayout({ preselectedProductId = "" }: WizardLayoutProps) {
       const payload: ReservationPayload = {
         leader: data.leader,
         reservationDate: data.reservationDate,
-        transportType: data.transportType,
+        transportType: "PLAN_WITH_BOAT",
         productId: data.productId,
-        arrivalSlot: data.arrivalSlot,
         people: data.people,
         pickup: {
-          ...data.pickup,
+          required: data.pickup.required,
+          hotelName: data.pickup.hotelName || "",
           fee: data.pickup.required ? 1000 : 0,
         },
         message: data.message || "",
-        options: data.options.filter((opt) => opt.qty > 0),
-        bento: data.bento,
         participants: data.participants,
-        totals: {
-          totalClientCalc: formDataWithTotals.totals.totalClientCalc,
-        },
+        totals: { totalClientCalc: formDataWithTotals.totals.totalClientCalc },
       };
 
       const response = await submitReservation(payload);
@@ -213,8 +163,8 @@ export function WizardLayout({ preselectedProductId = "" }: WizardLayoutProps) {
             {/* メインコンテンツ */}
             <div className="lg:col-span-2">
               <div className="bg-white rounded-lg shadow-sm p-6 md:p-8">
-                {currentStep === 1 && <Step1Leader />}
-                {currentStep === 2 && <Step2Product />}
+                {currentStep === 1 && <Step2Product />}
+                {currentStep === 2 && <Step1Leader />}
                 {currentStep === 3 && <Step3Details />}
 
                 {/* ナビゲーションボタン */}

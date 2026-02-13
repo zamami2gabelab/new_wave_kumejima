@@ -1,291 +1,72 @@
-// ステップ2: 交通手段と商品選択
+// ステップ1: プラン選択と人数
 
-import { useFormContext, Controller } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "../components/ui/form";
 import { RadioGroup, RadioGroupItem } from "../components/ui/radio-group";
-import { Label } from "../components/ui/label";
 import { Card, CardContent } from "../components/ui/card";
-import { PLAN_PRODUCTS, TICKET_PRODUCTS } from "../domain/masters";
+import { PLAN_PRODUCTS } from "../domain/masters";
 import type { ReservationFormInput } from "../domain/validators";
 
 export function Step2Product() {
   const form = useFormContext<ReservationFormInput>();
-  const transportType = form.watch("transportType");
-
-  // 交通手段が変更されたときに、関連フィールドをクリア
-  const handleTransportTypeChange = (value: "PLAN_WITH_BOAT" | "TICKET_ACTIVITY_ONLY") => {
-    form.setValue("transportType", value);
-    form.setValue("productId", "");
-    if (value === "PLAN_WITH_BOAT") {
-      form.setValue("arrivalSlot", null);
-      form.setValue("participants", []);
-    } else {
-      form.setValue("participants", []);
-    }
-  };
 
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold mb-2">渡船手段と商品選択</h2>
-        <p className="text-gray-600">船の手配が必要かどうかを選択してください</p>
+        <h2 className="text-2xl font-bold mb-2">プラン選択と人数</h2>
+        <p className="text-gray-600">ご希望のプランを選択してください</p>
       </div>
 
-      {/* 交通手段の選択 */}
       <FormField
         control={form.control}
-        name="transportType"
+        name="productId"
         render={({ field }) => (
           <FormItem>
             <FormLabel>
-              船の手配 <span className="text-red-500">*</span>
+              プランを選択 <span className="text-red-500">*</span>
             </FormLabel>
             <FormControl>
               <RadioGroup
                 value={field.value}
-                onValueChange={handleTransportTypeChange}
+                onValueChange={field.onChange}
                 className="grid grid-cols-1 md:grid-cols-2 gap-4"
               >
-                <Card
-                  className={`cursor-pointer transition-all ${
-                    field.value === "PLAN_WITH_BOAT"
-                      ? "border-[#0EA5E9] border-2 bg-blue-50"
-                      : "hover:border-gray-300"
-                  }`}
-                  onClick={() => handleTransportTypeChange("PLAN_WITH_BOAT")}
-                >
-                  <CardContent className="p-4">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <div className="font-medium mb-1">プラン（船込み）</div>
-                        <div className="text-sm text-gray-500">
-                          当社が船を手配します。参加者名簿が必要です。
+                {PLAN_PRODUCTS.map((plan) => (
+                  <Card
+                    key={plan.id}
+                    className={`cursor-pointer transition-all ${
+                      field.value === plan.id ? "border-[#0EA5E9] border-2 bg-blue-50" : "hover:border-gray-300"
+                    }`}
+                    onClick={() => field.onChange(plan.id)}
+                  >
+                    <CardContent className="p-4">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <div className="font-semibold text-lg mb-1">{plan.name}</div>
+                          <div className="text-sm text-gray-600">
+                            大人: {plan.adultPrice.toLocaleString()}円
+                          </div>
+                          {plan.childPrice !== null && plan.childPrice !== undefined && (
+                            <div className="text-sm text-gray-600">
+                              子供: {plan.childPrice.toLocaleString()}円
+                            </div>
+                          )}
                         </div>
+                        <RadioGroupItem
+                          value={plan.id}
+                          onClick={(e) => e.stopPropagation()}
+                          className="mt-1"
+                        />
                       </div>
-                      <RadioGroupItem
-                        value="PLAN_WITH_BOAT"
-                        onClick={(e) => e.stopPropagation()}
-                        className="mt-1"
-                      />
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card
-                  className={`cursor-pointer transition-all ${
-                    field.value === "TICKET_ACTIVITY_ONLY"
-                      ? "border-[#0EA5E9] border-2 bg-blue-50"
-                      : "hover:border-gray-300"
-                  }`}
-                  onClick={() => handleTransportTypeChange("TICKET_ACTIVITY_ONLY")}
-                >
-                  <CardContent className="p-4">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <div className="font-medium mb-1">チケット（アクティビティのみ）</div>
-                        <div className="text-sm text-gray-500">
-                          他社の船をご利用の場合。到着時間帯を選択してください。
-                        </div>
-                      </div>
-                      <RadioGroupItem
-                        value="TICKET_ACTIVITY_ONLY"
-                        onClick={(e) => e.stopPropagation()}
-                        className="mt-1"
-                      />
-                    </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
+                ))}
               </RadioGroup>
             </FormControl>
             <FormMessage />
           </FormItem>
         )}
       />
-
-      {/* プラン商品の選択 */}
-      {transportType === "PLAN_WITH_BOAT" && (
-        <FormField
-          control={form.control}
-          name="productId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>
-                プランを選択 <span className="text-red-500">*</span>
-              </FormLabel>
-              <FormControl>
-                <RadioGroup
-                  value={field.value}
-                  onValueChange={field.onChange}
-                  className="grid grid-cols-1 md:grid-cols-2 gap-4"
-                >
-                  {PLAN_PRODUCTS.map((plan) => (
-                    <Card
-                      key={plan.id}
-                      className={`cursor-pointer transition-all ${
-                        field.value === plan.id
-                          ? "border-[#0EA5E9] border-2 bg-blue-50"
-                          : "hover:border-gray-300"
-                      }`}
-                      onClick={() => field.onChange(plan.id)}
-                    >
-                      <CardContent className="p-4">
-                        <div className="flex items-start justify-between">
-                          <div>
-                            <div className="font-semibold text-lg mb-1">{plan.name}</div>
-                            {plan.isGroupPlan && plan.groupPricingRules ? (
-                              <>
-                                <div className="text-sm text-gray-600">
-                                  {plan.groupPricingRules.maxBaseCount}名まで: ¥{plan.groupPricingRules.baseFee.toLocaleString()}
-                                </div>
-                                <div className="text-sm text-gray-600">
-                                  追加1人: +¥{plan.groupPricingRules.perPersonFee.toLocaleString()}
-                                </div>
-                              </>
-                            ) : (
-                              <>
-                                <div className="text-sm text-gray-600">
-                                  大人: {plan.adultPrice.toLocaleString()}円
-                                </div>
-                                {plan.childPrice !== null && plan.childPrice !== undefined && (
-                                  <div className="text-sm text-gray-600">
-                                    子供: {plan.childPrice.toLocaleString()}円
-                                  </div>
-                                )}
-                              </>
-                            )}
-                          </div>
-                          <RadioGroupItem
-                            value={plan.id}
-                            onClick={(e) => e.stopPropagation()}
-                            className="mt-1"
-                          />
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </RadioGroup>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      )}
-
-      {/* チケット商品の選択 */}
-      {transportType === "TICKET_ACTIVITY_ONLY" && (
-        <>
-          <FormField
-            control={form.control}
-            name="productId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  チケットを選択 <span className="text-red-500">*</span>
-                </FormLabel>
-                <FormControl>
-                  <RadioGroup
-                    value={field.value}
-                    onValueChange={field.onChange}
-                    className="grid grid-cols-1 md:grid-cols-2 gap-4"
-                  >
-                    {TICKET_PRODUCTS.map((ticket) => (
-                      <Card
-                        key={ticket.id}
-                        className={`cursor-pointer transition-all ${
-                          field.value === ticket.id
-                            ? "border-[#0EA5E9] border-2 bg-blue-50"
-                            : "hover:border-gray-300"
-                        }`}
-                        onClick={() => field.onChange(ticket.id)}
-                      >
-                        <CardContent className="p-4">
-                          <div className="flex items-start justify-between">
-                            <div>
-                              <div className="font-semibold text-lg mb-1">{ticket.name}</div>
-                              <div className="text-sm text-gray-600">
-                                1人あたり: {ticket.webPrice.toLocaleString()}円
-                              </div>
-                            </div>
-                            <RadioGroupItem
-                              value={ticket.id}
-                              onClick={(e) => e.stopPropagation()}
-                              className="mt-1"
-                            />
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </RadioGroup>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* 到着時間帯 */}
-          <FormField
-            control={form.control}
-            name="arrivalSlot"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  到着時間帯 <span className="text-red-500">*</span>
-                </FormLabel>
-                <FormControl>
-                  <RadioGroup
-                    value={field.value || ""}
-                    onValueChange={(value) => field.onChange(value || null)}
-                    className="grid grid-cols-2 gap-4"
-                  >
-                    <Card
-                      className={`cursor-pointer transition-all ${
-                        field.value === "AM"
-                          ? "border-[#0EA5E9] border-2 bg-blue-50"
-                          : "hover:border-gray-300"
-                      }`}
-                      onClick={() => field.onChange("AM")}
-                    >
-                      <CardContent className="p-4">
-                        <div className="flex items-start justify-between">
-                          <div className="flex-1">
-                            <div className="font-medium">午前（AM）</div>
-                          </div>
-                          <RadioGroupItem
-                            value="AM"
-                            onClick={(e) => e.stopPropagation()}
-                            className="mt-1"
-                          />
-                        </div>
-                      </CardContent>
-                    </Card>
-                    <Card
-                      className={`cursor-pointer transition-all ${
-                        field.value === "PM"
-                          ? "border-[#0EA5E9] border-2 bg-blue-50"
-                          : "hover:border-gray-300"
-                      }`}
-                      onClick={() => field.onChange("PM")}
-                    >
-                      <CardContent className="p-4">
-                        <div className="flex items-start justify-between">
-                          <div className="flex-1">
-                            <div className="font-medium">午後（PM）</div>
-                          </div>
-                          <RadioGroupItem
-                            value="PM"
-                            onClick={(e) => e.stopPropagation()}
-                            className="mt-1"
-                          />
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </RadioGroup>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </>
-      )}
     </div>
   );
 }
