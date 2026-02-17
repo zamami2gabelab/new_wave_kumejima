@@ -7,6 +7,13 @@ import type { ReservationFormData } from "../domain/types";
 import { getPlanProduct } from "../domain/masters";
 import { calculateTotals } from "../domain/pricing";
 
+const CANCELLATION_POLICY_TEXT = `7日前まで：無料
+3日前まで：30%
+前日：50%
+当日：100%
+
+※悪天候による中止の場合はキャンセル料無料`;
+
 interface ConfirmModalProps {
   open: boolean;
   formData: ReservationFormData;
@@ -223,6 +230,11 @@ export function ConfirmModal({
                 <p className="text-sm whitespace-pre-wrap">{formData.message}</p>
               </div>
             )}
+
+            <div className="border-b pb-4">
+              <h3 className="font-semibold mb-3">キャンセルポリシー</h3>
+              <p className="text-sm whitespace-pre-wrap text-gray-700">{CANCELLATION_POLICY_TEXT}</p>
+            </div>
 
             <div className="pt-4">
               <div className="flex justify-between items-center">
