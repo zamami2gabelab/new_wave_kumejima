@@ -54,8 +54,8 @@ export function BookingFlow() {
         {/* 強調ポイント */}
         <div className="mt-12 grid md:grid-cols-2 gap-4 text-center">
           <div className="bg-white p-6 rounded-lg shadow-sm">
-            <div className="text-2xl text-[#0EA5E9] mb-2">当日予約OK</div>
-            <p className="text-sm text-gray-600">空きがあれば当日朝でも予約可能</p>
+            <div className="text-2xl text-[#0EA5E9] mb-2">予約は前日までに</div>
+            <p className="text-sm text-gray-600">当日予約希望の方はご連絡下さい</p>
           </div>
           <div className="bg-white p-6 rounded-lg shadow-sm">
             <div className="text-2xl text-[#0EA5E9] mb-2">悪天候キャンセル無料</div>
