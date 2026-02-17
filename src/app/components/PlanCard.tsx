@@ -20,7 +20,18 @@ interface PlanCardProps {
 
 export function PlanCard({ plan, onDetailsClick }: PlanCardProps) {
   return (
-    <Card className="overflow-hidden border-0 shadow-lg hover:shadow-xl transition-shadow duration-300">
+    <Card
+      className="overflow-hidden border-0 shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0EA5E9] focus-visible:ring-offset-2"
+      onClick={onDetailsClick}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onDetailsClick();
+        }
+      }}
+      role="button"
+      tabIndex={0}
+    >
       {/* プラン画像 */}
       <div className="relative h-56 overflow-hidden">
         <img 
@@ -68,7 +79,10 @@ export function PlanCard({ plan, onDetailsClick }: PlanCardProps) {
 
         {/* ボタン */}
         <Button 
-          onClick={onDetailsClick}
+          onClick={(event) => {
+            event.stopPropagation();
+            onDetailsClick();
+          }}
           variant="outline"
           className="w-full rounded-full border-[#0EA5E9] text-[#0EA5E9] hover:bg-[#0EA5E9] hover:text-white"
         >
