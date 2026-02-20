@@ -14,6 +14,8 @@ function onOpen() {
     .addSeparator()
     .addItem('チェックを全解除', 'clearAllReservationChecks')
     .addItem('チェックを全選択（SENT除外）', 'checkAllPendingReservations')
+    .addSeparator()
+    .addItem('他OTA予約メールを取り込む', 'importReservationEmailsFromGmail')
     .addToUi();
 }
 
