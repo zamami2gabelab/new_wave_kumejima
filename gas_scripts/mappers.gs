@@ -37,9 +37,9 @@ function convertPayloadToRow(payload, reservationId) {
   // ===== 運用列（先頭7列）初期値 =====
   const ops = [
     INITIAL_MAIL_STATUS,     // メール状態
+    INITIAL_CALENDAR_STATUS, // カレンダー状態
     '',                      // メール送信日時
     '',                      // メールエラー
-    INITIAL_CALENDAR_STATUS, // カレンダー状態
     '',                      // カレンダーイベントID
     '',                      // カレンダー作成日時
     '',                      // カレンダーエラー

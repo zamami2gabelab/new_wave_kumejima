@@ -173,9 +173,9 @@ function convertImportedMailToRow_(parsed, reservationId, msg) {
 
   const ops = [
     'SENT',
+    INITIAL_CALENDAR_STATUS,
     importedAt,
     'imported-from-gmail',
-    INITIAL_CALENDAR_STATUS,
     '',
     '',
     '',

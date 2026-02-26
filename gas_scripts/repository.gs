@@ -77,33 +77,17 @@ function ensureReservationHeaders(sheet) {
     return;
   }
 
-  // 3) 旧形式（先頭が予約ID）→ チェック列 + 運用列を先頭に追加
-  if (headerRow[0] === '予約ID') {
-    const addCols = 1 + OPERATION_HEADERS.length;
-    sheet.insertColumnsBefore(1, addCols);
+  // 3) 未運用前提: ヘッダー行のみ存在する場合は現在定義で上書き
+  if (lastRow === 1) {
     sheet.getRange(1, 1, 1, RESERVATION_HEADERS.length).setValues([RESERVATION_HEADERS]);
     sheet.setFrozenRows(1);
-
-    // A列は false 初期化
-    initializeCheckboxValues_(sheet);
     return;
   }
 
-  // 4) 既存運用（先頭がメール状態）→ A列チェック列だけ追加
-  if (headerRow[0] === 'メール状態') {
-    sheet.insertColumnsBefore(1, 1);
-    sheet.getRange(1, 1, 1, RESERVATION_HEADERS.length).setValues([RESERVATION_HEADERS]);
-    sheet.setFrozenRows(1);
-
-    // A列は false 初期化
-    initializeCheckboxValues_(sheet);
-    return;
-  }
-
-  // 5) 想定外
+  // 4) 想定外
   throw new Error(
     '予約一覧シートのヘッダーが想定外です。' +
-    '1行目が「送信対象」or「予約ID」or「メール状態」になっているか確認してください。'
+    '未運用のシートであれば1行目以外のデータを削除して再実行してください。'
   );
 }
 

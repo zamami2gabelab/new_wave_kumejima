@@ -87,8 +87,8 @@ function test_gmailImporter_convertImportedMailToRow() {
 
   // 先頭7列は運用列（チェック列は appendReservationRow 側で自動補完）
   assertEquals_('SENT', rowData[0], 'mail status');
-  assertEquals_('imported-from-gmail', rowData[2], 'mail error marker');
-  assertEquals_('PENDING', rowData[3], 'calendar status');
+  assertEquals_('PENDING', rowData[1], 'calendar status');
+  assertEquals_('imported-from-gmail', rowData[3], 'mail error marker');
 
   Logger.log('OK: test_gmailImporter_convertImportedMailToRow');
 }
@@ -120,4 +120,3 @@ function assertEquals_(expected, actual, label) {
     );
   }
 }
-
