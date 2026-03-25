@@ -18,6 +18,14 @@
  * 予約一覧に1行追加
  * @param {Array} rowData - RESERVATION_HEADERS と同じ列数/順序の配列
  */
+function getReservationDataStartRow_() {
+  return RESERVATION_HEADER_ROW + 1;
+}
+
+function getReservationDataRowCount_(sheet) {
+  return Math.max(0, sheet.getLastRow() - RESERVATION_HEADER_ROW);
+}
+
 function appendReservationRow(rowData) {
   if (!Array.isArray(rowData)) {
     throw new Error('appendReservationRow: rowData が配列ではありません');
@@ -45,8 +53,12 @@ function appendReservationRow(rowData) {
   const nextRow = sheet.getLastRow() + 1;
   sheet.getRange(nextRow, 1, 1, RESERVATION_HEADERS.length).setValues([rowData]);
 
-  // ✅ 追加した行のA列だけチェックボックスにする（軽い）
-  sheet.getRange(nextRow, 1, 1, 1).insertCheckboxes();
+  // 型付き列（テーブル列）では insertCheckboxes が失敗することがあるため安全化
+  try {
+    sheet.getRange(nextRow, 1, 1, 1).insertCheckboxes();
+  } catch (err) {
+    Logger.log('[appendReservationRow] skip insertCheckboxes row=' + nextRow + ' err=' + String(err));
+  }
 }
 
 /**
@@ -63,31 +75,31 @@ function ensureReservationHeaders(sheet) {
 
   // 1) 空シート → ヘッダー作成
   if (lastRow === 0) {
-    sheet.getRange(1, 1, 1, RESERVATION_HEADERS.length).setValues([RESERVATION_HEADERS]);
-    sheet.setFrozenRows(1);
+    sheet.getRange(RESERVATION_HEADER_ROW, 1, 1, RESERVATION_HEADERS.length).setValues([RESERVATION_HEADERS]);
+    sheet.setFrozenRows(RESERVATION_HEADER_ROW);
     return;
   }
 
   // ヘッダー取得
-  const headerRow = sheet.getRange(1, 1, 1, lastCol).getValues()[0].map(normalizeHeader_);
+  const headerRow = sheet.getRange(RESERVATION_HEADER_ROW, 1, 1, lastCol).getValues()[0].map(normalizeHeader_);
 
   // 2) 完全一致ならOK（ここでチェックボックスの一括適用はしない）
   if (isHeaderPerfectMatch_(headerRow, RESERVATION_HEADERS)) {
-    sheet.setFrozenRows(1);
+    sheet.setFrozenRows(RESERVATION_HEADER_ROW);
     return;
   }
 
   // 3) 未運用前提: ヘッダー行のみ存在する場合は現在定義で上書き
-  if (lastRow === 1) {
-    sheet.getRange(1, 1, 1, RESERVATION_HEADERS.length).setValues([RESERVATION_HEADERS]);
-    sheet.setFrozenRows(1);
+  if (lastRow === RESERVATION_HEADER_ROW) {
+    sheet.getRange(RESERVATION_HEADER_ROW, 1, 1, RESERVATION_HEADERS.length).setValues([RESERVATION_HEADERS]);
+    sheet.setFrozenRows(RESERVATION_HEADER_ROW);
     return;
   }
 
   // 4) 想定外
   throw new Error(
     '予約一覧シートのヘッダーが想定外です。' +
-    '未運用のシートであれば1行目以外のデータを削除して再実行してください。'
+    `未運用のシートであれば${RESERVATION_HEADER_ROW}行目以外のデータを削除して再実行してください。`
   );
 }
 
@@ -102,20 +114,26 @@ function setupCheckboxesForAllRows() {
 
   ensureReservationHeaders(sheet);
 
-  const lastRow = sheet.getLastRow();
-  if (lastRow < 2) return;
+  const dataStartRow = getReservationDataStartRow_();
+  const dataRowCount = getReservationDataRowCount_(sheet);
+  if (dataRowCount <= 0) return;
 
-  // ここが重い処理：必要なときだけ実行
-  sheet.getRange(2, 1, lastRow - 1, 1).insertCheckboxes();
+  // 型付き列（テーブル列）では insertCheckboxes が失敗することがあるため安全化
+  try {
+    sheet.getRange(dataStartRow, 1, dataRowCount, 1).insertCheckboxes();
+  } catch (err) {
+    Logger.log('[setupCheckboxesForAllRows] skip insertCheckboxes err=' + String(err));
+  }
 }
 
 /**
  * A列（送信対象）の既存値を false で初期化
  */
 function initializeCheckboxValues_(sheet) {
-  const lastRow = sheet.getLastRow();
-  if (lastRow < 2) return;
-  sheet.getRange(2, 1, lastRow - 1, 1).setValue(false);
+  const dataStartRow = getReservationDataStartRow_();
+  const dataRowCount = getReservationDataRowCount_(sheet);
+  if (dataRowCount <= 0) return;
+  sheet.getRange(dataStartRow, 1, dataRowCount, 1).setValue(false);
 }
 
 /**

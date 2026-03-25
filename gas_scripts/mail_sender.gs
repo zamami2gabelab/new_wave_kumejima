@@ -24,13 +24,16 @@ function sendCheckedReservationEmails() {
     const lastCol = sheet.getLastColumn();
     lap(`lastRow=${lastRow}, lastCol=${lastCol}`);
 
-    if (lastRow < 2) {
+    const headerRowNo = RESERVATION_HEADER_ROW;
+    const dataStartRow = getReservationDataStartRow_();
+    const dataRowCount = getReservationDataRowCount_(sheet);
+    if (dataRowCount <= 0) {
       notify_('データがありません。');
       return;
     }
 
     // ヘッダー
-    const header = sheet.getRange(1, 1, 1, lastCol).getValues()[0].map(v => String(v || '').trim());
+    const header = sheet.getRange(headerRowNo, 1, 1, lastCol).getValues()[0].map(v => String(v || '').trim());
     const idx = buildHeaderIndex_(header);
 
     const required = [
@@ -61,8 +64,8 @@ function sendCheckedReservationEmails() {
     const mailStatusCol = idx['メール状態'] + 1;
 
     // A列とメール状態だけ読む
-    const checkboxVals = sheet.getRange(2, checkboxCol, lastRow - 1, 1).getValues();
-    const statusVals = sheet.getRange(2, mailStatusCol, lastRow - 1, 1).getValues();
+    const checkboxVals = sheet.getRange(dataStartRow, checkboxCol, dataRowCount, 1).getValues();
+    const statusVals = sheet.getRange(dataStartRow, mailStatusCol, dataRowCount, 1).getValues();
 
     // 対象抽出
     const targetRowNumbers = [];
@@ -73,7 +76,7 @@ function sendCheckedReservationEmails() {
       const status = String(statusVals[i][0] || '').trim();
       if (status === 'SENT') continue;
 
-      targetRowNumbers.push(i + 2);
+      targetRowNumbers.push(i + dataStartRow);
       if (targetRowNumbers.length >= MAIL_BATCH_LIMIT) break;
     }
     lap(`Targets: ${targetRowNumbers.length}`);

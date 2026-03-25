@@ -236,15 +236,17 @@ function loadExistingReservationIds_() {
 
   ensureReservationHeaders(sheet);
 
-  const lastRow = sheet.getLastRow();
-  if (lastRow < 2) return new Set();
+  const headerRowNo = RESERVATION_HEADER_ROW;
+  const dataStartRow = getReservationDataStartRow_();
+  const dataRowCount = getReservationDataRowCount_(sheet);
+  if (dataRowCount <= 0) return new Set();
 
-  const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0].map(v => String(v || '').trim());
+  const headers = sheet.getRange(headerRowNo, 1, 1, sheet.getLastColumn()).getValues()[0].map(v => String(v || '').trim());
   const idx = buildHeaderIndex_(headers);
   if (idx['予約ID'] == null) return new Set();
 
   const col = idx['予約ID'] + 1;
-  const values = sheet.getRange(2, col, lastRow - 1, 1).getValues();
+  const values = sheet.getRange(dataStartRow, col, dataRowCount, 1).getValues();
   const ids = new Set();
   for (const r of values) {
     const id = String(r[0] || '').trim();

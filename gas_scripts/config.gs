@@ -8,6 +8,7 @@ const SPREADSHEET_ID = '1ok_MKGfTYV23KrdYnffbec_qpzmr4N0dfqMHrOtqYSA';
 const RESERVATION_SHEET_NAME = '予約一覧';
 const PARTICIPANT_SHEET_NAME = '参加者';
 const SYSTEM_LOG_SHEET_NAME = 'システムログ';
+const RESERVATION_HEADER_ROW = 6;
 
 const TIMEZONE = 'Asia/Tokyo';
 

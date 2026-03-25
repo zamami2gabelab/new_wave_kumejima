@@ -13,12 +13,14 @@ function previewAndSendCheckedEmails() {
 
   const lastRow = sheet.getLastRow();
   const lastCol = sheet.getLastColumn();
-  if (lastRow < 2) {
+  const headerRowNo = RESERVATION_HEADER_ROW;
+  const dataRowCount = getReservationDataRowCount_(sheet);
+  if (dataRowCount <= 0) {
     SpreadsheetApp.getUi().alert('データがありません。');
     return;
   }
 
-  const values = sheet.getRange(1, 1, lastRow, lastCol).getValues();
+  const values = sheet.getRange(headerRowNo, 1, lastRow - headerRowNo + 1, lastCol).getValues();
   const header = values[0].map(v => String(v || '').trim());
   const idx = buildHeaderIndex_(header);
 
