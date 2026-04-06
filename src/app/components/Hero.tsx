@@ -25,13 +25,13 @@ export function Hero({ onBookingClick, onLineClick }: HeroProps) {
         <div className="w-full max-w-lg space-y-6 text-center mb-8">
           {/* キャッチコピー */}
           <h1 className="text-5xl leading-tight tracking-tight">
-            360度
+            久米島・
             <br />
-            エメラルドの海へ
+            はての浜ツアーへ
           </h1>
           
           <p className="text-lg text-white/90">
-            久米島から15分。天国のような無人島へ
+            久米島から船で約15分。はての浜ツアー、シュノーケル、マリンアクティビティを楽しめます。
           </p>
 
           {/* CTAボタン */}

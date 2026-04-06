@@ -138,7 +138,9 @@ export function CouplePlans({ onBooking, onBack }: CouplePlansProps) {
             ← 戻る
           </button>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            今日という日を特別に…
+            久米島のカップル向け
+            <br />
+            はての浜ツアー
           </h1>
         </div>
       </div>

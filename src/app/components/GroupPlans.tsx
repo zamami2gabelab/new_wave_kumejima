@@ -21,7 +21,9 @@ export function GroupPlans({ onBooking, onBack }: GroupPlansProps) {
             ← 戻る
           </button>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            この瞬間をずっと心に
+            久米島の団体向け
+            <br />
+            はての浜貸切渡船プラン
           </h1>
         </div>
       </div>

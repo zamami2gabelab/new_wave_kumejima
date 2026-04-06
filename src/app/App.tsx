@@ -18,8 +18,15 @@ import { PlanCategoryLinks } from "./components/PlanCategoryLinks";
 import { FamilyPlans } from "./components/FamilyPlans";
 import { CouplePlans } from "./components/CouplePlans";
 import { GroupPlans } from "./components/GroupPlans";
+import { SeoHead } from "./components/SeoHead";
 import { Button } from "./components/ui/button";
 import { Calendar, MessageCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  getPathForPage,
+  resolveLegacyHashPage,
+  resolvePageFromLocation,
+  type SeoPage,
+} from "./lib/seo";
 
 // プランデータ
 const plans = [
@@ -200,34 +207,55 @@ const normalizePlanId = (planId?: string): string => {
 
 export default function App() {
   const [selectedPlan, setSelectedPlan] = useState<typeof plans[0] | null>(null);
-  const [showBookingForm, setShowBookingForm] = useState(false);
   const [preselectedProductId, setPreselectedProductId] = useState("");
-  const [currentPage, setCurrentPage] = useState<"home" | "family" | "couple" | "group">("home");
+  const [currentPage, setCurrentPage] = useState<SeoPage>(() => {
+    if (typeof window === "undefined") {
+      return "home";
+    }
+
+    return resolvePageFromLocation(window.location.pathname, window.location.hash);
+  });
   const planCarouselRef = useRef<HTMLDivElement>(null);
   const categoryCarouselRef = useRef<HTMLDivElement>(null);
 
-  // URLハッシュで予約フォームを表示するかチェック
   useEffect(() => {
-    const hash = window.location.hash;
-    if (hash === "#booking") {
-      setPreselectedProductId("");
-      setShowBookingForm(true);
-    } else if (hash === "#family") {
-      setCurrentPage("family");
-    } else if (hash === "#couple") {
-      setCurrentPage("couple");
-    } else if (hash === "#group") {
-      setCurrentPage("group");
+    const syncPageFromLocation = () => {
+      setCurrentPage(resolvePageFromLocation(window.location.pathname, window.location.hash));
+    };
+
+    const legacyPage = resolveLegacyHashPage(window.location.hash);
+    if (legacyPage) {
+      window.history.replaceState(null, "", getPathForPage(legacyPage));
+      setCurrentPage(legacyPage);
     } else {
-      setCurrentPage("home");
+      syncPageFromLocation();
     }
+
+    window.addEventListener("popstate", syncPageFromLocation);
+
+    return () => {
+      window.removeEventListener("popstate", syncPageFromLocation);
+    };
   }, []);
+
+  const navigateToPage = (page: SeoPage, replace = false) => {
+    const nextPath = getPathForPage(page);
+    const historyMethod = replace ? "replaceState" : "pushState";
+
+    if (
+      window.location.pathname !== nextPath ||
+      window.location.hash !== ""
+    ) {
+      window.history[historyMethod](null, "", nextPath);
+    }
+
+    setCurrentPage(page);
+  };
 
   const handleBookingClick = (planId?: string) => {
     setPreselectedProductId(normalizePlanId(planId));
-    // 予約フォームを表示
-    setShowBookingForm(true);
-    window.history.pushState(null, "", "#booking");
+    navigateToPage("booking");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleLineClick = () => {
@@ -235,14 +263,12 @@ export default function App() {
   };
 
   const handleBackToHome = () => {
-    setShowBookingForm(false);
-    setCurrentPage("home");
-    window.history.pushState(null, "", "#");
+    navigateToPage("home");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleNavigateToPage = (page: "family" | "couple" | "group") => {
-    setCurrentPage(page);
-    window.history.pushState(null, "", `#${page}`);
+    navigateToPage(page);
     window.scrollTo(0, 0);
   };
 
@@ -295,83 +321,97 @@ export default function App() {
   };
 
   // 予約フォームページを表示
-  if (showBookingForm) {
+  if (currentPage === "booking") {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <Header 
-          onBookingClick={handleBookingClick}
-          onLineClick={handleLineClick}
-          onBackToHome={handleBackToHome}
-          isBookingForm={true}
-        />
-        <div className="pt-16">
-          <WizardLayout preselectedProductId={preselectedProductId} />
+      <>
+        <SeoHead page="booking" />
+        <div className="min-h-screen bg-gray-50">
+          <Header 
+            onBookingClick={handleBookingClick}
+            onLineClick={handleLineClick}
+            onBackToHome={handleBackToHome}
+            isBookingForm={true}
+          />
+          <div className="pt-16">
+            <WizardLayout preselectedProductId={preselectedProductId} />
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
   // 各ページの表示処理
   if (currentPage === "family") {
     return (
-      <div className="min-h-screen bg-white">
-        <Header 
-          onBookingClick={handleBookingClick}
-          onLineClick={handleLineClick}
-          onBackToHome={handleBackToHome}
-          isBookingForm={false}
-        />
-        <FamilyPlans
-          onBooking={(planId) => handleBookingClick(planId)}
-          onBack={handleBackToHome}
-        />
-      </div>
+      <>
+        <SeoHead page="family" />
+        <div className="min-h-screen bg-white">
+          <Header 
+            onBookingClick={handleBookingClick}
+            onLineClick={handleLineClick}
+            onBackToHome={handleBackToHome}
+            isBookingForm={false}
+          />
+          <FamilyPlans
+            onBooking={(planId) => handleBookingClick(planId)}
+            onBack={handleBackToHome}
+          />
+        </div>
+      </>
     );
   }
 
   if (currentPage === "couple") {
     return (
-      <div className="min-h-screen bg-white">
-        <Header 
-          onBookingClick={handleBookingClick}
-          onLineClick={handleLineClick}
-          onBackToHome={handleBackToHome}
-          isBookingForm={false}
-        />
-        <CouplePlans
-          onBooking={(planId) => handleBookingClick(planId)}
-          onBack={handleBackToHome}
-        />
-      </div>
+      <>
+        <SeoHead page="couple" />
+        <div className="min-h-screen bg-white">
+          <Header 
+            onBookingClick={handleBookingClick}
+            onLineClick={handleLineClick}
+            onBackToHome={handleBackToHome}
+            isBookingForm={false}
+          />
+          <CouplePlans
+            onBooking={(planId) => handleBookingClick(planId)}
+            onBack={handleBackToHome}
+          />
+        </div>
+      </>
     );
   }
 
   if (currentPage === "group") {
     return (
-      <div className="min-h-screen bg-white">
-        <Header 
-          onBookingClick={handleBookingClick}
-          onLineClick={handleLineClick}
-          onBackToHome={handleBackToHome}
-          isBookingForm={false}
-        />
-        <GroupPlans
-          onBooking={() => handleBookingClick()}
-          onBack={handleBackToHome}
-        />
-      </div>
+      <>
+        <SeoHead page="group" />
+        <div className="min-h-screen bg-white">
+          <Header 
+            onBookingClick={handleBookingClick}
+            onLineClick={handleLineClick}
+            onBackToHome={handleBackToHome}
+            isBookingForm={false}
+          />
+          <GroupPlans
+            onBooking={() => handleBookingClick()}
+            onBack={handleBackToHome}
+          />
+        </div>
+      </>
     );
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* ヘッダーセクション */}
-      <Header 
-        onBookingClick={() => handleBookingClick()}
-        onLineClick={handleLineClick}
-        onBackToHome={handleBackToHome}
-        isBookingForm={false}
-      />
+    <>
+      <SeoHead page="home" />
+      <div className="min-h-screen bg-white">
+        {/* ヘッダーセクション */}
+        <Header 
+          onBookingClick={() => handleBookingClick()}
+          onLineClick={handleLineClick}
+          onBackToHome={handleBackToHome}
+          isBookingForm={false}
+        />
 
       {/* ヒーローセクション */}
       <Hero 
@@ -642,10 +682,11 @@ export default function App() {
       />
 
       {/* 固定CTA */}
-      <FixedCTA
-        onBookingClick={() => handleBookingClick()}
-        onLineClick={handleLineClick}
-      />
-    </div>
+        <FixedCTA
+          onBookingClick={() => handleBookingClick()}
+          onLineClick={handleLineClick}
+        />
+      </div>
+    </>
   );
 }
