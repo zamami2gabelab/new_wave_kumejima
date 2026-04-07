@@ -3,18 +3,17 @@
 // フォームでは PLAN_* のみ使用。masters 用に TICKET_* も定義
 export type ProductId =
   | "PLAN_NONBIRI"
-  | "PLAN_BANANABOAT"
+  | "PLAN_ACTIVITY"
   | "PLAN_SUINBOU"
-  | "PLAN_ASOBITSUKUSHI"
-  | "PLAN_JETCRUISING"
-  | "PLAN_SUNSET"
-  | "PLAN_FAMILY_FULL"
-  | "PLAN_FAMILY_HALF"
-  | "PLAN_FAMILY_RELAX"
-  | "PLAN_COUPLE_SPECIAL"
-  | "PLAN_COUPLE_MARINE"
-  | "PLAN_COUPLE_BASIC"
-  | "PLAN_GROUP_CHARTER"
+  | "PLAN_PREMIUM_HATENOHAMA"
+  | "PLAN_MEMORIAL_HATENOHAMA"
+  | "PLAN_JET_CRUISE"
+  | "PLAN_ASOBITSUKUSHI_SUMMER"
+  | "PLAN_SUNSET_JET"
+  | "PLAN_SUNSET_CRUISE"
+  | "PLAN_SUNSET_SUP"
+  | "PLAN_SNORKEL"
+  | "PLAN_PREMIUM_SNORKEL"
   | "TICKET_ASOBIHOUDAI"
   | "TICKET_UMIGAME";
 
@@ -51,7 +50,7 @@ export interface Participant {
 export interface Pickup {
   required: boolean;
   hotelName: string;
-  fee: number; // 1000 if required
+  fee: number;
 }
 
 export interface Totals {

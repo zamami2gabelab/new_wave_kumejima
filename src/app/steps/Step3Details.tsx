@@ -133,17 +133,17 @@ export function Step3Details() {
                       if (!checked) {
                         form.setValue("pickup.hotelName", "");
                       } else {
-                        form.setValue("pickup.fee", 1000);
+                        form.setValue("pickup.fee", 0);
                       }
                     }}
                   />
                 </FormControl>
                 <div className="space-y-1 leading-none">
                   <FormLabel className="cursor-pointer">
-                    送迎を希望する（+1,000円）
+                    宿泊先から港までの送迎を希望する（無料）
                   </FormLabel>
                   <p className="text-sm text-gray-500">
-                    島内の宿泊先までお迎えに上がります
+                    宿泊先から泊フィッシャリーナまで往復送迎します。空港送迎は要相談です。
                   </p>
                 </div>
               </FormItem>

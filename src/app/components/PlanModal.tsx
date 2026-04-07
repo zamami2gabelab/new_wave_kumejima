@@ -8,10 +8,14 @@ interface PlanDetails {
   name: string;
   image: string;
   price: string;
+  childPrice?: string;
+  priceSuffix?: string;
+  childPriceLabel?: string;
   duration: string;
   capacity: string;
   description: string;
   included: string[];
+  hideIncluded?: boolean;
   schedule: { time: string; activity: string }[];
   items: string;
   cancellation: string;
@@ -51,8 +55,13 @@ export function PlanModal({ plan, open, onClose, onBooking, onLineClick }: PlanM
             </DialogDescription>
             <div className="flex items-baseline gap-2 mb-4">
               <span className="text-4xl text-[#0EA5E9]">{plan.price}</span>
-              <span className="text-lg text-gray-500">円 / 人</span>
+              <span className="text-lg text-gray-500">{plan.priceSuffix ?? "円 / 人"}</span>
             </div>
+            {plan.childPrice && (
+              <div className="mb-4 text-sm text-gray-600">
+                {plan.childPriceLabel ?? "小人"} {plan.childPrice}円
+              </div>
+            )}
             <div className="flex gap-4 text-sm text-gray-600">
               <div className="flex items-center gap-1">
                 <Clock className="h-4 w-4" />
@@ -69,17 +78,19 @@ export function PlanModal({ plan, open, onClose, onBooking, onLineClick }: PlanM
           <p className="text-gray-700">{plan.description}</p>
 
           {/* 含まれるもの */}
-          <div>
-            <h3 className="text-lg mb-3">含まれるもの</h3>
-            <div className="grid gap-2">
-              {plan.included.map((item, index) => (
-                <div key={index} className="flex items-center gap-2 text-gray-700">
-                  <Check className="h-5 w-5 text-[#0EA5E9] shrink-0" />
-                  <span>{item}</span>
-                </div>
-              ))}
+          {!plan.hideIncluded && (
+            <div>
+              <h3 className="text-lg mb-3">含まれるもの</h3>
+              <div className="grid gap-2">
+                {plan.included.map((item, index) => (
+                  <div key={index} className="flex items-center gap-2 text-gray-700">
+                    <Check className="h-5 w-5 text-[#0EA5E9] shrink-0" />
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* スケジュール */}
           <div>

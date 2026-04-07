@@ -111,7 +111,7 @@ export function WizardLayout({ preselectedProductId = "" }: WizardLayoutProps) {
         pickup: {
           required: data.pickup.required,
           hotelName: data.pickup.hotelName || "",
-          fee: data.pickup.required ? 1000 : 0,
+          fee: 0,
         },
         message: data.message || "",
         participants: data.participants,

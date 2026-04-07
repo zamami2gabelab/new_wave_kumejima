@@ -3,27 +3,27 @@
 import type { ReservationFormData } from "./types";
 import { getPlanProduct } from "./masters";
 
-const PICKUP_FEE = 1000;
-
 /**
  * 予約フォームデータから合計金額を計算
  * フロントエンドでの見積もり計算（web estimate）
  */
 export function calculateTotals(data: ReservationFormData): number {
   let total = 0;
+  const chargeablePeople = data.people.adults + data.people.children;
 
   if (data.productId) {
     const plan = getPlanProduct(data.productId as any);
     if (plan) {
-      total += plan.adultPrice * data.people.adults;
-      if (plan.childPrice !== null) {
-        total += plan.childPrice * data.people.children;
+      if (plan.groupPricingRules) {
+        const extraPeople = Math.max(chargeablePeople - plan.groupPricingRules.maxBaseCount, 0);
+        total += plan.groupPricingRules.baseFee + extraPeople * plan.groupPricingRules.perPersonFee;
+      } else {
+        total += plan.adultPrice * data.people.adults;
+        if (plan.childPrice !== null) {
+          total += plan.childPrice * data.people.children;
+        }
       }
     }
-  }
-
-  if (data.pickup.required) {
-    total += PICKUP_FEE;
   }
 
   return total;

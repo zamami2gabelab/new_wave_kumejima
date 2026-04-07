@@ -1,4 +1,4 @@
-export type SeoPage = "home" | "family" | "couple" | "group" | "booking";
+export type SeoPage = "home" | "booking";
 
 const SITE_NAME = "New Wave 久米島";
 const DEFAULT_IMAGE_PATH = "/image/top.png";
@@ -6,16 +6,10 @@ const DEFAULT_SITE_URL = "http://localhost:5173";
 
 const PAGE_PATHS: Record<SeoPage, string> = {
   home: "/",
-  family: "/family",
-  couple: "/couple",
-  group: "/group",
   booking: "/booking",
 };
 
 const LEGACY_HASH_PAGES: Record<string, SeoPage> = {
-  "#family": "family",
-  "#couple": "couple",
-  "#group": "group",
   "#booking": "booking",
 };
 
@@ -124,22 +118,7 @@ export const getSeoPayload = (page: SeoPage) => {
     home: {
       title: "はての浜ツアー・久米島マリンアクティビティ予約 | New Wave 久米島",
       description:
-        "久米島から船で約15分。はての浜ツアーやシュノーケル、バナナボート、貸切渡船を予約できる New Wave 久米島の公式サイトです。",
-    },
-    family: {
-      title: "久米島の家族向け はての浜ツアー・マリンアクティビティ | New Wave 久米島",
-      description:
-        "家族旅行におすすめの久米島・はての浜ツアーを紹介。子連れでも参加しやすい半日・1日プランや無料レンタル付きプランを掲載しています。",
-    },
-    couple: {
-      title: "久米島のカップル向け はての浜ツアー | New Wave 久米島",
-      description:
-        "カップル旅行や記念日におすすめの久米島・はての浜ツアー。ハートサンゴやフォト付きのロマンティックなマリンアクティビティを掲載しています。",
-    },
-    group: {
-      title: "久米島の団体向け はての浜貸切渡船プラン | New Wave 久米島",
-      description:
-        "修学旅行、企業研修、サークル旅行向けの久米島・はての浜貸切渡船プラン。団体向けの貸切ツアー内容、料金、対応人数を掲載しています。",
+        "久米島から船で約15分。はての浜ツアー、サンセットクルーズ、シュノーケル、ジェットクルーズを予約できる New Wave 久米島の公式サイトです。",
     },
     booking: {
       title: "はての浜ツアー予約フォーム | New Wave 久米島",

@@ -7,11 +7,12 @@ export interface PlanProduct {
   name: string;
   adultPrice: number;
   childPrice: number | null;
-  isGroupPlan?: boolean; // 団体プランフラグ
+  pricingLabel?: string;
+  isGroupPlan?: boolean;
   groupPricingRules?: {
-    baseFee: number; // 基本料金
-    maxBaseCount: number; // 基本料金の対象人数
-    perPersonFee: number; // 1名追加ごとの追加料金
+    baseFee: number;
+    maxBaseCount: number;
+    perPersonFee: number;
   };
 }
 
@@ -36,86 +37,84 @@ export const PLAN_PRODUCTS: PlanProduct[] = [
     childPrice: 4500,
   },
   {
-    id: "PLAN_BANANABOAT",
-    name: "はての浜バナナボートプラン",
+    id: "PLAN_ACTIVITY",
+    name: "はての浜アクティビティープラン",
     adultPrice: 8000,
     childPrice: 6000,
   },
   {
     id: "PLAN_SUINBOU",
     name: "はての浜スインボーで遊ぼープラン",
+    adultPrice: 9000,
+    childPrice: 7000,
+  },
+  {
+    id: "PLAN_PREMIUM_HATENOHAMA",
+    name: "はての浜プレミアムプラン（要相談）",
+    adultPrice: 150000,
+    childPrice: null,
+    pricingLabel: "10名まで150,000円 / 追加1名 12,000円",
+    isGroupPlan: true,
+    groupPricingRules: {
+      baseFee: 150000,
+      maxBaseCount: 10,
+      perPersonFee: 12000,
+    },
+  },
+  {
+    id: "PLAN_MEMORIAL_HATENOHAMA",
+    name: "メモリアルはての浜プラン",
     adultPrice: 10000,
     childPrice: 8000,
   },
   {
-    id: "PLAN_ASOBITSUKUSHI",
-    name: "はての浜遊びつくしプラン",
-    adultPrice: 20000,
-    childPrice: 18000,
-  },
-  {
-    id: "PLAN_JETCRUISING",
-    name: "はての浜ジェットクルージングプラン",
+    id: "PLAN_JET_CRUISE",
+    name: "ジェットクルーズ",
     adultPrice: 10000,
     childPrice: 7000,
   },
-  // 家族向けプラン
   {
-    id: "PLAN_FAMILY_FULL",
-    name: "ファミリーアクティビティープラン（1日）",
+    id: "PLAN_ASOBITSUKUSHI_SUMMER",
+    name: "はての浜遊びつくしプラン",
     adultPrice: 15000,
-    childPrice: 10000,
+    childPrice: 13000,
   },
   {
-    id: "PLAN_FAMILY_HALF",
-    name: "ファミリーアクティビティープラン（半日）",
+    id: "PLAN_SUNSET_JET",
+    name: "サンセットジェットクルーズ",
     adultPrice: 10000,
-    childPrice: 8000,
+    childPrice: 7000,
   },
   {
-    id: "PLAN_FAMILY_RELAX",
-    name: "ファミリーゆったりプラン（半日）",
-    adultPrice: 7000,
+    id: "PLAN_SUNSET_CRUISE",
+    name: "サンセットクルーズ",
+    adultPrice: 6000,
     childPrice: 5000,
   },
-  // カップル向けプラン
   {
-    id: "PLAN_COUPLE_SPECIAL",
-    name: "はての浜スペシャルペアプラン（1日）",
-    adultPrice: 16000,
-    childPrice: null,
-  },
-  {
-    id: "PLAN_COUPLE_MARINE",
-    name: "はての浜ペアマリン体験プラン（半日）",
-    adultPrice: 12000,
-    childPrice: null,
-  },
-  {
-    id: "PLAN_COUPLE_BASIC",
-    name: "はての浜ペアプラン（半日）",
-    adultPrice: 8000,
-    childPrice: null,
-  },
-  // 団体向けプラン
-  {
-    id: "PLAN_GROUP_CHARTER",
-    name: "はての浜渡船チャータープラン",
-    adultPrice: 100000, // 基本料金（5名まで）
-    childPrice: 100000, // 基本料金（5名まで）
-    isGroupPlan: true,
-    groupPricingRules: {
-      baseFee: 100000,
-      maxBaseCount: 5,
-      perPersonFee: 15000,
-    },
-  },
-  // 人数限定プラン
-  {
-    id: "PLAN_SUNSET",
-    name: "サンセットプラン",
+    id: "PLAN_SUNSET_SUP",
+    name: "サンセットサップ",
     adultPrice: 5000,
     childPrice: 4000,
+  },
+  {
+    id: "PLAN_SNORKEL",
+    name: "久米島近海シュノーケルプラン",
+    adultPrice: 8000,
+    childPrice: 6000,
+  },
+  {
+    id: "PLAN_PREMIUM_SNORKEL",
+    name: "久米島プレミアムシュノーケルプラン（10名迄）",
+    adultPrice: 60000,
+    childPrice: null,
+    pricingLabel: "10名まで60,000円",
+    isGroupPlan: true,
+    groupPricingRules: {
+      baseFee: 60000,
+      maxBaseCount: 10,
+      perPersonFee: 0,
+    },
   }
 ];
 
@@ -181,15 +180,6 @@ export const OPTION_PRODUCTS: OptionProduct[] = [
     unitPrice: 1000,
   },
 ];
-
-// ピックアップ場所マスター
-export const PICKUP_PLACES = [
-  { id: "PICK_EEF" as const, name: "イーフビーチ" },
-  { id: "PICK_KUME_ISLAND" as const, name: "久米アイランド" },
-  { id: "PICK_CYPRESS" as const, name: "サイプレス" },
-  { id: "PICK_LATIDA" as const, name: "ラティーダ" },
-  { id: "PICK_OTHER" as const, name: "その他（メッセージ欄にご記入）" },
-] as const;
 
 // ヘルパー関数
 export function getPlanProduct(id: ProductId): PlanProduct | undefined {

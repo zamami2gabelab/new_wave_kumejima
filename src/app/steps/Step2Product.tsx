@@ -43,13 +43,21 @@ export function Step2Product() {
                       <div className="flex items-start justify-between">
                         <div>
                           <div className="font-semibold text-lg mb-1">{plan.name}</div>
-                          <div className="text-sm text-gray-600">
-                            大人: {plan.adultPrice.toLocaleString()}円
-                          </div>
-                          {plan.childPrice !== null && plan.childPrice !== undefined && (
+                          {plan.pricingLabel ? (
                             <div className="text-sm text-gray-600">
-                              子供: {plan.childPrice.toLocaleString()}円
+                              {plan.pricingLabel}
                             </div>
+                          ) : (
+                            <>
+                              <div className="text-sm text-gray-600">
+                                大人: {plan.adultPrice.toLocaleString()}円
+                              </div>
+                              {plan.childPrice !== null && plan.childPrice !== undefined && (
+                                <div className="text-sm text-gray-600">
+                                  子供: {plan.childPrice.toLocaleString()}円
+                                </div>
+                              )}
+                            </>
                           )}
                         </div>
                         <RadioGroupItem

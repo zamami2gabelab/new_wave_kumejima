@@ -114,7 +114,7 @@ function SummaryContent({
           <span className="text-gray-600">送迎</span>
           <div className="text-right">
             <div className="font-medium">{formData.pickup.hotelName || "宿泊先ホテル名"}</div>
-            <div className="text-xs text-gray-500">+1,000円</div>
+            <div className="text-xs text-gray-500">宿泊先⇔港 往復無料</div>
           </div>
         </div>
       )}
