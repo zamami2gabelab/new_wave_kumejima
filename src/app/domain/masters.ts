@@ -75,7 +75,7 @@ export const PLAN_PRODUCTS: PlanProduct[] = [
   },
   {
     id: "PLAN_ASOBITSUKUSHI_SUMMER",
-    name: "はての浜遊びつくしプラン",
+    name: "【７月、８月限定】はての浜遊びつくしプラン",
     adultPrice: 15000,
     childPrice: 13000,
   },
