@@ -54,7 +54,7 @@ const standardPlans: PlanDetails[] = [
   {
     id: "nonbiri",
     name: "のんびりはての浜プラン",
-    image: "image/plan_nonbiri.png",
+    image: "image/nonbiri.png",
     price: "6,000",
     childPrice: "4,500",
     duration: "半日(滞在2時間〜2時間半)",
@@ -75,7 +75,7 @@ const standardPlans: PlanDetails[] = [
   {
     id: "activity",
     name: "はての浜アクティビティープラン",
-    image: "image/bananaboat.png",
+    image: "image/toing.png",
     price: "8,000",
     childPrice: "6,000",
     duration: "半日(滞在2時間〜2時間半)",
@@ -96,7 +96,7 @@ const standardPlans: PlanDetails[] = [
   {
     id: "suinbou",
     name: "はての浜スインボーで遊ぼープラン",
-    image: "image/suinbou.png",
+    image: "image/suinbo.png",
     price: "9,000",
     childPrice: "7,000",
     duration: "半日(滞在2時間〜2時間半)",
@@ -117,7 +117,7 @@ const standardPlans: PlanDetails[] = [
   {
     id: "premium",
     name: "はての浜プレミアムプラン（要相談）",
-    image: "image/group.png",
+    image: "image/premium.png",
     price: "150,000",
     priceSuffix: "円 / 10名まで",
     childPrice: "12,000",
@@ -150,7 +150,7 @@ const standardPlans: PlanDetails[] = [
   {
     id: "memorial",
     name: "メモリアルはての浜プラン",
-    image: "image/couple.png",
+    image: "image/memorial.png",
     price: "10,000",
     childPrice: "8,000",
     duration: "半日(滞在2時間〜2時間半) + 帰港後体験",
@@ -172,7 +172,7 @@ const standardPlans: PlanDetails[] = [
   {
     id: "jetcruise",
     name: "ジェットクルーズ",
-    image: "image/jetcruising.png",
+    image: "image/jetcruise.png",
     price: "10,000",
     childPrice: "7,000",
     duration: "1時間",
@@ -195,7 +195,7 @@ const seasonalPlans: PlanDetails[] = [
   {
     id: "asobitsukushi",
     name: "はての浜遊びつくしプラン",
-    image: "image/asobitsukushi.png",
+    image: "image/asobitsukushi2.png",
     price: "15,000",
     childPrice: "13,000",
     duration: "滞在約6時間",
@@ -228,7 +228,7 @@ const sunsetPlans: PlanDetails[] = [
   {
     id: "sunset-jet",
     name: "サンセットジェットクルーズ",
-    image: "image/sunset.png",
+    image: "image/sunset-jet.png",
     price: "10,000",
     childPrice: "7,000",
     duration: "1時間",
@@ -249,7 +249,7 @@ const sunsetPlans: PlanDetails[] = [
   {
     id: "sunset-cruise",
     name: "サンセットクルーズ",
-    image: "image/sunset.png",
+    image: "image/sunset-cruise.png",
     price: "6,000",
     childPrice: "5,000",
     duration: "1時間",
@@ -270,7 +270,7 @@ const sunsetPlans: PlanDetails[] = [
   {
     id: "sunset-sup",
     name: "サンセットサップ",
-    image: "image/sunset.png",
+    image: "image/sunset-sup.png",
     price: "5,000",
     childPrice: "4,000",
     duration: "1時間",
@@ -294,7 +294,7 @@ const snorkelPlans: PlanDetails[] = [
   {
     id: "snorkel",
     name: "久米島近海シュノーケルプラン",
-    image: "image/service2.png",
+    image: "image/snorkeling.png",
     price: "8,000",
     childPrice: "6,000",
     duration: "2時間半〜3時間",
@@ -316,7 +316,7 @@ const snorkelPlans: PlanDetails[] = [
   {
     id: "premium-snorkel",
     name: "久米島プレミアムシュノーケルプラン（10名迄）",
-    image: "image/service1.png",
+    image: "image/premium-snorkeling.png",
     price: "60,000",
     priceSuffix: "円 / 10名まで",
     duration: "2時間半〜3時間",
